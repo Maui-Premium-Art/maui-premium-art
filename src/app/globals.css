@@ -1,26 +1,138 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-primary: #0a0a0f;
+  --bg-surface: rgba(14, 14, 22, 0.88);
+  --bg-widget: rgba(18, 18, 28, 0.92);
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --text-primary: #ffffff;
+  --text-secondary: #9090a8;
+  --text-dim: #505068;
+  --accent-blue: #4a9eff;
+  --accent-blue-bg: rgba(74, 158, 255, 0.12);
+  --grid-dark: #0d0d14;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: -apple-system, "SF Pro Display", "Inter", system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* CT-style scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.15);
+  border-radius: 2px;
+}
+
+/* CT grid floor pattern */
+.ct-grid-floor {
+  background-color: #0a0a10;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* CT terrain mountains - CSS silhouette */
+.ct-terrain {
+  background: 
+    radial-gradient(ellipse 120% 60% at 50% 100%, #0a0a0f 40%, transparent 70%),
+    linear-gradient(180deg, 
+      transparent 0%, 
+      #0a0a0f 85%
+    );
+}
+
+/* Glass panel effect */
+.glass-panel {
+  background: var(--bg-widget);
+  border: 1px solid var(--border-subtle);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* CT-style button */
+.ct-button-outline {
+  border: 1px solid var(--accent-blue);
+  background: var(--accent-blue-bg);
+  color: var(--accent-blue);
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.ct-button-outline:hover {
+  background: rgba(74, 158, 255, 0.22);
+}
+
+/* Splash screen animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes logoReveal {
+  0% { 
+    opacity: 0; 
+    transform: scaleX(0.6) scaleY(0.8);
+    filter: blur(8px);
+  }
+  40% { 
+    opacity: 1; 
+    transform: scaleX(1) scaleY(1);
+    filter: blur(0px);
+  }
+  80% {
+    opacity: 1;
+  }
+  100% { 
+    opacity: 0;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes scanLine {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* Mobile responsive overrides */
+@media (max-width: 768px) {
+  html, body {
+    overflow: auto;
+  }
 }
