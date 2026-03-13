@@ -28,7 +28,7 @@ export const metadata: Metadata = {
       "Original Hawaiian fine art vinyl wraps for the Cybertruck. Limited editions. Created specifically for the CT.",
     images: [
       {
-        url: "/images/og-image.jpg",
+        url: "/images/og-image.png",
         width: 1200,
         height: 630,
         alt: "Maui Premium Art — Mahalo Bird Cybertruck Wrap",
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     title: "Maui Premium Art — Fine Art Cybertruck Wraps",
     description:
       "Original Hawaiian fine art vinyl wraps for the Cybertruck. Limited editions by Hulali Lā.",
-    images: ["/images/og-image.jpg"],
+    images: ["/images/og-image.png"],
     creator: "@Maui_PremiumArt",
     site: "@Maui_PremiumArt",
   },

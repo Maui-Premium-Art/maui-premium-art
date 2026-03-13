@@ -8,7 +8,7 @@ interface DockIconProps {
 }
 
 function DockIcon({ label, children, active, href }: DockIconProps) {
-  const style = {
+  const style: React.CSSProperties = {
     background: active ? "rgba(255,255,255,0.1)" : "none",
     border: active ? "1px solid rgba(255,255,255,0.15)" : "1px solid transparent",
     borderRadius: 8,
@@ -19,38 +19,21 @@ function DockIcon({ label, children, active, href }: DockIconProps) {
     justifyContent: "center",
     cursor: "pointer",
     color: active ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.5)",
-    flexShrink: 0 as const,
+    flexShrink: 0,
     transition: "background 0.15s, color 0.15s",
     textDecoration: "none",
   };
 
   if (href) {
     return (
-      <Link href={href} title={label} aria-label={label} style={style}>
+      <Link href={href} title={label} aria-label={label} className="ct-dock-icon" style={style}>
         {children}
       </Link>
     );
   }
 
   return (
-    <button
-      title={label}
-      aria-label={label}
-      style={{
-        background: active ? "rgba(255,255,255,0.1)" : "none",
-        border: active ? "1px solid rgba(255,255,255,0.15)" : "1px solid transparent",
-        borderRadius: 8,
-        width: 38,
-        height: 38,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        cursor: "pointer",
-        color: active ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.5)",
-        flexShrink: 0,
-        transition: "background 0.15s, color 0.15s",
-      }}
-    >
+    <button title={label} aria-label={label} className="ct-dock-icon" style={style}>
       {children}
     </button>
   );
@@ -59,6 +42,7 @@ function DockIcon({ label, children, active, href }: DockIconProps) {
 export default function BottomDock() {
   return (
     <div
+      className="ct-bottom-dock"
       style={{
         background: "#0d0d14",
         borderTop: "1px solid rgba(255,255,255,0.06)",

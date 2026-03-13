@@ -136,3 +136,33 @@ body {
     overflow: auto;
   }
 }
+
+@media (max-width: 600px) {
+  .ct-widgets-row {
+    flex-direction: column !important;
+    gap: 8px !important;
+    padding: 0 8px 8px !important;
+  }
+
+  .ct-vehicle-controls {
+    display: none !important;
+  }
+
+  .ct-status-left .ct-button-outline {
+    font-size: 10px !important;
+    padding: 4px 10px !important;
+  }
+
+  .ct-status-right .ct-minimap {
+    display: none !important;
+  }
+
+  .ct-bottom-dock {
+    height: 46px !important;
+  }
+
+  .ct-bottom-dock .ct-dock-icon {
+    width: 34px !important;
+    height: 34px !important;
+  }
+}

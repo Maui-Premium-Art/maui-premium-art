@@ -52,6 +52,7 @@ export default function Home() {
 
         {/* Bottom widgets row */}
         <div
+          className="ct-widgets-row"
           style={{
             display: "flex",
             gap: 10,

@@ -1,6 +1,7 @@
 export default function VehicleControls() {
   return (
     <div
+      className="ct-vehicle-controls"
       style={{
         position: "absolute",
         left: 16,
@@ -79,9 +80,10 @@ export default function VehicleControls() {
             color: "rgba(255,255,255,0.35)",
             letterSpacing: "0.03em",
             textAlign: "center",
+            lineHeight: 1.2,
           }}
         >
-          ≡◎
+          Auto<br />Pilot
         </span>
       </div>
     </div>
