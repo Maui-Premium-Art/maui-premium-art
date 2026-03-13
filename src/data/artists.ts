@@ -1,5 +1,4 @@
-// New Artists Spotlight — monthly refresh file
-// To update: edit this list, commit, and deploy. No other changes needed.
+// Artists page data — edit here to update content
 // Last updated: 2026-03-12
 
 export interface SpotlightArtist {
@@ -7,13 +6,48 @@ export interface SpotlightArtist {
   name: string;
   handle: string; // without @
   profileUrl: string;
-  imageUrl: string; // profile photo or artwork — swap as outreach completes
+  imageUrl: string;
   bio: string; // one sentence max
-  medium?: string; // optional: painting, digital, neon, etc.
-  featured?: boolean; // pin to top of grid
+  medium?: string;
 }
 
-export const spotlightArtists: SpotlightArtist[] = [
+export interface FeaturedArtist {
+  id: string;
+  name: string;
+  publicName: string; // brand/public name
+  handle: string;
+  profileUrl: string;
+  heroImageUrl: string; // large artwork image
+  portraitImageUrl?: string;
+  tagline: string;
+  story: string; // 2–3 sentences
+  medium: string;
+  location: string;
+  shopUrl?: string;
+}
+
+// ─── ANCHOR ARTIST — Juan / Hulali Lā ───────────────────────────────────────
+// This is Boss. His page. His story. Ships at launch.
+
+export const featuredArtist: FeaturedArtist = {
+  id: "hulali-la",
+  name: "Juan Linnon Ellis",
+  publicName: "Hulali Lā ☀️",
+  handle: "Maui_PremiumArt",
+  profileUrl: "https://x.com/Maui_PremiumArt",
+  heroImageUrl: "/images/mahalo-bird/wrap-2.jpg",
+  tagline: "Fine art born in Maui. Made for the Cybertruck.",
+  story:
+    "Juan Linnon Ellis is a painter from Maui whose work draws on the color, spirit, and depth of Hawaiian culture. The Mahalo Bird wasn't adapted for the Cybertruck — it was conceived for it. Original fine art vinyl wraps, limited to 10 per design.",
+  medium: "Fine Art / Vinyl Wrap",
+  location: "Maui, Hawaiʻi",
+  shopUrl: "https://mauipremiumart.com",
+};
+
+// ─── UP AND COMING ───────────────────────────────────────────────────────────
+// Curated monthly. Outreach before featuring. One image, one sentence.
+
+export const upAndComingArtists: SpotlightArtist[] = [
   {
     id: "john_fasano",
     name: "John Fasano",

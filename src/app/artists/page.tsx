@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import FeaturedArtistCard from "@/components/artists/FeaturedArtistCard";
 import ArtistCard from "@/components/artists/ArtistCard";
-import { spotlightArtists, lastRefreshed } from "@/data/artists";
+import { featuredArtist, upAndComingArtists, lastRefreshed } from "@/data/artists";
 
 export const metadata: Metadata = {
-  title: "New Artists — Maui Premium Art",
+  title: "Artists — Maui Premium Art",
   description:
-    "Emerging artists in the EV and Cybertruck creative space, spotted and featured by Maui Premium Art. Monthly spotlight.",
+    "Fine art by Hulali Lā — original Hawaiian artwork for the Cybertruck. Plus: emerging artists in the EV and creative space, featured monthly.",
   openGraph: {
-    title: "New Artists — Maui Premium Art",
-    description: "Emerging artists in the EV and Cybertruck creative space.",
+    title: "Artists — Maui Premium Art",
+    description:
+      "Fine art by Hulali Lā. Plus: emerging artists in the EV and creative space, featured monthly.",
     url: "https://mauipremiumart.com/artists",
   },
 };
@@ -30,7 +32,7 @@ export default function ArtistsPage() {
         WebkitFontSmoothing: "antialiased",
       }}
     >
-      {/* Header — CT-style top bar */}
+      {/* Header */}
       <div
         style={{
           borderBottom: "1px solid rgba(255,255,255,0.06)",
@@ -72,7 +74,7 @@ export default function ArtistsPage() {
             color: "rgba(255,255,255,0.6)",
           }}
         >
-          New Artists
+          Artists
         </div>
 
         <div style={{ width: 60 }} />
@@ -83,102 +85,119 @@ export default function ArtistsPage() {
         style={{
           maxWidth: 900,
           margin: "0 auto",
-          padding: "32px 20px 60px",
+          padding: "36px 20px 72px",
         }}
       >
-        {/* Section header */}
-        <div style={{ marginBottom: 32 }}>
-          <h1
-            style={{
-              fontSize: 24,
-              fontWeight: 300,
-              letterSpacing: "0.04em",
-              margin: "0 0 8px",
-              color: "#ffffff",
-            }}
-          >
-            New Artists
-          </h1>
-          <p
-            style={{
-              fontSize: 13,
-              color: "rgba(255,255,255,0.4)",
-              margin: 0,
-              lineHeight: 1.6,
-              maxWidth: 480,
-            }}
-          >
-            Emerging voices in the EV and Cybertruck creative space. Spotted early.
-            Featured here because the work deserves to be seen.
-          </p>
 
+        {/* ── FEATURED ARTIST ──────────────────────────────── */}
+        <div style={{ marginBottom: 56 }}>
+          <FeaturedArtistCard artist={featuredArtist} />
+        </div>
+
+        {/* ── UP AND COMING ────────────────────────────────── */}
+        <div>
+          {/* Section header */}
           <div
             style={{
-              marginTop: 16,
               display: "flex",
-              alignItems: "center",
-              gap: 8,
+              alignItems: "baseline",
+              justifyContent: "space-between",
+              marginBottom: 20,
+              paddingBottom: 12,
+              borderBottom: "1px solid rgba(255,255,255,0.06)",
             }}
           >
+            <div>
+              <h2
+                style={{
+                  fontSize: 16,
+                  fontWeight: 400,
+                  letterSpacing: "0.06em",
+                  textTransform: "uppercase",
+                  margin: "0 0 4px",
+                  color: "rgba(255,255,255,0.8)",
+                }}
+              >
+                Up and Coming
+              </h2>
+              <p
+                style={{
+                  fontSize: 12,
+                  color: "rgba(255,255,255,0.3)",
+                  margin: 0,
+                }}
+              >
+                Emerging voices in the EV and art space. Spotted early.
+              </p>
+            </div>
+
             <div
               style={{
-                width: 6,
-                height: 6,
-                borderRadius: "50%",
-                background: "#4a9eff",
-                opacity: 0.7,
-              }}
-            />
-            <span
-              style={{
-                fontSize: 11,
-                color: "rgba(255,255,255,0.25)",
-                letterSpacing: "0.08em",
-                textTransform: "uppercase",
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+                flexShrink: 0,
               }}
             >
-              {refreshDate} Spotlight · {spotlightArtists.length} artists
-            </span>
+              <div
+                style={{
+                  width: 5,
+                  height: 5,
+                  borderRadius: "50%",
+                  background: "#4a9eff",
+                  opacity: 0.6,
+                }}
+              />
+              <span
+                style={{
+                  fontSize: 10,
+                  color: "rgba(255,255,255,0.2)",
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                }}
+              >
+                {refreshDate} · {upAndComingArtists.length} artists
+              </span>
+            </div>
+          </div>
+
+          {/* Artist grid */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
+              gap: 14,
+            }}
+          >
+            {upAndComingArtists.map((artist) => (
+              <ArtistCard key={artist.id} artist={artist} />
+            ))}
           </div>
         </div>
 
-        {/* Artist grid */}
+        {/* Footer */}
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
-            gap: 16,
-          }}
-        >
-          {spotlightArtists.map((artist) => (
-            <ArtistCard key={artist.id} artist={artist} />
-          ))}
-        </div>
-
-        {/* Footer note */}
-        <div
-          style={{
-            marginTop: 48,
+            marginTop: 52,
             paddingTop: 24,
             borderTop: "1px solid rgba(255,255,255,0.05)",
             fontSize: 12,
-            color: "rgba(255,255,255,0.25)",
+            color: "rgba(255,255,255,0.22)",
             lineHeight: 1.7,
           }}
         >
-          <p style={{ margin: "0 0 8px" }}>
-            Updated monthly. We reach out before featuring — if you want to be included or removed, say the word.
-          </p>
-          <p style={{ margin: 0 }}>
-            Find us at{" "}
+          <p style={{ margin: "0 0 6px" }}>
+            Up and Coming refreshes monthly. We reach out before featuring anyone —
+            if you&apos;d like to be included or removed, find us at{" "}
             <a
               href="https://x.com/Maui_PremiumArt"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: "rgba(255,255,255,0.4)", textDecoration: "none" }}
+              style={{ color: "rgba(255,255,255,0.38)", textDecoration: "none" }}
             >
               @Maui_PremiumArt
             </a>
+            .
           </p>
         </div>
       </div>
