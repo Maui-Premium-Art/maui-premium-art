@@ -1,10 +1,37 @@
+import Link from "next/link";
+
 interface DockIconProps {
   label: string;
   children: React.ReactNode;
   active?: boolean;
+  href?: string;
 }
 
-function DockIcon({ label, children, active }: DockIconProps) {
+function DockIcon({ label, children, active, href }: DockIconProps) {
+  const style = {
+    background: active ? "rgba(255,255,255,0.1)" : "none",
+    border: active ? "1px solid rgba(255,255,255,0.15)" : "1px solid transparent",
+    borderRadius: 8,
+    width: 38,
+    height: 38,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    cursor: "pointer",
+    color: active ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.5)",
+    flexShrink: 0 as const,
+    transition: "background 0.15s, color 0.15s",
+    textDecoration: "none",
+  };
+
+  if (href) {
+    return (
+      <Link href={href} title={label} aria-label={label} style={style}>
+        {children}
+      </Link>
+    );
+  }
+
   return (
     <button
       title={label}
@@ -133,6 +160,16 @@ export default function BottomDock() {
       <DockIcon label="Bluetooth">
         <svg width="12" height="18" viewBox="0 0 12 18" fill="none">
           <path d="M2 4L10 10L6 14V4L10 8L2 14" stroke="currentColor" strokeWidth="1.1" strokeLinejoin="round" fill="none" />
+        </svg>
+      </DockIcon>
+
+      {/* New Artists — links to /artists page */}
+      <DockIcon label="New Artists" href="/artists">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <circle cx="6" cy="6" r="3.5" stroke="currentColor" strokeWidth="1.1" fill="none" />
+          <circle cx="12" cy="12" r="3.5" stroke="currentColor" strokeWidth="1.1" fill="none" />
+          <path d="M9 3.5C10.2 3.5 11.2 4.2 11.7 5.2" stroke="currentColor" strokeWidth="0.8" strokeLinecap="round" />
+          <path d="M6.3 12.8C7 14 8.2 14.5 9.5 14.5" stroke="currentColor" strokeWidth="0.8" strokeLinecap="round" />
         </svg>
       </DockIcon>
 
