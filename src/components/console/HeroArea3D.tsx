@@ -11,7 +11,12 @@ import {
 } from "@react-three/drei";
 import * as THREE from "three";
 
-/* ── Cybertruck model (loaded from GLB) ─────────────────────── */
+/*
+ * Cybertruck 3D model by onurpearl (Sketchfab)
+ * https://sketchfab.com/onurpearl
+ * Licensed under CC BY 4.0 — https://creativecommons.org/licenses/by/4.0/
+ * Attribution required.
+ */
 function CybertruckModel() {
   const { scene } = useGLTF("/models/tesla_cybertruck.glb");
   const texture = useTexture("/images/mahalo-bird/wrap-2.jpg");
@@ -444,6 +449,21 @@ export default function HeroArea3D() {
             3 / 10 available
           </span>
         </div>
+        <a
+          href="https://sketchfab.com/onurpearl"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            fontSize: 9,
+            color: "#505068",
+            letterSpacing: "0.05em",
+            marginTop: 2,
+            textDecoration: "none",
+            pointerEvents: "auto",
+          }}
+        >
+          3D model by onurpearl · CC BY 4.0
+        </a>
       </div>
     </div>
   );
