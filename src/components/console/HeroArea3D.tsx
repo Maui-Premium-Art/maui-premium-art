@@ -13,38 +13,86 @@ import * as THREE from "three";
 
 /* ── Cybertruck model (loaded from GLB) ─────────────────────── */
 function CybertruckModel() {
-  const { scene } = useGLTF("/models/cybertruck.glb");
+  const { scene } = useGLTF("/models/tesla_cybertruck.glb");
   const texture = useTexture("/images/mahalo-bird/wrap-2.jpg");
 
   useEffect(() => {
-    // Flip texture for correct UV orientation
     texture.flipY = false;
     texture.colorSpace = THREE.SRGBColorSpace;
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
 
     scene.traverse((child) => {
       if (child instanceof THREE.Mesh) {
-        const name = child.name.toLowerCase();
+        const matName =
+          child.material instanceof THREE.Material
+            ? child.material.name
+            : "";
+        const nodeName = child.name.toLowerCase();
 
-        // Apply art texture to tailgate / rear cover
-        if (
-          name.includes("rear") ||
-          name.includes("tailgate") ||
-          name.includes("cover")
-        ) {
-          child.material = new THREE.MeshStandardMaterial({
-            map: texture,
-            metalness: 0.3,
-            roughness: 0.5,
-          });
-        } else {
-          // Stainless steel material for body
+        if (matName === "Base") {
+          // Stainless steel body
           child.material = new THREE.MeshStandardMaterial({
             color: new THREE.Color("#8a8a92"),
             metalness: 0.85,
             roughness: 0.15,
             envMapIntensity: 1.2,
           });
+        } else if (matName === "TeslaRearLight") {
+          // Rear LED light bar — emissive red
+          child.material = new THREE.MeshStandardMaterial({
+            color: new THREE.Color("#ff2020"),
+            emissive: new THREE.Color("#ff2020"),
+            emissiveIntensity: 1.5,
+            metalness: 0.3,
+            roughness: 0.4,
+          });
+        } else if (matName === "TeslaFrontLight") {
+          // Front light bar — subtle white glow
+          child.material = new THREE.MeshStandardMaterial({
+            color: new THREE.Color("#e0e0e8"),
+            emissive: new THREE.Color("#c0c0d0"),
+            emissiveIntensity: 0.5,
+            metalness: 0.3,
+            roughness: 0.3,
+          });
+        } else if (matName === "TeslaBlack") {
+          // Dark trim, tires, accents
+          child.material = new THREE.MeshStandardMaterial({
+            color: new THREE.Color("#111118"),
+            metalness: 0.2,
+            roughness: 0.8,
+          });
+        } else if (
+          matName === "Material.004" ||
+          matName === "Material.001"
+        ) {
+          // Glass / secondary materials
+          child.material = new THREE.MeshStandardMaterial({
+            color: new THREE.Color("#1a2030"),
+            metalness: 0.1,
+            roughness: 0.1,
+            transparent: true,
+            opacity: 0.5,
+          });
         }
+
+        // Try to identify tailgate by node position (rear-facing large flat mesh)
+        // Apply art to Object_5 which is typically the tailgate panel area
+        if (
+          nodeName.includes("object_5") ||
+          nodeName.includes("rear") ||
+          nodeName.includes("tailgate")
+        ) {
+          child.material = new THREE.MeshStandardMaterial({
+            map: texture,
+            metalness: 0.3,
+            roughness: 0.5,
+          });
+        }
+
+        child.castShadow = true;
+        child.receiveShadow = true;
       }
     });
   }, [scene, texture]);
@@ -54,13 +102,13 @@ function CybertruckModel() {
       object={scene}
       scale={1}
       position={[0, 0, 0]}
-      rotation={[0, Math.PI, 0]} // Rear facing camera
+      rotation={[0, Math.PI, 0]}
     />
   );
 }
 
 // Preload model
-useGLTF.preload("/models/cybertruck.glb");
+useGLTF.preload("/models/tesla_cybertruck.glb");
 
 /* ── Procedural CT (fallback while model loads or if missing) ── */
 function ProceduralCybertruck() {
@@ -317,7 +365,7 @@ export default function HeroArea3D() {
 
   // Check if GLB model exists
   useEffect(() => {
-    fetch("/models/cybertruck.glb", { method: "HEAD" })
+    fetch("/models/tesla_cybertruck.glb", { method: "HEAD" })
       .then((res) => setHasModel(res.ok))
       .catch(() => setHasModel(false));
   }, []);
