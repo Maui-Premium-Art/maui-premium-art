@@ -37,7 +37,7 @@ export default function StatusBar() {
       }}
     >
       {/* LEFT: Range + Self-Driving */}
-      <div style={{ display: "flex", flexDirection: "column", gap: 4, pointerEvents: "auto" }}>
+      <div className="ct-status-left" style={{ display: "flex", flexDirection: "column", gap: 4, pointerEvents: "auto" }}>
         {/* Range indicator */}
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           {/* Battery bars */}
@@ -56,7 +56,7 @@ export default function StatusBar() {
           </div>
           <span
             style={{
-              fontSize: 13,
+              fontSize: 16,
               fontWeight: 500,
               color: "#ffffff",
               letterSpacing: "0.02em",
@@ -132,12 +132,12 @@ export default function StatusBar() {
       </div>
 
       {/* RIGHT: Time + Weather + Mini Map */}
-      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+      <div className="ct-status-right" style={{ display: "flex", alignItems: "center", gap: 12 }}>
         {/* Time + Weather */}
         <div style={{ textAlign: "right" }}>
           <div
             style={{
-              fontSize: 18,
+              fontSize: 32,
               fontWeight: 300,
               color: "#ffffff",
               letterSpacing: "0.04em",
@@ -157,13 +157,21 @@ export default function StatusBar() {
               justifyContent: "flex-end",
             }}
           >
-            <span>⛅</span>
+            <svg width="14" height="12" viewBox="0 0 14 12" fill="none">
+              <circle cx="5" cy="4" r="2.5" stroke="rgba(255,255,255,0.5)" strokeWidth="1" />
+              <line x1="5" y1="0.5" x2="5" y2="0" stroke="rgba(255,255,255,0.4)" strokeWidth="0.8" />
+              <line x1="5" y1="7" x2="5" y2="7.5" stroke="rgba(255,255,255,0.4)" strokeWidth="0.8" />
+              <line x1="1.5" y1="4" x2="1" y2="4" stroke="rgba(255,255,255,0.4)" strokeWidth="0.8" />
+              <line x1="8.5" y1="4" x2="9" y2="4" stroke="rgba(255,255,255,0.4)" strokeWidth="0.8" />
+              <path d="M4 8C4 8 3 8 2.5 9C2 10 2.5 11 3.5 11H11.5C12.5 11 13 10 12.5 9C12 8 11 8 11 8C11 8 10.5 6.5 9 6.5C8 6.5 7.3 7 7 7.5" stroke="rgba(255,255,255,0.5)" strokeWidth="0.9" fill="none" />
+            </svg>
             <span>78°F</span>
           </div>
         </div>
 
         {/* Mini map */}
         <div
+          className="ct-minimap"
           style={{
             width: 56,
             height: 44,

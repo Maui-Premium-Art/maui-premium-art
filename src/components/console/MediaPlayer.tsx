@@ -12,8 +12,8 @@ export default function MediaPlayer() {
       {/* Header */}
       <div
         style={{
-          fontSize: 10,
-          color: "rgba(255,255,255,0.4)",
+          fontSize: 12,
+          color: "#888899",
           letterSpacing: "0.12em",
           textTransform: "uppercase",
           marginBottom: 8,
@@ -24,10 +24,10 @@ export default function MediaPlayer() {
 
       {/* Now playing */}
       <div style={{ marginBottom: 10 }}>
-        <div style={{ fontSize: 12, color: "#fff", fontWeight: 500, letterSpacing: "0.01em" }}>
+        <div style={{ fontSize: 14, color: "#fff", fontWeight: 500, letterSpacing: "0.01em" }}>
           Slack Key Sessions
         </div>
-        <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", marginTop: 2 }}>
+        <div style={{ fontSize: 13, color: "#888899", marginTop: 2 }}>
           Keola Beamer · Hawaiian Slack Key
         </div>
       </div>

@@ -2,14 +2,14 @@
 
 :root {
   --bg-primary: #0a0a0f;
-  --bg-surface: rgba(14, 14, 22, 0.88);
-  --bg-widget: rgba(18, 18, 28, 0.92);
-  --border-subtle: rgba(255, 255, 255, 0.07);
+  --bg-surface: #1a1a2e;
+  --bg-widget: #1a1a2e;
+  --border-subtle: #2a2a3e;
   --text-primary: #ffffff;
-  --text-secondary: #9090a8;
+  --text-secondary: #888899;
   --text-dim: #505068;
-  --accent-blue: #4a9eff;
-  --accent-blue-bg: rgba(74, 158, 255, 0.12);
+  --accent-blue: #3b82f6;
+  --accent-blue-bg: rgba(59, 130, 246, 0.12);
   --grid-dark: #0d0d14;
 }
 
@@ -64,12 +64,10 @@ body {
     );
 }
 
-/* Glass panel effect */
+/* CT panel effect */
 .glass-panel {
   background: var(--bg-widget);
   border: 1px solid var(--border-subtle);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
 }
 
 /* CT-style button */
@@ -87,7 +85,7 @@ body {
 }
 
 .ct-button-outline:hover {
-  background: rgba(74, 158, 255, 0.22);
+  background: rgba(59, 130, 246, 0.22);
 }
 
 /* Splash screen animations */
@@ -134,5 +132,35 @@ body {
 @media (max-width: 768px) {
   html, body {
     overflow: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .ct-widgets-row {
+    flex-direction: column !important;
+    gap: 8px !important;
+    padding: 0 8px 8px !important;
+  }
+
+  .ct-vehicle-controls {
+    display: none !important;
+  }
+
+  .ct-status-left .ct-button-outline {
+    font-size: 10px !important;
+    padding: 4px 10px !important;
+  }
+
+  .ct-status-right .ct-minimap {
+    display: none !important;
+  }
+
+  .ct-bottom-dock {
+    height: 46px !important;
+  }
+
+  .ct-bottom-dock .ct-dock-icon {
+    width: 34px !important;
+    height: 34px !important;
   }
 }
