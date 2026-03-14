@@ -45,7 +45,7 @@ export default function BottomDock() {
       className="ct-bottom-dock"
       style={{
         background: "#0d0d14",
-        borderTop: "1px solid rgba(255,255,255,0.06)",
+        borderTop: "1px solid #2a2a3e",
         height: 52,
         display: "flex",
         alignItems: "center",

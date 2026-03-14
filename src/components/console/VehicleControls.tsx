@@ -86,6 +86,39 @@ export default function VehicleControls() {
           Auto<br />Pilot
         </span>
       </div>
+      {/* EQ / Audio icon */}
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
+        <div
+          style={{
+            width: 40,
+            height: 40,
+            border: "1px solid rgba(255,255,255,0.12)",
+            borderRadius: 8,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: "rgba(255,255,255,0.02)",
+            cursor: "pointer",
+          }}
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <line x1="4" y1="6" x2="4" y2="14" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" strokeLinecap="round" />
+            <line x1="8" y1="4" x2="8" y2="16" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" strokeLinecap="round" />
+            <line x1="12" y1="7" x2="12" y2="13" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" strokeLinecap="round" />
+            <line x1="16" y1="5" x2="16" y2="15" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+        </div>
+        <span
+          style={{
+            fontSize: 10,
+            color: "rgba(255,255,255,0.35)",
+            letterSpacing: "0.03em",
+            textAlign: "center",
+          }}
+        >
+          Audio
+        </span>
+      </div>
     </div>
   );
 }

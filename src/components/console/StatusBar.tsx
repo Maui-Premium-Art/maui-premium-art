@@ -56,7 +56,7 @@ export default function StatusBar() {
           </div>
           <span
             style={{
-              fontSize: 13,
+              fontSize: 16,
               fontWeight: 500,
               color: "#ffffff",
               letterSpacing: "0.02em",
@@ -137,7 +137,7 @@ export default function StatusBar() {
         <div style={{ textAlign: "right" }}>
           <div
             style={{
-              fontSize: 18,
+              fontSize: 32,
               fontWeight: 300,
               color: "#ffffff",
               letterSpacing: "0.04em",

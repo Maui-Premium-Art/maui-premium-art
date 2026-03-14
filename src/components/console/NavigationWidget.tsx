@@ -12,8 +12,8 @@ export default function NavigationWidget() {
       {/* Header */}
       <div
         style={{
-          fontSize: 10,
-          color: "rgba(255,255,255,0.4)",
+          fontSize: 12,
+          color: "#888899",
           letterSpacing: "0.12em",
           textTransform: "uppercase",
           marginBottom: 8,
@@ -29,17 +29,17 @@ export default function NavigationWidget() {
           alignItems: "center",
           gap: 8,
           background: "rgba(255,255,255,0.06)",
-          border: "1px solid rgba(255,255,255,0.08)",
+          border: "1px solid #2a2a3e",
           borderRadius: 6,
           padding: "6px 10px",
           marginBottom: 10,
         }}
       >
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-          <circle cx="5" cy="5" r="3.5" stroke="rgba(255,255,255,0.4)" strokeWidth="1.1" />
-          <line x1="7.5" y1="7.5" x2="10.5" y2="10.5" stroke="rgba(255,255,255,0.4)" strokeWidth="1.1" strokeLinecap="round" />
+          <circle cx="5" cy="5" r="3.5" stroke="#888899" strokeWidth="1.1" />
+          <line x1="7.5" y1="7.5" x2="10.5" y2="10.5" stroke="#888899" strokeWidth="1.1" strokeLinecap="round" />
         </svg>
-        <span style={{ fontSize: 12, color: "rgba(255,255,255,0.25)", flex: 1 }}>
+        <span style={{ fontSize: 14, color: "#505068", flex: 1 }}>
           Search destination
         </span>
       </div>
@@ -50,15 +50,15 @@ export default function NavigationWidget() {
           style={{
             flex: 1,
             background: "rgba(255,255,255,0.05)",
-            border: "1px solid rgba(255,255,255,0.08)",
+            border: "1px solid #2a2a3e",
             borderRadius: 6,
             padding: "6px 8px",
-            color: "rgba(255,255,255,0.6)",
+            color: "#888899",
             cursor: "pointer",
             display: "flex",
             alignItems: "center",
             gap: 5,
-            fontSize: 11,
+            fontSize: 13,
           }}
         >
           <svg width="10" height="12" viewBox="0 0 10 12" fill="none">
@@ -71,15 +71,15 @@ export default function NavigationWidget() {
           style={{
             flex: 1,
             background: "rgba(255,255,255,0.05)",
-            border: "1px solid rgba(255,255,255,0.08)",
+            border: "1px solid #2a2a3e",
             borderRadius: 6,
             padding: "6px 8px",
-            color: "rgba(255,255,255,0.6)",
+            color: "#888899",
             cursor: "pointer",
             display: "flex",
             alignItems: "center",
             gap: 5,
-            fontSize: 11,
+            fontSize: 13,
           }}
         >
           <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
@@ -95,13 +95,13 @@ export default function NavigationWidget() {
         style={{
           marginTop: 10,
           padding: "6px 0 0",
-          borderTop: "1px solid rgba(255,255,255,0.06)",
+          borderTop: "1px solid #2a2a3e",
         }}
       >
-        <div style={{ fontSize: 10, color: "rgba(255,255,255,0.25)", letterSpacing: "0.05em" }}>
+        <div style={{ fontSize: 12, color: "#505068", letterSpacing: "0.05em" }}>
           Kihei, Maui · Hawaii
         </div>
-        <div style={{ fontSize: 11, color: "rgba(255,255,255,0.45)", marginTop: 2 }}>
+        <div style={{ fontSize: 13, color: "#888899", marginTop: 2 }}>
           ETA — ∞ mi · Aloha
         </div>
       </div>
