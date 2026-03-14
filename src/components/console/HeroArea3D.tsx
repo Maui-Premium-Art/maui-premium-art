@@ -22,6 +22,28 @@ function CybertruckModel() {
   const texture = useTexture("/images/mahalo-bird/wrap-2.jpg");
 
   useEffect(() => {
+    // Debug: log model bounds to diagnose scale/position
+    const box = new THREE.Box3().setFromObject(scene);
+    const size = new THREE.Vector3();
+    const center = new THREE.Vector3();
+    box.getSize(size);
+    box.getCenter(center);
+    console.log("[CT Model] size:", size, "center:", center);
+
+    // Auto-scale: if model is huge (mm units), scale down
+    const maxDim = Math.max(size.x, size.y, size.z);
+    if (maxDim > 50) {
+      const s = 5 / maxDim;
+      scene.scale.set(s, s, s);
+      console.log("[CT Model] rescaled by", s);
+    }
+
+    // Re-center model on origin
+    box.setFromObject(scene);
+    box.getCenter(center);
+    scene.position.sub(center);
+    scene.position.y += box.getSize(new THREE.Vector3()).y / 2 * scene.scale.y;
+
     texture.flipY = false;
     texture.colorSpace = THREE.SRGBColorSpace;
     texture.wrapS = THREE.RepeatWrapping;
@@ -293,6 +315,16 @@ function LoadingFallback() {
 }
 
 /* ── Scene content inside Canvas ───────────────────────────── */
+/* ── Debug reference cube — proves renderer works ──────────── */
+function DebugCube() {
+  return (
+    <mesh position={[0, 1, 0]}>
+      <boxGeometry args={[0.3, 0.3, 0.3]} />
+      <meshStandardMaterial color="#ff0040" emissive="#ff0040" emissiveIntensity={0.5} />
+    </mesh>
+  );
+}
+
 function Scene({ hasModel }: { hasModel: boolean }) {
   return (
     <>
@@ -300,25 +332,28 @@ function Scene({ hasModel }: { hasModel: boolean }) {
       <color attach="background" args={["#0a0a0f"]} />
 
       {/* Lighting — dark, moody, CT display style */}
-      <ambientLight intensity={0.25} />
+      <ambientLight intensity={0.4} />
       <directionalLight
         position={[5, 8, -5]}
-        intensity={0.9}
+        intensity={1.2}
         color="#e8e8f0"
         castShadow
       />
       {/* Rim light — highlights angular edges */}
       <directionalLight
         position={[-3, 4, 3]}
-        intensity={0.3}
+        intensity={0.5}
         color="#6688aa"
       />
       {/* Subtle fill from below */}
       <directionalLight
         position={[0, -2, -4]}
-        intensity={0.1}
+        intensity={0.2}
         color="#334455"
       />
+
+      {/* Debug cube — remove once truck renders correctly */}
+      <DebugCube />
 
       {/* The truck */}
       {hasModel ? <CybertruckModel /> : <ProceduralCybertruck />}
@@ -354,11 +389,11 @@ function Scene({ hasModel }: { hasModel: boolean }) {
         enablePan={false}
         enableRotate={true}
         autoRotate={false}
-        minDistance={4}
-        maxDistance={14}
-        minPolarAngle={0.4}
-        maxPolarAngle={1.5}
-        target={[0, 0.6, 0]}
+        minDistance={3}
+        maxDistance={20}
+        minPolarAngle={0.3}
+        maxPolarAngle={1.6}
+        target={[0, 1, 0]}
       />
     </>
   );
@@ -390,7 +425,7 @@ export default function HeroArea3D() {
       <div style={{ position: "relative", width: "100%", height: "100%", zIndex: 1 }}>
         <Suspense fallback={<LoadingFallback />}>
           <Canvas
-            camera={{ position: [0, 2.5, -6], fov: 42 }}
+            camera={{ position: [0, 3, -8], fov: 45 }}
             gl={{
               antialias: true,
               toneMapping: THREE.ACESFilmicToneMapping,
