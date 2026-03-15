@@ -81,7 +81,7 @@ export default function VehicleControls() {
           transformOrigin: "center center",
           fontSize: 8,
           letterSpacing: "0.15em",
-          color: "rgba(255,255,255,0.12)",
+          color: "rgba(255,255,255,0.22)",
           whiteSpace: "nowrap",
           fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
           fontWeight: 600,

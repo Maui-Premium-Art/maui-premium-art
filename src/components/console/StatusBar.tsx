@@ -47,15 +47,13 @@ export default function StatusBar() {
     <div
       className="ct-status-bar"
       style={{
-        position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
-        height: 56,
+        position: "relative",
+        width: "100%",
+        height: 48,
         display: "flex",
-        alignItems: "flex-start",
+        alignItems: "center",
         justifyContent: "space-between",
-        padding: "8px 14px 0",
+        padding: "0 14px",
         zIndex: 20,
         pointerEvents: "none",
       }}

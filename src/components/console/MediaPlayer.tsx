@@ -199,26 +199,26 @@ export default function MediaPlayer() {
         background: "#14141e",
         border: "1px solid rgba(255,255,255,0.06)",
         borderRadius: 14,
-        padding: "12px 14px 14px",
+        padding: "10px 12px 10px",
         flex: 1,
         minWidth: 0,
         fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
       }}
     >
-      <div style={{ fontSize: 10, fontWeight: 600, color: "rgba(255,255,255,0.3)", letterSpacing: "0.12em", textTransform: "uppercase" as const, marginBottom: 10 }}>
+      <div style={{ fontSize: 9, fontWeight: 600, color: "rgba(255,255,255,0.3)", letterSpacing: "0.12em", textTransform: "uppercase" as const, marginBottom: 6 }}>
         Hawaiian Radio
       </div>
-      <div style={{ marginBottom: 10 }}>
-        <div style={{ fontSize: 14, fontWeight: 500, color: "#ffffff", letterSpacing: "0.01em", lineHeight: 1.3 }}>{track.title}</div>
-        <div style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", marginTop: 2, lineHeight: 1.3 }}>{track.artist} · {track.genre}</div>
+      <div style={{ marginBottom: 6 }}>
+        <div style={{ fontSize: 13, fontWeight: 500, color: "#ffffff", letterSpacing: "0.01em", lineHeight: 1.3 }}>{track.title}</div>
+        <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", marginTop: 1, lineHeight: 1.3 }}>{track.artist} · {track.genre}</div>
       </div>
 
       {/* Waveform visualization */}
       <canvas
         ref={canvasRef}
         width={300}
-        height={24}
-        style={{ width: "100%", height: 24, marginBottom: 4, borderRadius: 2 }}
+        height={20}
+        style={{ width: "100%", height: 20, marginBottom: 3, borderRadius: 2 }}
       />
 
       {/* Progress bar */}
@@ -226,7 +226,7 @@ export default function MediaPlayer() {
         <div style={{ width: `${progress}%`, height: "100%", background: "rgba(255,255,255,0.55)", borderRadius: 2, transition: "width 0.5s linear" }} />
         <div style={{ position: "absolute" as const, left: `${progress}%`, top: "50%", transform: "translate(-50%, -50%)", width: 8, height: 8, borderRadius: "50%", background: "#ffffff", boxShadow: "0 0 4px rgba(0,0,0,0.4)" }} />
       </div>
-      <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10, color: "rgba(255,255,255,0.28)", marginBottom: 10, fontVariantNumeric: "tabular-nums" as const }}>
+      <div style={{ display: "flex", justifyContent: "space-between", fontSize: 9, color: "rgba(255,255,255,0.28)", marginBottom: 6, fontVariantNumeric: "tabular-nums" as const }}>
         <span>{elapsed}</span>
         <span>{duration}</span>
       </div>

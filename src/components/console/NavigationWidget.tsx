@@ -5,21 +5,21 @@ export default function NavigationWidget() {
         background: "#14141e",
         border: "1px solid rgba(255,255,255,0.06)",
         borderRadius: 14,
-        padding: "12px 14px 14px",
+        padding: "10px 12px 10px",
         flex: 1,
         minWidth: 0,
         fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
       }}
     >
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
-        <span style={{ fontSize: 10, fontWeight: 600, color: "rgba(255,255,255,0.3)", letterSpacing: "0.12em", textTransform: "uppercase" as const }}>Navigate</span>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
+        <span style={{ fontSize: 9, fontWeight: 600, color: "rgba(255,255,255,0.3)", letterSpacing: "0.12em", textTransform: "uppercase" as const }}>Navigate</span>
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
           <circle cx="6" cy="6" r="4" stroke="rgba(255,255,255,0.35)" strokeWidth="1.3" />
           <line x1="9" y1="9" x2="13" y2="13" stroke="rgba(255,255,255,0.35)" strokeWidth="1.3" strokeLinecap="round" />
         </svg>
       </div>
       {/* Step 4: Search → "Where to?" */}
-      <div style={{ display: "flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 10, padding: "8px 10px", marginBottom: 10, cursor: "pointer" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 8, padding: "6px 10px", marginBottom: 8, cursor: "pointer" }}>
         <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
           <circle cx="5.5" cy="5.5" r="4" stroke="rgba(255,255,255,0.3)" strokeWidth="1.2" />
           <line x1="8.5" y1="8.5" x2="12" y2="12" stroke="rgba(255,255,255,0.3)" strokeWidth="1.2" strokeLinecap="round" />
@@ -27,7 +27,7 @@ export default function NavigationWidget() {
         <span style={{ fontSize: 13, color: "rgba(255,255,255,0.22)" }}>Where to?</span>
       </div>
       {/* Step 4: Home → Gallery, Work → Commission */}
-      <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
+      <div style={{ display: "flex", gap: 8, marginBottom: 8 }}>
         <button style={pillStyle}
           onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)"; e.currentTarget.style.color = "rgba(255,255,255,0.85)"; }}
           onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.07)"; e.currentTarget.style.color = "rgba(255,255,255,0.55)"; }}
@@ -51,9 +51,9 @@ export default function NavigationWidget() {
         </button>
       </div>
       {/* Step 1: Location fix + Step 4: ETA → edition counter */}
-      <div style={{ paddingTop: 10, borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-        <div style={{ fontSize: 13, color: "rgba(255,255,255,0.65)", letterSpacing: "0.01em" }}>Kihei, Maui · Hawaii</div>
-        <div style={{ fontSize: 11, color: "rgba(255,255,255,0.3)", marginTop: 4 }}>10 editions · Maui</div>
+      <div style={{ paddingTop: 6, borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+        <div style={{ fontSize: 12, color: "rgba(255,255,255,0.65)", letterSpacing: "0.01em" }}>Kihei, Maui · Hawaii</div>
+        <div style={{ fontSize: 10, color: "rgba(255,255,255,0.3)", marginTop: 3 }}>10 editions · Maui</div>
       </div>
     </div>
   );
@@ -67,9 +67,9 @@ const pillStyle: React.CSSProperties = {
   background: "rgba(255,255,255,0.05)",
   border: "1px solid rgba(255,255,255,0.07)",
   borderRadius: 10,
-  padding: "7px 10px",
+  padding: "5px 10px",
   color: "rgba(255,255,255,0.55)",
-  fontSize: 13,
+  fontSize: 12,
   cursor: "pointer",
   fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
   transition: "all 0.15s ease",
