@@ -11,53 +11,20 @@ export default function NavigationWidget() {
         fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
       }}
     >
-      {/* Header — "Navigate" with search icon */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          marginBottom: 10,
-        }}
-      >
-        <span
-          style={{
-            fontSize: 10,
-            fontWeight: 600,
-            color: "rgba(255,255,255,0.3)",
-            letterSpacing: "0.12em",
-            textTransform: "uppercase",
-          }}
-        >
-          Navigate
-        </span>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
+        <span style={{ fontSize: 10, fontWeight: 600, color: "rgba(255,255,255,0.3)", letterSpacing: "0.12em", textTransform: "uppercase" as const }}>Navigate</span>
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
           <circle cx="6" cy="6" r="4" stroke="rgba(255,255,255,0.35)" strokeWidth="1.3" />
           <line x1="9" y1="9" x2="13" y2="13" stroke="rgba(255,255,255,0.35)" strokeWidth="1.3" strokeLinecap="round" />
         </svg>
       </div>
-
-      {/* Search bar */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 8,
-          background: "rgba(255,255,255,0.05)",
-          border: "1px solid rgba(255,255,255,0.07)",
-          borderRadius: 10,
-          padding: "8px 10px",
-          marginBottom: 10,
-        }}
-      >
+      <div style={{ display: "flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 10, padding: "8px 10px", marginBottom: 10 }}>
         <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
           <circle cx="5.5" cy="5.5" r="4" stroke="rgba(255,255,255,0.3)" strokeWidth="1.2" />
           <line x1="8.5" y1="8.5" x2="12" y2="12" stroke="rgba(255,255,255,0.3)" strokeWidth="1.2" strokeLinecap="round" />
         </svg>
         <span style={{ fontSize: 13, color: "rgba(255,255,255,0.22)" }}>Search destination</span>
       </div>
-
-      {/* Home + Work pills */}
       <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
         <button style={pillStyle}>
           <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
@@ -75,20 +42,9 @@ export default function NavigationWidget() {
           Work
         </button>
       </div>
-
-      {/* Destination info */}
-      <div
-        style={{
-          paddingTop: 10,
-          borderTop: "1px solid rgba(255,255,255,0.05)",
-        }}
-      >
-        <div style={{ fontSize: 13, color: "rgba(255,255,255,0.65)", letterSpacing: "0.01em" }}>
-          Kihei, Maui · Hawaii
-        </div>
-        <div style={{ fontSize: 11, color: "rgba(255,255,255,0.3)", marginTop: 4 }}>
-          ETA — ∞ mi · Aloha
-        </div>
+      <div style={{ paddingTop: 10, borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+        <div style={{ fontSize: 13, color: "rgba(255,255,255,0.65)", letterSpacing: "0.01em" }}>Kihei, Maui · Hawaii</div>
+        <div style={{ fontSize: 11, color: "rgba(255,255,255,0.3)", marginTop: 4 }}>ETA — ∞ mi · Aloha</div>
       </div>
     </div>
   );
