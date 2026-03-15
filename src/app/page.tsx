@@ -10,7 +10,7 @@ import NavigationWidget from "@/components/console/NavigationWidget";
 import BottomDock from "@/components/console/BottomDock";
 
 export default function Home() {
-  const [splashDone, setSplashDone] = useState(false);
+  const [splashDone, setSplashDone] = useState(true); // splash disabled for v1 — Phase 1a
 
   const handleSplashComplete = useCallback(() => {
     setSplashDone(true);
