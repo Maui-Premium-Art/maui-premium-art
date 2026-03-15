@@ -67,24 +67,26 @@ function StaticHero() {
         }}
       />
 
-      {/* CT rear image */}
+      {/* CT rear image — fills hero, sits on the grid */}
       <div
         style={{
-          position: "relative",
+          position: "absolute",
+          bottom: "12%",
+          left: "50%",
+          transform: "translateX(-50%)",
           zIndex: 2,
-          width: "min(600px, 90vw)",
-          aspectRatio: "16/9",
-          marginBottom: "4%",
+          width: "min(700px, 95vw)",
+          aspectRatio: "16/10",
         }}
       >
         <Image
           src="/images/ct-reference/ct-rear.png"
-          alt="Cybertruck rear view"
+          alt="Cybertruck rear view with Mahalo Bird wrap"
           fill
           style={{
             objectFit: "contain",
             objectPosition: "center bottom",
-            filter: "brightness(0.88) contrast(1.05)",
+            filter: "brightness(0.9) contrast(1.05)",
           }}
           priority
         />
