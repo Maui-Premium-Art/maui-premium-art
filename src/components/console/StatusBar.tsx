@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 export default function StatusBar() {
   const [time, setTime] = useState("");
   const [mounted, setMounted] = useState(false);
-  const [weather, setWeather] = useState("--°F");
+  const [weather, setWeather] = useState("78°F");
 
   useEffect(() => {
     setMounted(true);
