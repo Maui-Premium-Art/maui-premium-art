@@ -27,7 +27,7 @@ export default function StatusBar() {
         top: 0,
         left: 0,
         right: 0,
-        height: 52,
+        height: 56,
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
@@ -36,20 +36,20 @@ export default function StatusBar() {
         pointerEvents: "none",
       }}
     >
-      {/* LEFT: Range + Self-Driving */}
-      <div className="ct-status-left" style={{ display: "flex", flexDirection: "column", gap: 4, pointerEvents: "auto" }}>
-        {/* Range indicator */}
+      {/* ── LEFT: Battery + range + Self-Driving ── */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 5, pointerEvents: "auto" }}>
+        {/* Battery + range */}
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           {/* Battery bars */}
-          <div style={{ display: "flex", gap: 2, alignItems: "center" }}>
-            {[1, 1, 1, 0.7, 0.4, 0.2].map((opacity, i) => (
+          <div style={{ display: "flex", gap: 2, alignItems: "flex-end" }}>
+            {[14, 14, 14, 12, 10].map((h, i) => (
               <div
                 key={i}
                 style={{
-                  width: 3,
-                  height: i < 3 ? 12 : i < 5 ? 10 : 8,
-                  backgroundColor: `rgba(255,255,255,${opacity})`,
-                  borderRadius: 1,
+                  width: 3.5,
+                  height: h,
+                  borderRadius: 1.5,
+                  backgroundColor: i < 3 ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.25)",
                 }}
               />
             ))}
@@ -60,6 +60,7 @@ export default function StatusBar() {
               fontWeight: 500,
               color: "#ffffff",
               letterSpacing: "0.02em",
+              fontVariantNumeric: "tabular-nums",
             }}
           >
             123 mi
@@ -68,41 +69,46 @@ export default function StatusBar() {
 
         {/* Start Self-Driving button */}
         <button
-          className="ct-button-outline"
-          style={{ alignSelf: "flex-start" }}
-          aria-label="Start Exploring"
+          style={{
+            border: "1px solid #3b82f6",
+            background: "rgba(59,130,246,0.08)",
+            color: "#3b82f6",
+            padding: "4px 12px",
+            borderRadius: 20,
+            fontSize: 11,
+            fontWeight: 500,
+            letterSpacing: "0.01em",
+            cursor: "pointer",
+            whiteSpace: "nowrap",
+            fontFamily: "system-ui, -apple-system, sans-serif",
+          }}
         >
           Start Self-Driving
         </button>
       </div>
 
-      {/* CENTER: Status icons */}
+      {/* ── CENTER: Status icons ── */}
       <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
-        {/* Profile icon */}
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <circle cx="8" cy="5" r="3" stroke="rgba(255,255,255,0.5)" strokeWidth="1.2" />
-          <path
-            d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6"
-            stroke="rgba(255,255,255,0.5)"
-            strokeWidth="1.2"
-            fill="none"
-          />
+        {/* Person icon */}
+        <svg width="20" height="20" viewBox="0 0 18 18" fill="none">
+          <circle cx="9" cy="6" r="3" stroke="rgba(255,255,255,0.55)" strokeWidth="1.3" />
+          <path d="M2.5 16.5C2.5 13.46 5.46 11 9 11s6.5 2.46 6.5 5.5" stroke="rgba(255,255,255,0.55)" strokeWidth="1.3" fill="none" strokeLinecap="round" />
         </svg>
 
         {/* WiFi icon */}
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path d="M1 5.5C4 2.5 12 2.5 15 5.5" stroke="rgba(255,255,255,0.5)" strokeWidth="1.2" strokeLinecap="round" />
-          <path d="M3 8c2.5-2.5 7.5-2.5 10 0" stroke="rgba(255,255,255,0.6)" strokeWidth="1.2" strokeLinecap="round" />
-          <path d="M5.5 10.5c1.4-1.4 3.6-1.4 5 0" stroke="rgba(255,255,255,0.8)" strokeWidth="1.2" strokeLinecap="round" />
-          <circle cx="8" cy="13" r="1" fill="rgba(255,255,255,0.9)" />
+        <svg width="20" height="18" viewBox="0 0 18 16" fill="none">
+          <path d="M1 4.5C4.5 1 13.5 1 17 4.5" stroke="rgba(255,255,255,0.4)" strokeWidth="1.3" strokeLinecap="round" />
+          <path d="M3.5 7C6.2 4.3 11.8 4.3 14.5 7" stroke="rgba(255,255,255,0.55)" strokeWidth="1.3" strokeLinecap="round" />
+          <path d="M6.2 9.5C7.6 8.1 10.4 8.1 11.8 9.5" stroke="rgba(255,255,255,0.75)" strokeWidth="1.3" strokeLinecap="round" />
+          <circle cx="9" cy="13" r="1.2" fill="rgba(255,255,255,0.9)" />
         </svg>
 
-        {/* LTE text */}
+        {/* LTE */}
         <span
           style={{
-            fontSize: 10,
+            fontSize: 11,
             fontWeight: 700,
-            color: "rgba(255,255,255,0.5)",
+            color: "rgba(255,255,255,0.55)",
             letterSpacing: "0.08em",
           }}
         >
@@ -110,38 +116,41 @@ export default function StatusBar() {
         </span>
 
         {/* Signal bars */}
-        <div style={{ display: "flex", gap: 1.5, alignItems: "flex-end" }}>
-          {[5, 8, 11, 14].map((h, i) => (
+        <div style={{ display: "flex", gap: 2.5, alignItems: "flex-end" }}>
+          {[7, 10, 13, 16].map((h, i) => (
             <div
               key={i}
               style={{
-                width: 3,
+                width: 3.5,
                 height: h,
-                backgroundColor: i < 3 ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.2)",
-                borderRadius: 1,
+                borderRadius: 1.5,
+                backgroundColor: i < 3 ? "rgba(255,255,255,0.75)" : "rgba(255,255,255,0.2)",
               }}
             />
           ))}
         </div>
 
-        {/* Settings circle */}
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <circle cx="8" cy="8" r="6.5" stroke="rgba(255,255,255,0.4)" strokeWidth="1" />
-          <circle cx="8" cy="8" r="2" stroke="rgba(255,255,255,0.4)" strokeWidth="1" />
+        {/* Location/sync icon */}
+        <svg width="14" height="16" viewBox="0 0 14 16" fill="none">
+          <circle cx="7" cy="7" r="5.5" stroke="rgba(255,255,255,0.4)" strokeWidth="1.2" />
+          <circle cx="7" cy="7" r="2" stroke="rgba(255,255,255,0.4)" strokeWidth="1.2" />
+          <line x1="7" y1="1.5" x2="7" y2="4" stroke="rgba(255,255,255,0.4)" strokeWidth="1.2" />
+          <line x1="7" y1="10" x2="7" y2="13" stroke="rgba(255,255,255,0.4)" strokeWidth="1.2" />
         </svg>
       </div>
 
-      {/* RIGHT: Time + Weather + Mini Map */}
-      <div className="ct-status-right" style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        {/* Time + Weather */}
+      {/* ── RIGHT: Clock + weather + compass ── */}
+      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        {/* Time + weather */}
         <div style={{ textAlign: "right" }}>
           <div
             style={{
               fontSize: 32,
               fontWeight: 300,
               color: "#ffffff",
-              letterSpacing: "0.04em",
+              letterSpacing: "0.02em",
               lineHeight: 1,
+              fontVariantNumeric: "tabular-nums",
             }}
           >
             {mounted ? time : "12:00"}
@@ -149,50 +158,45 @@ export default function StatusBar() {
           <div
             style={{
               fontSize: 11,
-              color: "rgba(255,255,255,0.5)",
+              color: "rgba(255,255,255,0.55)",
               marginTop: 2,
               display: "flex",
               alignItems: "center",
-              gap: 4,
+              gap: 3,
               justifyContent: "flex-end",
             }}
           >
-            <svg width="14" height="12" viewBox="0 0 14 12" fill="none">
-              <circle cx="5" cy="4" r="2.5" stroke="rgba(255,255,255,0.5)" strokeWidth="1" />
-              <line x1="5" y1="0.5" x2="5" y2="0" stroke="rgba(255,255,255,0.4)" strokeWidth="0.8" />
-              <line x1="5" y1="7" x2="5" y2="7.5" stroke="rgba(255,255,255,0.4)" strokeWidth="0.8" />
-              <line x1="1.5" y1="4" x2="1" y2="4" stroke="rgba(255,255,255,0.4)" strokeWidth="0.8" />
-              <line x1="8.5" y1="4" x2="9" y2="4" stroke="rgba(255,255,255,0.4)" strokeWidth="0.8" />
-              <path d="M4 8C4 8 3 8 2.5 9C2 10 2.5 11 3.5 11H11.5C12.5 11 13 10 12.5 9C12 8 11 8 11 8C11 8 10.5 6.5 9 6.5C8 6.5 7.3 7 7 7.5" stroke="rgba(255,255,255,0.5)" strokeWidth="0.9" fill="none" />
+            {/* Cloud icon */}
+            <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
+              <path d="M2 8C2 8 1 8 0.8 7C0.6 6 1.2 5 2 5C2 5 2 3 3.5 3C5 3 5 5 5 5C5 5 5.5 4 6.5 4C8 4 8 5.5 8 5.5C8 5.5 8.5 5 9 5C10 5 10.5 6 10.5 7C10.5 8 9.5 8 9.5 8H2Z" fill="rgba(255,255,255,0.6)" />
             </svg>
             <span>78°F</span>
           </div>
         </div>
 
-        {/* Mini map */}
+        {/* Compass/mini-map */}
         <div
-          className="ct-minimap"
           style={{
-            width: 56,
+            width: 52,
             height: 44,
             borderRadius: 6,
             overflow: "hidden",
+            border: "1px solid rgba(255,255,255,0.12)",
+            background: "#111826",
             position: "relative",
-            border: "1px solid rgba(255,255,255,0.1)",
-            background: "#1a1f2e",
+            flexShrink: 0,
           }}
         >
-          {/* Simple map grid */}
-          <svg width="56" height="44" viewBox="0 0 56 44" fill="none">
-            {/* Road lines */}
-            <line x1="0" y1="22" x2="56" y2="22" stroke="rgba(255,255,255,0.15)" strokeWidth="0.8" />
-            <line x1="28" y1="0" x2="28" y2="44" stroke="rgba(255,255,255,0.15)" strokeWidth="0.8" />
-            <line x1="0" y1="11" x2="56" y2="11" stroke="rgba(255,255,255,0.07)" strokeWidth="0.5" />
-            <line x1="0" y1="33" x2="56" y2="33" stroke="rgba(255,255,255,0.07)" strokeWidth="0.5" />
-            <line x1="14" y1="0" x2="14" y2="44" stroke="rgba(255,255,255,0.07)" strokeWidth="0.5" />
-            <line x1="42" y1="0" x2="42" y2="44" stroke="rgba(255,255,255,0.07)" strokeWidth="0.5" />
-            {/* Compass/direction indicator */}
-            <polygon points="28,8 31,16 28,14 25,16" fill="#ff3b30" />
+          <svg width="52" height="44" viewBox="0 0 52 44" fill="none">
+            {/* Grid lines */}
+            <line x1="0" y1="22" x2="52" y2="22" stroke="rgba(255,255,255,0.12)" strokeWidth="0.7" />
+            <line x1="26" y1="0" x2="26" y2="44" stroke="rgba(255,255,255,0.12)" strokeWidth="0.7" />
+            <line x1="0" y1="11" x2="52" y2="11" stroke="rgba(255,255,255,0.06)" strokeWidth="0.5" />
+            <line x1="0" y1="33" x2="52" y2="33" stroke="rgba(255,255,255,0.06)" strokeWidth="0.5" />
+            <line x1="13" y1="0" x2="13" y2="44" stroke="rgba(255,255,255,0.06)" strokeWidth="0.5" />
+            <line x1="39" y1="0" x2="39" y2="44" stroke="rgba(255,255,255,0.06)" strokeWidth="0.5" />
+            {/* Red compass arrow */}
+            <polygon points="26,4 29,14 26,12 23,14" fill="#ef4444" />
           </svg>
         </div>
       </div>

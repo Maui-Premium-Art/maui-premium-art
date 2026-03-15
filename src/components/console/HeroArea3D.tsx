@@ -125,52 +125,54 @@ export default function HeroArea3D() {
 
       {/* 3D overlay disabled for v1 — Phase 1a */}
 
-      {/* Art label — bottom center, always on top */}
+      {/* Art caption — bottom center */}
       <div
         style={{
           position: "absolute",
-          bottom: 40,
+          bottom: 36,
           left: "50%",
           transform: "translateX(-50%)",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: 4,
+          gap: 6,
           zIndex: 20,
           pointerEvents: "none",
           whiteSpace: "nowrap",
         }}
       >
+        {/* Title */}
         <span
           style={{
             fontSize: 11,
-            color: "rgba(255,255,255,0.38)",
-            letterSpacing: "0.15em",
+            color: "rgba(255,255,255,0.5)",
+            letterSpacing: "0.18em",
             textTransform: "uppercase",
+            fontFamily: "system-ui, -apple-system, sans-serif",
+            fontWeight: 500,
           }}
         >
           Mahalo Bird · Edition I
         </span>
-        <div style={{ display: "flex", gap: 5, alignItems: "center" }}>
-          <div
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: "50%",
-              backgroundColor: "#4a9eff",
-              opacity: 0.7,
-            }}
-          />
-          <span
-            style={{
-              fontSize: 10,
-              color: "rgba(255,255,255,0.22)",
-              letterSpacing: "0.1em",
-            }}
-          >
-            3 / 10 available
-          </span>
+
+        {/* Dot pagination */}
+        <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+          <div style={{ width: 6, height: 6, borderRadius: "50%", background: "rgba(255,255,255,0.75)" }} />
+          <div style={{ width: 5, height: 5, borderRadius: "50%", background: "rgba(255,255,255,0.25)" }} />
+          <div style={{ width: 5, height: 5, borderRadius: "50%", background: "rgba(255,255,255,0.25)" }} />
         </div>
+
+        {/* 3 of 10 by @handle */}
+        <span
+          style={{
+            fontSize: 10,
+            color: "rgba(255,255,255,0.28)",
+            letterSpacing: "0.08em",
+            fontFamily: "system-ui, -apple-system, sans-serif",
+          }}
+        >
+          3 of 10 · @Maui_PremiumArt
+        </span>
       </div>
 
       {/* CC attribution — bottom right */}
@@ -180,25 +182,23 @@ export default function HeroArea3D() {
           bottom: 8,
           right: 10,
           fontSize: 9,
-          color: "rgba(255,255,255,0.14)",
+          color: "rgba(255,255,255,0.18)",
           letterSpacing: "0.02em",
           zIndex: 20,
           pointerEvents: "none",
+          fontFamily: "system-ui, -apple-system, sans-serif",
         }}
       >
+        3D model by{" "}
         <a
           href="https://sketchfab.com/onurpearl"
           target="_blank"
           rel="noopener noreferrer"
-          style={{
-            color: "rgba(255,255,255,0.22)",
-            textDecoration: "none",
-            pointerEvents: "auto",
-          }}
+          style={{ color: "rgba(255,255,255,0.28)", textDecoration: "none", pointerEvents: "auto" }}
         >
-          3D model by onurpearl
-        </a>{" "}
-        · CC BY 4.0
+          onurpearl
+        </a>
+        {" "}— CC BY 4.0
       </div>
     </div>
   );
