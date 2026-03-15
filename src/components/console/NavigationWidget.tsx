@@ -1,20 +1,23 @@
 export default function NavigationWidget() {
   return (
     <div
-      className="glass-panel"
       style={{
-        borderRadius: 10,
-        padding: "10px 14px",
-        minWidth: 200,
+        background: "#14141e",
+        border: "1px solid rgba(255,255,255,0.08)",
+        borderRadius: 12,
+        padding: "10px 14px 12px",
         flex: 1,
+        minWidth: 0,
+        fontFamily: "system-ui, -apple-system, sans-serif",
       }}
     >
       {/* Header */}
       <div
         style={{
-          fontSize: 12,
-          color: "#888899",
-          letterSpacing: "0.12em",
+          fontSize: 11,
+          fontWeight: 600,
+          color: "rgba(255,255,255,0.38)",
+          letterSpacing: "0.1em",
           textTransform: "uppercase",
           marginBottom: 8,
         }}
@@ -29,79 +32,82 @@ export default function NavigationWidget() {
           alignItems: "center",
           gap: 8,
           background: "rgba(255,255,255,0.06)",
-          border: "1px solid #2a2a3e",
-          borderRadius: 6,
+          border: "1px solid rgba(255,255,255,0.09)",
+          borderRadius: 8,
           padding: "6px 10px",
           marginBottom: 10,
         }}
       >
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-          <circle cx="5" cy="5" r="3.5" stroke="#888899" strokeWidth="1.1" />
-          <line x1="7.5" y1="7.5" x2="10.5" y2="10.5" stroke="#888899" strokeWidth="1.1" strokeLinecap="round" />
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+          <circle cx="5.5" cy="5.5" r="4" stroke="rgba(255,255,255,0.4)" strokeWidth="1.2" />
+          <line x1="8.5" y1="8.5" x2="12" y2="12" stroke="rgba(255,255,255,0.4)" strokeWidth="1.2" strokeLinecap="round" />
         </svg>
-        <span style={{ fontSize: 14, color: "#505068", flex: 1 }}>
-          Search destination
-        </span>
+        <span style={{ fontSize: 13, color: "rgba(255,255,255,0.25)" }}>Search destination</span>
       </div>
 
-      {/* Quick destinations */}
-      <div style={{ display: "flex", gap: 8 }}>
+      {/* Home + Work pills */}
+      <div style={{ display: "flex", gap: 8, marginBottom: 10 }}>
         <button
           style={{
             flex: 1,
-            background: "rgba(255,255,255,0.05)",
-            border: "1px solid #2a2a3e",
-            borderRadius: 6,
-            padding: "6px 8px",
-            color: "#888899",
-            cursor: "pointer",
             display: "flex",
             alignItems: "center",
-            gap: 5,
+            gap: 6,
+            background: "rgba(255,255,255,0.06)",
+            border: "1px solid rgba(255,255,255,0.09)",
+            borderRadius: 8,
+            padding: "6px 10px",
+            color: "rgba(255,255,255,0.6)",
             fontSize: 13,
+            cursor: "pointer",
+            fontFamily: "system-ui, -apple-system, sans-serif",
           }}
         >
-          <svg width="10" height="12" viewBox="0 0 10 12" fill="none">
-            <path d="M5 0C2.8 0 1 1.8 1 4C1 7 5 12 5 12C5 12 9 7 9 4C9 1.8 7.2 0 5 0ZM5 5.5C4.2 5.5 3.5 4.8 3.5 4C3.5 3.2 4.2 2.5 5 2.5C5.8 2.5 6.5 3.2 6.5 4C6.5 4.8 5.8 5.5 5 5.5Z" fill="currentColor" />
+          {/* Pin icon */}
+          <svg width="11" height="14" viewBox="0 0 11 14" fill="none">
+            <path d="M5.5 0.5C3.3 0.5 1.5 2.3 1.5 4.5C1.5 7.5 5.5 13.5 5.5 13.5C5.5 13.5 9.5 7.5 9.5 4.5C9.5 2.3 7.7 0.5 5.5 0.5Z" stroke="currentColor" strokeWidth="1.1" fill="none" />
+            <circle cx="5.5" cy="4.5" r="1.5" stroke="currentColor" strokeWidth="1" />
           </svg>
           Home
         </button>
-
         <button
           style={{
             flex: 1,
-            background: "rgba(255,255,255,0.05)",
-            border: "1px solid #2a2a3e",
-            borderRadius: 6,
-            padding: "6px 8px",
-            color: "#888899",
-            cursor: "pointer",
             display: "flex",
             alignItems: "center",
-            gap: 5,
+            gap: 6,
+            background: "rgba(255,255,255,0.06)",
+            border: "1px solid rgba(255,255,255,0.09)",
+            borderRadius: 8,
+            padding: "6px 10px",
+            color: "rgba(255,255,255,0.6)",
             fontSize: 13,
+            cursor: "pointer",
+            fontFamily: "system-ui, -apple-system, sans-serif",
           }}
         >
-          <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
-            <rect x="1" y="4" width="10" height="5" rx="1" stroke="currentColor" strokeWidth="1.1" fill="none" />
-            <path d="M3 4V3C3 1.9 3.9 1 5 1H7C8.1 1 9 1.9 9 3V4" stroke="currentColor" strokeWidth="1.1" fill="none" />
+          {/* Building icon */}
+          <svg width="12" height="13" viewBox="0 0 12 13" fill="none">
+            <rect x="1" y="4" width="10" height="9" rx="1" stroke="currentColor" strokeWidth="1.1" fill="none" />
+            <path d="M4 4V2C4 1.45 4.45 1 5 1H7C7.55 1 8 1.45 8 2V4" stroke="currentColor" strokeWidth="1.1" fill="none" />
+            <line x1="4" y1="8" x2="4" y2="10" stroke="currentColor" strokeWidth="1" />
+            <line x1="8" y1="8" x2="8" y2="10" stroke="currentColor" strokeWidth="1" />
           </svg>
           Work
         </button>
       </div>
 
-      {/* Address display */}
+      {/* Destination info */}
       <div
         style={{
-          marginTop: 10,
-          padding: "6px 0 0",
-          borderTop: "1px solid #2a2a3e",
+          paddingTop: 8,
+          borderTop: "1px solid rgba(255,255,255,0.06)",
         }}
       >
-        <div style={{ fontSize: 12, color: "#505068", letterSpacing: "0.05em" }}>
+        <div style={{ fontSize: 13, color: "rgba(255,255,255,0.7)", letterSpacing: "0.01em" }}>
           Kihei, Maui · Hawaii
         </div>
-        <div style={{ fontSize: 13, color: "#888899", marginTop: 2 }}>
+        <div style={{ fontSize: 12, color: "rgba(255,255,255,0.38)", marginTop: 3 }}>
           ETA — ∞ mi · Aloha
         </div>
       </div>
