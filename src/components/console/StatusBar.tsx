@@ -88,15 +88,15 @@ export default function StatusBar() {
       </div>
 
       {/* ── CENTER: Status icons ── */}
-      <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+      <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
         {/* Person icon */}
-        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <svg width="20" height="20" viewBox="0 0 18 18" fill="none">
           <circle cx="9" cy="6" r="3" stroke="rgba(255,255,255,0.55)" strokeWidth="1.3" />
           <path d="M2.5 16.5C2.5 13.46 5.46 11 9 11s6.5 2.46 6.5 5.5" stroke="rgba(255,255,255,0.55)" strokeWidth="1.3" fill="none" strokeLinecap="round" />
         </svg>
 
         {/* WiFi icon */}
-        <svg width="18" height="16" viewBox="0 0 18 16" fill="none">
+        <svg width="20" height="18" viewBox="0 0 18 16" fill="none">
           <path d="M1 4.5C4.5 1 13.5 1 17 4.5" stroke="rgba(255,255,255,0.4)" strokeWidth="1.3" strokeLinecap="round" />
           <path d="M3.5 7C6.2 4.3 11.8 4.3 14.5 7" stroke="rgba(255,255,255,0.55)" strokeWidth="1.3" strokeLinecap="round" />
           <path d="M6.2 9.5C7.6 8.1 10.4 8.1 11.8 9.5" stroke="rgba(255,255,255,0.75)" strokeWidth="1.3" strokeLinecap="round" />
@@ -116,14 +116,14 @@ export default function StatusBar() {
         </span>
 
         {/* Signal bars */}
-        <div style={{ display: "flex", gap: 2, alignItems: "flex-end" }}>
-          {[6, 9, 12, 15].map((h, i) => (
+        <div style={{ display: "flex", gap: 2.5, alignItems: "flex-end" }}>
+          {[7, 10, 13, 16].map((h, i) => (
             <div
               key={i}
               style={{
-                width: 3,
+                width: 3.5,
                 height: h,
-                borderRadius: 1,
+                borderRadius: 1.5,
                 backgroundColor: i < 3 ? "rgba(255,255,255,0.75)" : "rgba(255,255,255,0.2)",
               }}
             />

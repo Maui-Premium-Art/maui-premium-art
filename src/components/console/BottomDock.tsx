@@ -70,12 +70,13 @@ export default function BottomDock() {
       }}
     >
       {/* Car icon (active — current view) */}
-      <DockItem label="Vehicle" active>
-        <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
-          <path d="M4 10L6 4L18 4L20 10" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" fill="none" />
-          <rect x="1.5" y="10" width="21" height="4.5" rx="1.2" stroke="currentColor" strokeWidth="1.3" fill="none" />
-          <circle cx="6" cy="15.5" r="1.8" fill="currentColor" opacity="0.8" />
-          <circle cx="18" cy="15.5" r="1.8" fill="currentColor" opacity="0.8" />
+      <DockItem label="Vehicle" active showLabel>
+        <svg width="26" height="18" viewBox="0 0 26 18" fill="none">
+          <path d="M4 11L6.5 4.5L19.5 4.5L22 11" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" fill="none" />
+          <rect x="1.5" y="11" width="23" height="5" rx="1.5" stroke="currentColor" strokeWidth="1.4" fill="none" />
+          <circle cx="6.5" cy="17" r="2" fill="currentColor" />
+          <circle cx="19.5" cy="17" r="2" fill="currentColor" />
+          <line x1="1.5" y1="14" x2="24.5" y2="14" stroke="currentColor" strokeWidth="0.5" opacity="0.3" />
         </svg>
       </DockItem>
 
