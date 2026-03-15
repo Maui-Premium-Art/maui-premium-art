@@ -10,14 +10,8 @@
  * 3D loads on top ONLY after the truck mesh is confirmed in the scene.
  */
 
-import { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
-
-// Dynamically imported — only runs client-side
-const CybertruckScene = dynamic(
-  () => import("@/components/truck/CybertruckScene"),
-  { ssr: false }
-);
+// 3D disabled for v1 — static photo hero
+// CybertruckScene re-enabled in Phase 1a
 
 // ── Static hero — always visible ───────────────────────────────────────────
 
@@ -129,12 +123,7 @@ export default function HeroArea3D() {
       {/* Static hero — always visible, shown immediately */}
       <StaticHero />
 
-      {/* 3D overlay — only when WebGL2 confirmed, loads OVER the static image */}
-      {showWebGL && (
-        <div style={{ position: "absolute", inset: 0, zIndex: 5 }}>
-          <CybertruckScene />
-        </div>
-      )}
+      {/* 3D overlay disabled for v1 — Phase 1a */}
 
       {/* Art label — bottom center, always on top */}
       <div
