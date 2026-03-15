@@ -10,8 +10,7 @@
  * 3D loads on top ONLY after the truck mesh is confirmed in the scene.
  */
 
-import { Suspense, useEffect, useState } from "react";
-import Image from "next/image";
+import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 
 // Dynamically imported — only runs client-side
@@ -86,6 +85,7 @@ function StaticHero() {
       />
 
       {/* Hero image — Mahalo Bird on CT tailgate */}
+      {/* Using CSS background-image (avoids Next.js Image fill height requirements) */}
       <div
         style={{
           position: "absolute",
@@ -93,22 +93,15 @@ function StaticHero() {
           left: "50%",
           transform: "translateX(-50%)",
           width: "min(620px, 92vw)",
-          aspectRatio: "16/9",
+          height: "min(348px, 51.75vw)",  /* 16:9 ratio of width */
           zIndex: 2,
+          backgroundImage: "url('/images/mahalo-bird/electric-prr-hummingbird.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center 25%",
+          borderRadius: 4,
+          filter: "brightness(0.9) contrast(1.04) saturate(1.05)",
         }}
       >
-        <Image
-          src="/images/mahalo-bird/electric-prr-hummingbird.jpg"
-          alt="Cybertruck tailgate with Mahalo Bird art wrap by Hulali Lā"
-          fill
-          style={{
-            objectFit: "cover",
-            objectPosition: "center 25%",
-            filter: "brightness(0.9) contrast(1.04) saturate(1.05)",
-            borderRadius: 4,
-          }}
-          priority
-        />
         {/* Dark vignette — blends into background */}
         <div
           style={{
@@ -128,22 +121,8 @@ function StaticHero() {
 // ── Main export ────────────────────────────────────────────────────────────
 
 export default function HeroArea3D() {
-  const [showWebGL, setShowWebGL] = useState(false);
-
-  useEffect(() => {
-    // Only upgrade to 3D if WebGL2 is available (full support)
-    try {
-      const canvas = document.createElement("canvas");
-      const gl = canvas.getContext("webgl2");
-      if (gl) {
-        // Small delay so static image renders first (no flash of black)
-        const t = setTimeout(() => setShowWebGL(true), 800);
-        return () => clearTimeout(t);
-      }
-    } catch {
-      // no-op — stay on static
-    }
-  }, []);
+  // 3D disabled for v1 — static photo is the hero, 3D comes in Phase 1a
+  const showWebGL = false;
 
   return (
     <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
