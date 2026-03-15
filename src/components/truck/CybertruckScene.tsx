@@ -95,12 +95,13 @@ export default function CybertruckScene() {
       shadows
       gl={{
         antialias: true,
-        alpha: true,
+        alpha: false,
         toneMapping: THREE.ACESFilmicToneMapping,
         toneMappingExposure: 0.85,
       }}
-      style={{ background: "transparent" }}
+      style={{ background: "#0a0a0f" }}
     >
+      <color attach="background" args={["#0a0a0f"]} />
       <ambientLight intensity={0.3} />
       <directionalLight position={[6, 8, -4]} intensity={1.4} color="#e8e8f5" castShadow shadow-mapSize={[2048, 2048]} />
       <directionalLight position={[-4, 3, 4]} intensity={0.45} color="#4a6fa0" />
