@@ -78,30 +78,25 @@ function StaticHero() {
         }}
       />
 
-      {/* Hero image — Mahalo Bird on CT tailgate */}
+      {/* Hero image — fills content zone */}
       <div
         style={{
           position: "absolute",
-          bottom: "10%",
-          left: "50%",
-          transform: "translateX(-50%)",
-          width: "min(620px, 92vw)",
-          height: "min(348px, 51.75vw)",
+          inset: 0,
           zIndex: 2,
           backgroundImage: "url('/images/mahalo-bird/electric-prr-hummingbird.jpg')",
           backgroundSize: "cover",
-          backgroundPosition: "center 25%",
-          borderRadius: 4,
-          filter: "brightness(0.9) contrast(1.04) saturate(1.05)",
+          backgroundPosition: "center 35%",
+          filter: "brightness(0.85) contrast(1.05) saturate(1.05)",
         }}
       >
+        {/* Edge vignette — blends into UI chrome */}
         <div
           style={{
             position: "absolute",
             inset: 0,
-            borderRadius: 4,
             background:
-              "linear-gradient(to bottom, rgba(5,5,10,0.35) 0%, transparent 25%, transparent 65%, rgba(5,5,10,0.6) 100%)",
+              "linear-gradient(to bottom, rgba(10,10,15,0.5) 0%, transparent 20%, transparent 60%, rgba(10,10,15,0.7) 100%), linear-gradient(to right, rgba(10,10,15,0.5) 0%, transparent 15%, transparent 85%, rgba(10,10,15,0.5) 100%)",
             pointerEvents: "none",
           }}
         />

@@ -75,13 +75,13 @@ export default function VehicleControls() {
       <div
         style={{
           position: "absolute",
-          left: -6,
+          left: -18,
           top: "50%",
           transform: "translateY(-50%) rotate(-90deg)",
           transformOrigin: "center center",
-          fontSize: 8,
-          letterSpacing: "0.15em",
-          color: "rgba(255,255,255,0.22)",
+          fontSize: 9,
+          letterSpacing: "0.18em",
+          color: "rgba(255,255,255,0.4)",
           whiteSpace: "nowrap",
           fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
           fontWeight: 600,
