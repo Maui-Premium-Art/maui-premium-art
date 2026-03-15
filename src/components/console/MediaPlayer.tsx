@@ -3,30 +3,30 @@ export default function MediaPlayer() {
     <div
       style={{
         background: "#14141e",
-        border: "1px solid rgba(255,255,255,0.08)",
-        borderRadius: 12,
-        padding: "10px 14px 12px",
+        border: "1px solid rgba(255,255,255,0.06)",
+        borderRadius: 14,
+        padding: "12px 14px 14px",
         flex: 1,
         minWidth: 0,
-        fontFamily: "system-ui, -apple-system, sans-serif",
+        fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
       }}
     >
-      {/* Header */}
+      {/* Header — "Choose Media Source" */}
       <div
         style={{
-          fontSize: 11,
+          fontSize: 10,
           fontWeight: 600,
-          color: "rgba(255,255,255,0.38)",
-          letterSpacing: "0.1em",
+          color: "rgba(255,255,255,0.3)",
+          letterSpacing: "0.12em",
           textTransform: "uppercase",
-          marginBottom: 8,
+          marginBottom: 10,
         }}
       >
         Choose Media Source
       </div>
 
       {/* Track info */}
-      <div style={{ marginBottom: 8 }}>
+      <div style={{ marginBottom: 10 }}>
         <div
           style={{
             fontSize: 14,
@@ -41,7 +41,7 @@ export default function MediaPlayer() {
         <div
           style={{
             fontSize: 12,
-            color: "rgba(255,255,255,0.45)",
+            color: "rgba(255,255,255,0.4)",
             marginTop: 2,
             lineHeight: 1.3,
           }}
@@ -53,10 +53,10 @@ export default function MediaPlayer() {
       {/* Progress bar */}
       <div
         style={{
-          height: 3,
-          background: "rgba(255,255,255,0.1)",
-          borderRadius: 1.5,
-          marginBottom: 10,
+          height: 2.5,
+          background: "rgba(255,255,255,0.08)",
+          borderRadius: 2,
+          marginBottom: 4,
           position: "relative",
           cursor: "pointer",
         }}
@@ -65,8 +65,8 @@ export default function MediaPlayer() {
           style={{
             width: "38%",
             height: "100%",
-            background: "rgba(255,255,255,0.6)",
-            borderRadius: 1.5,
+            background: "rgba(255,255,255,0.55)",
+            borderRadius: 2,
           }}
         />
         <div
@@ -79,17 +79,41 @@ export default function MediaPlayer() {
             height: 8,
             borderRadius: "50%",
             background: "#ffffff",
+            boxShadow: "0 0 4px rgba(0,0,0,0.4)",
           }}
         />
       </div>
 
+      {/* Time stamps */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          fontSize: 10,
+          color: "rgba(255,255,255,0.28)",
+          marginBottom: 10,
+          fontVariantNumeric: "tabular-nums",
+        }}
+      >
+        <span>1:42</span>
+        <span>4:28</span>
+      </div>
+
       {/* Transport controls */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        {/* Shuffle */}
+        <button style={btnStyle} aria-label="Shuffle">
+          <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
+            <path d="M1 10h2l3-3M1 4h2l8 6h4M11 4h4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M13 2l2 2-2 2M13 8l2 2-2 2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+
         {/* Skip back */}
         <button style={btnStyle} aria-label="Previous">
-          <svg width="18" height="16" viewBox="0 0 18 16" fill="none">
-            <rect x="1" y="2" width="2.5" height="12" rx="1" fill="currentColor" />
-            <path d="M16 2L6 8L16 14V2Z" fill="currentColor" />
+          <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
+            <rect x="1" y="2" width="2" height="10" rx="0.8" fill="currentColor" />
+            <path d="M14 2L5 7L14 12V2Z" fill="currentColor" />
           </svg>
         </button>
 
@@ -97,11 +121,11 @@ export default function MediaPlayer() {
         <button
           style={{
             ...btnStyle,
-            background: "rgba(255,255,255,0.12)",
-            border: "1px solid rgba(255,255,255,0.18)",
+            background: "rgba(255,255,255,0.1)",
+            border: "1px solid rgba(255,255,255,0.15)",
             borderRadius: "50%",
-            width: 36,
-            height: 36,
+            width: 38,
+            height: 38,
           }}
           aria-label="Play"
         >
@@ -112,27 +136,17 @@ export default function MediaPlayer() {
 
         {/* Skip forward */}
         <button style={btnStyle} aria-label="Next">
-          <svg width="18" height="16" viewBox="0 0 18 16" fill="none">
-            <rect x="14.5" y="2" width="2.5" height="12" rx="1" fill="currentColor" />
-            <path d="M2 2L12 8L2 14V2Z" fill="currentColor" />
-          </svg>
-        </button>
-
-        {/* EQ */}
-        <button style={btnStyle} aria-label="Equalizer">
           <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
-            <line x1="2" y1="3" x2="2" y2="11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-            <line x1="5.5" y1="1.5" x2="5.5" y2="12.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-            <line x1="9" y1="4" x2="9" y2="10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-            <line x1="12.5" y1="2.5" x2="12.5" y2="11.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            <rect x="13" y="2" width="2" height="10" rx="0.8" fill="currentColor" />
+            <path d="M2 2L11 7L2 12V2Z" fill="currentColor" />
           </svg>
         </button>
 
-        {/* Search */}
-        <button style={btnStyle} aria-label="Search">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <circle cx="7" cy="7" r="4.5" stroke="currentColor" strokeWidth="1.4" />
-            <line x1="10.5" y1="10.5" x2="14.5" y2="14.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+        {/* Repeat */}
+        <button style={btnStyle} aria-label="Repeat">
+          <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
+            <path d="M3 3h10a2 2 0 0 1 2 2v0M13 11H3a2 2 0 0 1-2-2v0" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+            <path d="M11 1l2 2-2 2M5 9l-2 2 2 2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
       </div>
@@ -143,7 +157,7 @@ export default function MediaPlayer() {
 const btnStyle: React.CSSProperties = {
   background: "none",
   border: "none",
-  color: "rgba(255,255,255,0.55)",
+  color: "rgba(255,255,255,0.5)",
   cursor: "pointer",
   padding: 4,
   display: "flex",

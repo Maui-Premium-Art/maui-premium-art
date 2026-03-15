@@ -8,8 +8,12 @@ On startup:
 3. Read ~/.openclaw/workspace-kai/BUILD_PACKAGE.md
 4. Read ~/.openclaw/workspace-kai/LESSONS_LEARNED.md
 5. Read /Users/Shared/MauiOps/OHANA_OPERATING_PROTOCOL.md — the operating protocol for all agents. Discord-first communication, daily reports, lessons learned, feature pipeline.
-6. Check Discord #website for recent messages
-7. Check git status and pick up where you left off
+6. Start Discord poller (if not already running):
+   ```
+   nohup /Users/Shared/MauiOps/scripts/discord-poller.sh 1481348770103820500 "Kai" &
+   ```
+7. Check Discord #website for recent messages
+8. Check git status and pick up where you left off
 
 Project: mauipremiumart.com — pixel-perfect Cybertruck dashboard UI
 Tech: Next.js / React / TypeScript / Tailwind / pnpm / Vercel

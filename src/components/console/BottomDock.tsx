@@ -1,216 +1,160 @@
-import Link from "next/link";
-
 interface DockItemProps {
   label?: string;
   children: React.ReactNode;
   active?: boolean;
-  href?: string;
-  showLabel?: boolean;
 }
 
-function DockItem({ label, children, active, href, showLabel }: DockItemProps) {
-  const content = (
-    <div
+function DockItem({ label, children, active }: DockItemProps) {
+  return (
+    <button
+      title={label}
+      className="ct-dock-icon"
       style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: 2,
-        padding: "4px 6px",
+        background: active ? "rgba(255,255,255,0.08)" : "none",
+        border: active ? "1px solid rgba(255,255,255,0.12)" : "1px solid transparent",
         borderRadius: 8,
-        background: active ? "rgba(255,255,255,0.1)" : "transparent",
-        border: active ? "1px solid rgba(255,255,255,0.15)" : "1px solid transparent",
+        padding: "6px 8px",
         cursor: "pointer",
-        minWidth: 36,
-        color: active ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.5)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        color: active ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.45)",
+        flexShrink: 0,
       }}
     >
       {children}
-      {showLabel && label && (
-        <span
-          style={{
-            fontSize: 9,
-            letterSpacing: "0.02em",
-            color: "inherit",
-            textAlign: "center",
-            lineHeight: 1,
-            fontFamily: "system-ui, -apple-system, sans-serif",
-          }}
-        >
-          {label}
-        </span>
-      )}
-    </div>
+    </button>
   );
-
-  if (href) {
-    return (
-      <Link href={href} title={label} style={{ textDecoration: "none" }}>
-        {content}
-      </Link>
-    );
-  }
-
-  return <button title={label} style={{ background: "none", border: "none", padding: 0 }}>{content}</button>;
 }
 
 export default function BottomDock() {
   return (
     <div
+      className="ct-bottom-dock"
       style={{
-        background: "#0d0d14",
-        borderTop: "1px solid rgba(255,255,255,0.07)",
-        height: 56,
+        background: "#0c0c12",
+        borderTop: "1px solid rgba(255,255,255,0.06)",
+        height: 52,
         display: "flex",
         alignItems: "center",
-        padding: "0 10px",
-        gap: 4,
+        padding: "0 8px",
+        gap: 2,
         overflowX: "auto",
         flexShrink: 0,
       }}
     >
-      {/* Car icon (active — current view) */}
-      <DockItem label="Vehicle" active showLabel>
-        <svg width="26" height="18" viewBox="0 0 26 18" fill="none">
-          <path d="M4 11L6.5 4.5L19.5 4.5L22 11" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" fill="none" />
-          <rect x="1.5" y="11" width="23" height="5" rx="1.5" stroke="currentColor" strokeWidth="1.4" fill="none" />
-          <circle cx="6.5" cy="17" r="2" fill="currentColor" />
-          <circle cx="19.5" cy="17" r="2" fill="currentColor" />
-          <line x1="1.5" y1="14" x2="24.5" y2="14" stroke="currentColor" strokeWidth="0.5" opacity="0.3" />
+      {/* Car icon (active) */}
+      <DockItem label="Vehicle" active>
+        <svg width="26" height="16" viewBox="0 0 26 16" fill="none">
+          <path d="M4.5 10L7 4H19L21.5 10" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" fill="none" />
+          <rect x="2" y="10" width="22" height="5" rx="1.5" stroke="currentColor" strokeWidth="1.3" fill="none" />
+          <circle cx="7" cy="15.5" r="1.8" fill="currentColor" opacity="0.7" />
+          <circle cx="19" cy="15.5" r="1.8" fill="currentColor" opacity="0.7" />
         </svg>
       </DockItem>
 
-      {/* Left arrow */}
+      {/* Left nav arrow */}
       <DockItem label="Back">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M9 2L4 7L9 12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+        <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
+          <path d="M8 2L3 7L8 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </DockItem>
 
-      {/* Temperature */}
+      {/* Temperature display */}
       <div
         style={{
-          fontSize: 16,
+          fontSize: 17,
           fontWeight: 400,
-          color: "rgba(255,255,255,0.65)",
-          padding: "0 4px",
-          letterSpacing: "0.01em",
+          color: "rgba(255,255,255,0.6)",
+          padding: "0 6px",
+          letterSpacing: "-0.01em",
           flexShrink: 0,
           fontVariantNumeric: "tabular-nums",
+          fontFamily: "-apple-system, 'SF Pro Display', system-ui, sans-serif",
         }}
       >
         72°
       </div>
 
-      {/* Right arrow */}
+      {/* Right nav arrow */}
       <DockItem label="Forward">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M5 2L10 7L5 12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+        <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
+          <path d="M4 2L9 7L4 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </DockItem>
+
+      {/* Divider */}
+      <div style={{ width: 1, height: 24, background: "rgba(255,255,255,0.06)", margin: "0 4px", flexShrink: 0 }} />
+
+      {/* App icons — CT dock icons: phone, Waze-style, calendar, weather, Bluetooth, browser, settings */}
+      {/* Phone */}
+      <DockItem label="Phone">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M3.5 1.5h3L8 5l-2 1.5C7.5 9.5 8.5 10.5 11.5 12L13 10l3.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5C8 16 2 10 2 3A1.5 1.5 0 0 1 3.5 1.5z" stroke="currentColor" strokeWidth="1.2" fill="none" />
+        </svg>
+      </DockItem>
+
+      {/* Toybox / Arcade */}
+      <DockItem label="Toybox">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <rect x="2" y="4" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="1.2" />
+          <circle cx="6" cy="9" r="2" stroke="currentColor" strokeWidth="1" />
+          <circle cx="12" cy="8" r="1" fill="currentColor" />
+          <circle cx="14" cy="10" r="1" fill="currentColor" />
+        </svg>
+      </DockItem>
+
+      {/* Calendar */}
+      <DockItem label="Calendar">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <rect x="2" y="3.5" width="14" height="13" rx="1.5" stroke="currentColor" strokeWidth="1.2" />
+          <line x1="2" y1="7.5" x2="16" y2="7.5" stroke="currentColor" strokeWidth="0.9" />
+          <line x1="6" y1="1.5" x2="6" y2="5.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+          <line x1="12" y1="1.5" x2="12" y2="5.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+          <rect x="5" y="10" width="2.2" height="2.2" rx="0.5" fill="currentColor" opacity="0.5" />
+        </svg>
+      </DockItem>
+
+      {/* Energy / Charging */}
+      <DockItem label="Energy">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M10 1L4 10h5l-1 7 6-9H9l1-7z" stroke="currentColor" strokeWidth="1.2" fill="none" strokeLinejoin="round" />
+        </svg>
+      </DockItem>
+
+      {/* Bluetooth */}
+      <DockItem label="Bluetooth">
+        <svg width="14" height="18" viewBox="0 0 14 18" fill="none">
+          <path d="M7 1v16M7 1l5.5 4.5L7 9M7 17l5.5-4.5L7 9" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M1.5 5.5L7 9 1.5 12.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </DockItem>
+
+      {/* Browser / Globe */}
+      <DockItem label="Browser">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <circle cx="9" cy="9" r="7.5" stroke="currentColor" strokeWidth="1.2" />
+          <ellipse cx="9" cy="9" rx="3.2" ry="7.5" stroke="currentColor" strokeWidth="0.8" />
+          <line x1="1.5" y1="9" x2="16.5" y2="9" stroke="currentColor" strokeWidth="0.8" />
+          <path d="M2.5 5.5h13M2.5 12.5h13" stroke="currentColor" strokeWidth="0.6" />
+        </svg>
+      </DockItem>
+
+      {/* Settings */}
+      <DockItem label="Settings">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <circle cx="9" cy="9" r="2.5" stroke="currentColor" strokeWidth="1.1" />
+          <path d="M9 1.5v2.5M9 14v2.5M1.5 9H4M14 9h2.5M3.1 3.1l1.8 1.8M13.1 13.1l1.8 1.8M3.1 14.9l1.8-1.8M13.1 4.9l1.8-1.8" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
         </svg>
       </DockItem>
 
       {/* Spacer */}
       <div style={{ flex: 1 }} />
 
-      {/* App icons grid */}
-      {[
-        {
-          label: "Smiley",
-          icon: (
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <circle cx="9" cy="9" r="7.5" stroke="currentColor" strokeWidth="1.2" />
-              <circle cx="6.5" cy="7" r="1" fill="currentColor" />
-              <circle cx="11.5" cy="7" r="1" fill="currentColor" />
-              <path d="M6 11.5C6 11.5 7.5 13 9 13C10.5 13 12 11.5 12 11.5" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
-            </svg>
-          ),
-        },
-        {
-          label: "Apps",
-          href: "/artists",
-          icon: (
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <rect x="1.5" y="1.5" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.2" />
-              <rect x="10.5" y="1.5" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.2" />
-              <rect x="1.5" y="10.5" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.2" />
-              <rect x="10.5" y="10.5" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.2" />
-            </svg>
-          ),
-        },
-        {
-          label: "Map",
-          icon: (
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <path d="M9 1.5C6 1.5 3.5 4 3.5 7C3.5 11 9 16.5 9 16.5C9 16.5 14.5 11 14.5 7C14.5 4 12 1.5 9 1.5Z" stroke="currentColor" strokeWidth="1.2" fill="none" />
-              <circle cx="9" cy="7" r="2" stroke="currentColor" strokeWidth="1.1" />
-            </svg>
-          ),
-        },
-        {
-          label: "Calendar",
-          icon: (
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <rect x="2" y="3.5" width="14" height="13" rx="1.5" stroke="currentColor" strokeWidth="1.2" />
-              <line x1="2" y1="7.5" x2="16" y2="7.5" stroke="currentColor" strokeWidth="0.9" />
-              <line x1="6" y1="1.5" x2="6" y2="5.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
-              <line x1="12" y1="1.5" x2="12" y2="5.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
-              <rect x="5" y="10" width="2.5" height="2.5" rx="0.5" fill="currentColor" opacity="0.5" />
-            </svg>
-          ),
-        },
-        {
-          label: "Person",
-          icon: (
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <circle cx="9" cy="6" r="3" stroke="currentColor" strokeWidth="1.2" />
-              <path d="M2.5 17C2.5 13.96 5.46 11.5 9 11.5s6.5 2.46 6.5 5.5" stroke="currentColor" strokeWidth="1.2" fill="none" strokeLinecap="round" />
-            </svg>
-          ),
-        },
-        {
-          label: "Key",
-          icon: (
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <circle cx="7" cy="8" r="4.5" stroke="currentColor" strokeWidth="1.2" />
-              <line x1="10.5" y1="11" x2="16" y2="16" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
-              <line x1="13" y1="14" x2="14.5" y2="12.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
-            </svg>
-          ),
-        },
-        {
-          label: "Globe",
-          icon: (
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <circle cx="9" cy="9" r="7.5" stroke="currentColor" strokeWidth="1.2" />
-              <ellipse cx="9" cy="9" rx="3" ry="7.5" stroke="currentColor" strokeWidth="0.9" />
-              <line x1="1.5" y1="9" x2="16.5" y2="9" stroke="currentColor" strokeWidth="0.9" />
-              <line x1="2.5" y1="5.5" x2="15.5" y2="5.5" stroke="currentColor" strokeWidth="0.7" />
-              <line x1="2.5" y1="12.5" x2="15.5" y2="12.5" stroke="currentColor" strokeWidth="0.7" />
-            </svg>
-          ),
-        },
-        {
-          label: "Settings",
-          icon: (
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <circle cx="9" cy="9" r="2.5" stroke="currentColor" strokeWidth="1.1" />
-              <path d="M9 1.5L10 4.5L13 3L12.5 6L15.5 7L13.5 9L15.5 11L12.5 12L13 15L10 13.5L9 16.5L8 13.5L5 15L5.5 12L2.5 11L4.5 9L2.5 7L5.5 6L5 3L8 4.5L9 1.5Z" stroke="currentColor" strokeWidth="1" fill="none" />
-            </svg>
-          ),
-        },
-      ].map(({ label, icon, href }) => (
-        <DockItem key={label} label={label} href={href} showLabel>
-          {icon}
-        </DockItem>
-      ))}
-
-      {/* Flex spacer */}
-      <div style={{ flex: 1 }} />
-
-      {/* Right arrow */}
+      {/* Right nav arrow */}
       <DockItem label="More">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M5 2L10 7L5 12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+        <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
+          <path d="M4 2L9 7L4 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </DockItem>
     </div>

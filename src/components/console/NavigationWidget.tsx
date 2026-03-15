@@ -3,26 +3,38 @@ export default function NavigationWidget() {
     <div
       style={{
         background: "#14141e",
-        border: "1px solid rgba(255,255,255,0.08)",
-        borderRadius: 12,
-        padding: "10px 14px 12px",
+        border: "1px solid rgba(255,255,255,0.06)",
+        borderRadius: 14,
+        padding: "12px 14px 14px",
         flex: 1,
         minWidth: 0,
-        fontFamily: "system-ui, -apple-system, sans-serif",
+        fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
       }}
     >
-      {/* Header */}
+      {/* Header — "Navigate" with search icon */}
       <div
         style={{
-          fontSize: 11,
-          fontWeight: 600,
-          color: "rgba(255,255,255,0.38)",
-          letterSpacing: "0.1em",
-          textTransform: "uppercase",
-          marginBottom: 8,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          marginBottom: 10,
         }}
       >
-        Navigate
+        <span
+          style={{
+            fontSize: 10,
+            fontWeight: 600,
+            color: "rgba(255,255,255,0.3)",
+            letterSpacing: "0.12em",
+            textTransform: "uppercase",
+          }}
+        >
+          Navigate
+        </span>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <circle cx="6" cy="6" r="4" stroke="rgba(255,255,255,0.35)" strokeWidth="1.3" />
+          <line x1="9" y1="9" x2="13" y2="13" stroke="rgba(255,255,255,0.35)" strokeWidth="1.3" strokeLinecap="round" />
+        </svg>
       </div>
 
       {/* Search bar */}
@@ -31,67 +43,34 @@ export default function NavigationWidget() {
           display: "flex",
           alignItems: "center",
           gap: 8,
-          background: "rgba(255,255,255,0.06)",
-          border: "1px solid rgba(255,255,255,0.09)",
-          borderRadius: 8,
-          padding: "6px 10px",
+          background: "rgba(255,255,255,0.05)",
+          border: "1px solid rgba(255,255,255,0.07)",
+          borderRadius: 10,
+          padding: "8px 10px",
           marginBottom: 10,
         }}
       >
         <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-          <circle cx="5.5" cy="5.5" r="4" stroke="rgba(255,255,255,0.4)" strokeWidth="1.2" />
-          <line x1="8.5" y1="8.5" x2="12" y2="12" stroke="rgba(255,255,255,0.4)" strokeWidth="1.2" strokeLinecap="round" />
+          <circle cx="5.5" cy="5.5" r="4" stroke="rgba(255,255,255,0.3)" strokeWidth="1.2" />
+          <line x1="8.5" y1="8.5" x2="12" y2="12" stroke="rgba(255,255,255,0.3)" strokeWidth="1.2" strokeLinecap="round" />
         </svg>
-        <span style={{ fontSize: 13, color: "rgba(255,255,255,0.25)" }}>Search destination</span>
+        <span style={{ fontSize: 13, color: "rgba(255,255,255,0.22)" }}>Search destination</span>
       </div>
 
       {/* Home + Work pills */}
-      <div style={{ display: "flex", gap: 8, marginBottom: 10 }}>
-        <button
-          style={{
-            flex: 1,
-            display: "flex",
-            alignItems: "center",
-            gap: 6,
-            background: "rgba(255,255,255,0.06)",
-            border: "1px solid rgba(255,255,255,0.09)",
-            borderRadius: 8,
-            padding: "6px 10px",
-            color: "rgba(255,255,255,0.6)",
-            fontSize: 13,
-            cursor: "pointer",
-            fontFamily: "system-ui, -apple-system, sans-serif",
-          }}
-        >
-          {/* Pin icon */}
-          <svg width="11" height="14" viewBox="0 0 11 14" fill="none">
-            <path d="M5.5 0.5C3.3 0.5 1.5 2.3 1.5 4.5C1.5 7.5 5.5 13.5 5.5 13.5C5.5 13.5 9.5 7.5 9.5 4.5C9.5 2.3 7.7 0.5 5.5 0.5Z" stroke="currentColor" strokeWidth="1.1" fill="none" />
-            <circle cx="5.5" cy="4.5" r="1.5" stroke="currentColor" strokeWidth="1" />
+      <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
+        <button style={pillStyle}>
+          <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
+            <path d="M1 5.5L6 1l5 4.5V12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V5.5z" stroke="currentColor" strokeWidth="1.1" fill="none" />
+            <rect x="4" y="8.5" width="4" height="4.5" rx="0.5" stroke="currentColor" strokeWidth="0.9" />
           </svg>
           Home
         </button>
-        <button
-          style={{
-            flex: 1,
-            display: "flex",
-            alignItems: "center",
-            gap: 6,
-            background: "rgba(255,255,255,0.06)",
-            border: "1px solid rgba(255,255,255,0.09)",
-            borderRadius: 8,
-            padding: "6px 10px",
-            color: "rgba(255,255,255,0.6)",
-            fontSize: 13,
-            cursor: "pointer",
-            fontFamily: "system-ui, -apple-system, sans-serif",
-          }}
-        >
-          {/* Building icon */}
-          <svg width="12" height="13" viewBox="0 0 12 13" fill="none">
-            <rect x="1" y="4" width="10" height="9" rx="1" stroke="currentColor" strokeWidth="1.1" fill="none" />
-            <path d="M4 4V2C4 1.45 4.45 1 5 1H7C7.55 1 8 1.45 8 2V4" stroke="currentColor" strokeWidth="1.1" fill="none" />
-            <line x1="4" y1="8" x2="4" y2="10" stroke="currentColor" strokeWidth="1" />
-            <line x1="8" y1="8" x2="8" y2="10" stroke="currentColor" strokeWidth="1" />
+        <button style={pillStyle}>
+          <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
+            <rect x="1" y="3.5" width="10" height="9.5" rx="1" stroke="currentColor" strokeWidth="1.1" fill="none" />
+            <path d="M4 3.5V2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v1.5" stroke="currentColor" strokeWidth="1.1" fill="none" />
+            <line x1="1" y1="7.5" x2="11" y2="7.5" stroke="currentColor" strokeWidth="0.8" />
           </svg>
           Work
         </button>
@@ -100,17 +79,32 @@ export default function NavigationWidget() {
       {/* Destination info */}
       <div
         style={{
-          paddingTop: 8,
-          borderTop: "1px solid rgba(255,255,255,0.06)",
+          paddingTop: 10,
+          borderTop: "1px solid rgba(255,255,255,0.05)",
         }}
       >
-        <div style={{ fontSize: 13, color: "rgba(255,255,255,0.7)", letterSpacing: "0.01em" }}>
+        <div style={{ fontSize: 13, color: "rgba(255,255,255,0.65)", letterSpacing: "0.01em" }}>
           Kihei, Maui · Hawaii
         </div>
-        <div style={{ fontSize: 12, color: "rgba(255,255,255,0.38)", marginTop: 3 }}>
+        <div style={{ fontSize: 11, color: "rgba(255,255,255,0.3)", marginTop: 4 }}>
           ETA — ∞ mi · Aloha
         </div>
       </div>
     </div>
   );
 }
+
+const pillStyle: React.CSSProperties = {
+  flex: 1,
+  display: "flex",
+  alignItems: "center",
+  gap: 6,
+  background: "rgba(255,255,255,0.05)",
+  border: "1px solid rgba(255,255,255,0.07)",
+  borderRadius: 10,
+  padding: "7px 10px",
+  color: "rgba(255,255,255,0.55)",
+  fontSize: 13,
+  cursor: "pointer",
+  fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
+};

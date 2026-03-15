@@ -55,8 +55,8 @@ export default function Home() {
           className="ct-widgets-row"
           style={{
             display: "flex",
-            gap: 10,
-            padding: "0 12px 10px",
+            gap: 8,
+            padding: "0 10px 8px",
             flexShrink: 0,
           }}
         >

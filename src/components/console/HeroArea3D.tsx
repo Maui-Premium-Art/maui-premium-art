@@ -125,17 +125,17 @@ export default function HeroArea3D() {
 
       {/* 3D overlay disabled for v1 — Phase 1a */}
 
-      {/* Art caption — bottom center */}
+      {/* Art caption — bottom center overlay */}
       <div
         style={{
           position: "absolute",
-          bottom: 36,
+          bottom: 32,
           left: "50%",
           transform: "translateX(-50%)",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: 6,
+          gap: 5,
           zIndex: 20,
           pointerEvents: "none",
           whiteSpace: "nowrap",
@@ -145,10 +145,10 @@ export default function HeroArea3D() {
         <span
           style={{
             fontSize: 11,
-            color: "rgba(255,255,255,0.5)",
-            letterSpacing: "0.18em",
+            color: "rgba(255,255,255,0.45)",
+            letterSpacing: "0.2em",
             textTransform: "uppercase",
-            fontFamily: "system-ui, -apple-system, sans-serif",
+            fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
             fontWeight: 500,
           }}
         >
@@ -157,48 +157,41 @@ export default function HeroArea3D() {
 
         {/* Dot pagination */}
         <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-          <div style={{ width: 6, height: 6, borderRadius: "50%", background: "rgba(255,255,255,0.75)" }} />
-          <div style={{ width: 5, height: 5, borderRadius: "50%", background: "rgba(255,255,255,0.25)" }} />
-          <div style={{ width: 5, height: 5, borderRadius: "50%", background: "rgba(255,255,255,0.25)" }} />
+          <div style={{ width: 6, height: 6, borderRadius: "50%", background: "rgba(255,255,255,0.7)" }} />
+          <div style={{ width: 5, height: 5, borderRadius: "50%", background: "rgba(255,255,255,0.2)" }} />
+          <div style={{ width: 5, height: 5, borderRadius: "50%", background: "rgba(255,255,255,0.2)" }} />
         </div>
 
-        {/* 3 of 10 by @handle */}
+        {/* Edition count + handle */}
         <span
           style={{
             fontSize: 10,
-            color: "rgba(255,255,255,0.28)",
+            color: "rgba(255,255,255,0.22)",
             letterSpacing: "0.08em",
-            fontFamily: "system-ui, -apple-system, sans-serif",
+            fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
           }}
         >
           3 of 10 · @Maui_PremiumArt
         </span>
       </div>
 
-      {/* CC attribution — bottom right */}
+      {/* Attribution — bottom right */}
       <div
         style={{
           position: "absolute",
-          bottom: 8,
+          bottom: 6,
           right: 10,
           fontSize: 9,
-          color: "rgba(255,255,255,0.18)",
+          color: "rgba(255,255,255,0.15)",
           letterSpacing: "0.02em",
           zIndex: 20,
           pointerEvents: "none",
-          fontFamily: "system-ui, -apple-system, sans-serif",
+          fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
         }}
       >
-        3D model by{" "}
-        <a
-          href="https://sketchfab.com/onurpearl"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ color: "rgba(255,255,255,0.28)", textDecoration: "none", pointerEvents: "auto" }}
-        >
-          onurpearl
-        </a>
-        {" "}— CC BY 4.0
+        Art by{" "}
+        <span style={{ color: "rgba(255,255,255,0.22)" }}>Hulali Lā</span>
+        {" "}· mauipremiumart.com
       </div>
     </div>
   );
