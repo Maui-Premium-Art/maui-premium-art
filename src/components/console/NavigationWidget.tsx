@@ -18,33 +18,42 @@ export default function NavigationWidget() {
           <line x1="9" y1="9" x2="13" y2="13" stroke="rgba(255,255,255,0.35)" strokeWidth="1.3" strokeLinecap="round" />
         </svg>
       </div>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 10, padding: "8px 10px", marginBottom: 10 }}>
+      {/* Step 4: Search → "Where to?" */}
+      <div style={{ display: "flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 10, padding: "8px 10px", marginBottom: 10, cursor: "pointer" }}>
         <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
           <circle cx="5.5" cy="5.5" r="4" stroke="rgba(255,255,255,0.3)" strokeWidth="1.2" />
           <line x1="8.5" y1="8.5" x2="12" y2="12" stroke="rgba(255,255,255,0.3)" strokeWidth="1.2" strokeLinecap="round" />
         </svg>
-        <span style={{ fontSize: 13, color: "rgba(255,255,255,0.22)" }}>Search destination</span>
+        <span style={{ fontSize: 13, color: "rgba(255,255,255,0.22)" }}>Where to?</span>
       </div>
+      {/* Step 4: Home → Gallery, Work → Commission */}
       <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
-        <button style={pillStyle}>
+        <button style={pillStyle}
+          onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)"; e.currentTarget.style.color = "rgba(255,255,255,0.85)"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.07)"; e.currentTarget.style.color = "rgba(255,255,255,0.55)"; }}
+        >
           <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
             <path d="M1 5.5L6 1l5 4.5V12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V5.5z" stroke="currentColor" strokeWidth="1.1" fill="none" />
             <rect x="4" y="8.5" width="4" height="4.5" rx="0.5" stroke="currentColor" strokeWidth="0.9" />
           </svg>
-          Home
+          Gallery
         </button>
-        <button style={pillStyle}>
+        <button style={pillStyle}
+          onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)"; e.currentTarget.style.color = "rgba(255,255,255,0.85)"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.07)"; e.currentTarget.style.color = "rgba(255,255,255,0.55)"; }}
+        >
           <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
             <rect x="1" y="3.5" width="10" height="9.5" rx="1" stroke="currentColor" strokeWidth="1.1" fill="none" />
             <path d="M4 3.5V2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v1.5" stroke="currentColor" strokeWidth="1.1" fill="none" />
             <line x1="1" y1="7.5" x2="11" y2="7.5" stroke="currentColor" strokeWidth="0.8" />
           </svg>
-          Work
+          Commission
         </button>
       </div>
+      {/* Step 1: Location fix + Step 4: ETA → edition counter */}
       <div style={{ paddingTop: 10, borderTop: "1px solid rgba(255,255,255,0.05)" }}>
         <div style={{ fontSize: 13, color: "rgba(255,255,255,0.65)", letterSpacing: "0.01em" }}>Kihei, Maui · Hawaii</div>
-        <div style={{ fontSize: 11, color: "rgba(255,255,255,0.3)", marginTop: 4 }}>ETA — ∞ mi · Aloha</div>
+        <div style={{ fontSize: 11, color: "rgba(255,255,255,0.3)", marginTop: 4 }}>10 editions · Maui</div>
       </div>
     </div>
   );
@@ -63,4 +72,5 @@ const pillStyle: React.CSSProperties = {
   fontSize: 13,
   cursor: "pointer",
   fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
+  transition: "all 0.15s ease",
 };

@@ -5,19 +5,44 @@ import { useEffect, useState } from "react";
 export default function StatusBar() {
   const [time, setTime] = useState("");
   const [mounted, setMounted] = useState(false);
+  const [weather, setWeather] = useState("--°F");
 
   useEffect(() => {
     setMounted(true);
-    const update = () => {
+
+    // Step 2: Live HST clock — updates every second
+    const updateTime = () => {
       const now = new Date();
-      const h = now.getHours();
-      const m = now.getMinutes().toString().padStart(2, "0");
+      const hst = new Date(now.toLocaleString("en-US", { timeZone: "Pacific/Honolulu" }));
+      const h = hst.getHours();
+      const m = hst.getMinutes().toString().padStart(2, "0");
+      const s = hst.getSeconds().toString().padStart(2, "0");
       const hour = h % 12 || 12;
-      setTime(`${hour}:${m}`);
+      setTime(`${hour}:${m}:${s}`);
     };
-    update();
-    const interval = setInterval(update, 30000);
-    return () => clearInterval(interval);
+    updateTime();
+    const clockInterval = setInterval(updateTime, 1000);
+
+    // Step 3: Real Kihei weather — open-meteo free API, update every 10min
+    const fetchWeather = async () => {
+      try {
+        const res = await fetch(
+          "https://api.open-meteo.com/v1/forecast?latitude=20.76&longitude=-156.44&current=temperature_2m&temperature_unit=fahrenheit&timezone=Pacific%2FHonolulu"
+        );
+        const data = await res.json();
+        const temp = Math.round(data.current.temperature_2m);
+        setWeather(`${temp}°F`);
+      } catch {
+        setWeather("78°F");
+      }
+    };
+    fetchWeather();
+    const weatherInterval = setInterval(fetchWeather, 600000);
+
+    return () => {
+      clearInterval(clockInterval);
+      clearInterval(weatherInterval);
+    };
   }, []);
 
   return (
@@ -37,7 +62,7 @@ export default function StatusBar() {
         pointerEvents: "none",
       }}
     >
-      {/* LEFT: Battery + range — Self-Driving is its own element below */}
+      {/* LEFT: Battery + range + Gallery button */}
       <div className="ct-status-left" style={{ display: "flex", flexDirection: "column", gap: 6, pointerEvents: "auto" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 1 }}>
@@ -70,12 +95,12 @@ export default function StatusBar() {
             123 mi
           </span>
         </div>
-        {/* FIX #2: Self-Driving as own standalone element */}
+        {/* Step 7: Start Self-Driving → Gallery */}
         <button
           style={{
-            border: "1.5px solid #3b82f6",
-            background: "rgba(59,130,246,0.06)",
-            color: "#3b82f6",
+            border: "1.5px solid rgba(255,255,255,0.25)",
+            background: "transparent",
+            color: "rgba(255,255,255,0.7)",
             padding: "5px 14px",
             borderRadius: 20,
             fontSize: 11,
@@ -86,13 +111,16 @@ export default function StatusBar() {
             fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
             lineHeight: 1,
             alignSelf: "flex-start",
+            transition: "all 0.15s ease",
           }}
+          onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#3b82f6"; e.currentTarget.style.color = "#3b82f6"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.25)"; e.currentTarget.style.color = "rgba(255,255,255,0.7)"; }}
         >
-          Start Self-Driving
+          Gallery
         </button>
       </div>
 
-      {/* CENTER: Status icons — FIX #1: increased opacity + size */}
+      {/* CENTER: Status icons */}
       <div style={{ display: "flex", gap: 16, alignItems: "center", paddingTop: 2 }}>
         <svg width="22" height="22" viewBox="0 0 20 20" fill="none">
           <circle cx="10" cy="7" r="3.2" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" />
@@ -115,18 +143,18 @@ export default function StatusBar() {
         </svg>
       </div>
 
-      {/* RIGHT: Clock + weather + compass */}
+      {/* RIGHT: Live HST clock + real weather + compass */}
       <div className="ct-status-right" style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
         <div style={{ textAlign: "right" as const }}>
           <div style={{ fontSize: 32, fontWeight: 300, color: "#ffffff", letterSpacing: "-0.01em", lineHeight: 1, fontVariantNumeric: "tabular-nums" as const, fontFamily: "-apple-system, 'SF Pro Display', system-ui, sans-serif" }}>
-            {mounted ? time : "12:00"}
+            {mounted ? time : "12:00:00"}
           </div>
           <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", marginTop: 3, display: "flex", alignItems: "center", gap: 4, justifyContent: "flex-end", fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif" }}>
             <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
               <circle cx="11" cy="4" r="3" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
               <path d="M3 10.5C1.5 10.5 0.5 9.5 0.5 8.2C0.5 7 1.3 6 2.5 5.8C2.5 4 4 2.5 6 2.5C7.5 2.5 8.7 3.5 9.2 4.8C9.5 4.6 10 4.5 10.5 4.5C12 4.5 13.2 5.7 13.2 7.2C13.2 7.5 13.1 7.8 13 8C13 9.4 11.8 10.5 10.5 10.5H3Z" fill="rgba(255,255,255,0.55)" />
             </svg>
-            <span>78°F</span>
+            <span>{mounted ? weather : "78°F"}</span>
           </div>
         </div>
         <div className="ct-minimap" style={{ width: 50, height: 42, borderRadius: 6, overflow: "hidden", border: "1px solid rgba(255,255,255,0.1)", background: "#101420", flexShrink: 0 }}>

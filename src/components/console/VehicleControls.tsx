@@ -14,7 +14,7 @@ export default function VehicleControls() {
         alignItems: "flex-start",
       }}
     >
-      {/* FIX #7: Subtle dark backing panel behind icons */}
+      {/* Dark backing panel */}
       <div
         style={{
           background: "rgba(10,10,15,0.6)",
@@ -29,37 +29,34 @@ export default function VehicleControls() {
           alignItems: "center",
         }}
       >
+        {/* Step 6: Close Door → Artist */}
         <ControlItem
-          label="Close Door"
+          label="Artist"
           icon={
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path d="M4 3h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4V3z" stroke="rgba(255,255,255,0.65)" strokeWidth="1.3" fill="none" />
-              <line x1="4" y1="11" x2="18" y2="11" stroke="rgba(255,255,255,0.2)" strokeWidth="0.8" />
-              <rect x="13" y="12.5" width="3.5" height="1.5" rx="0.75" fill="rgba(255,255,255,0.55)" />
-              <line x1="4" y1="3" x2="4" y2="21" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5" />
+              <circle cx="12" cy="8" r="4" stroke="rgba(255,255,255,0.65)" strokeWidth="1.3" />
+              <path d="M4 20c0-4.42 3.58-8 8-8s8 3.58 8 8" stroke="rgba(255,255,255,0.65)" strokeWidth="1.3" fill="none" strokeLinecap="round" />
             </svg>
           }
         />
+        {/* Step 6: Autopilot → Commission */}
         <ControlItem
-          label="Autopilot"
+          label="Commission"
           icon={
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="12" r="8.5" stroke="rgba(255,255,255,0.55)" strokeWidth="1.3" />
-              <circle cx="12" cy="12" r="2.5" stroke="rgba(255,255,255,0.55)" strokeWidth="1.2" />
-              <line x1="12" y1="3.5" x2="12" y2="9.5" stroke="rgba(255,255,255,0.55)" strokeWidth="1.2" />
-              <line x1="4.5" y1="15" x2="9.5" y2="12.5" stroke="rgba(255,255,255,0.45)" strokeWidth="1.2" />
-              <line x1="19.5" y1="15" x2="14.5" y2="12.5" stroke="rgba(255,255,255,0.45)" strokeWidth="1.2" />
+              <path d="M16 3l3 3-11 11-4 1 1-4L16 3z" stroke="rgba(255,255,255,0.55)" strokeWidth="1.3" fill="none" strokeLinejoin="round" />
+              <line x1="14" y1="5" x2="17" y2="8" stroke="rgba(255,255,255,0.45)" strokeWidth="1.1" />
             </svg>
           }
         />
+        {/* Step 6: Audio → Gallery */}
         <ControlItem
-          label="Audio"
+          label="Gallery"
           icon={
             <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-              <rect x="3" y="8" width="2.5" height="6" rx="1" fill="rgba(255,255,255,0.5)" />
-              <rect x="7" y="5" width="2.5" height="12" rx="1" fill="rgba(255,255,255,0.65)" />
-              <rect x="11" y="7" width="2.5" height="8" rx="1" fill="rgba(255,255,255,0.5)" />
-              <rect x="15" y="4" width="2.5" height="14" rx="1" fill="rgba(255,255,255,0.35)" />
+              <rect x="2" y="2" width="18" height="18" rx="2" stroke="rgba(255,255,255,0.55)" strokeWidth="1.2" />
+              <circle cx="7.5" cy="7.5" r="2" stroke="rgba(255,255,255,0.5)" strokeWidth="1" />
+              <path d="M2 17l5-5 3.5 3.5 3-3L20 19" stroke="rgba(255,255,255,0.5)" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           }
         />
@@ -70,7 +67,11 @@ export default function VehicleControls() {
 
 function ControlItem({ label, icon }: { label: string; icon: React.ReactNode }) {
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+    <div
+      style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, cursor: "pointer", transition: "opacity 0.15s ease" }}
+      onMouseEnter={(e) => { e.currentTarget.style.opacity = "1"; }}
+      onMouseLeave={(e) => { e.currentTarget.style.opacity = ""; }}
+    >
       <div
         style={{
           width: 44,
@@ -81,7 +82,6 @@ function ControlItem({ label, icon }: { label: string; icon: React.ReactNode }) 
           alignItems: "center",
           justifyContent: "center",
           background: "rgba(255,255,255,0.04)",
-          cursor: "pointer",
         }}
       >
         {icon}

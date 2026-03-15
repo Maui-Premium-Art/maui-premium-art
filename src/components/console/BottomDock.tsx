@@ -2,10 +2,9 @@ interface DockItemProps {
   label?: string;
   children: React.ReactNode;
   active?: boolean;
-  showLabel?: boolean;
 }
 
-function DockItem({ label, children, active, showLabel }: DockItemProps) {
+function DockItem({ label, children, active }: DockItemProps) {
   return (
     <button
       title={label}
@@ -24,11 +23,13 @@ function DockItem({ label, children, active, showLabel }: DockItemProps) {
         color: active ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.45)",
         flexShrink: 0,
         minWidth: 34,
+        transition: "opacity 0.15s ease",
       }}
+      onMouseEnter={(e) => { e.currentTarget.style.opacity = "1"; }}
+      onMouseLeave={(e) => { e.currentTarget.style.opacity = ""; }}
     >
       {children}
-      {/* FIX #3: labels under each icon */}
-      {showLabel && label && (
+      {label && (
         <span style={{ fontSize: 9, color: "inherit", letterSpacing: "0.01em", lineHeight: 1, fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif" }}>
           {label}
         </span>
@@ -53,24 +54,22 @@ export default function BottomDock() {
         flexShrink: 0,
       }}
     >
-      {/* Car icon (active) */}
-      <DockItem label="Vehicle" active showLabel>
-        <svg width="26" height="16" viewBox="0 0 26 16" fill="none">
-          <path d="M4.5 10L7 4H19L21.5 10" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" fill="none" />
-          <rect x="2" y="10" width="22" height="5" rx="1.5" stroke="currentColor" strokeWidth="1.3" fill="none" />
-          <circle cx="7" cy="15.5" r="1.8" fill="currentColor" opacity="0.7" />
-          <circle cx="19" cy="15.5" r="1.8" fill="currentColor" opacity="0.7" />
+      {/* Step 5: Dock icons → site nav */}
+      <DockItem label="Home" active>
+        <svg width="20" height="18" viewBox="0 0 20 18" fill="none">
+          <path d="M2 7L10 1l8 6v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7z" stroke="currentColor" strokeWidth="1.3" fill="none" />
+          <rect x="7" y="10" width="6" height="7" rx="0.5" stroke="currentColor" strokeWidth="1.1" />
         </svg>
       </DockItem>
 
       {/* Left nav arrow */}
-      <DockItem label="Back">
+      <DockItem>
         <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
           <path d="M8 2L3 7L8 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </DockItem>
 
-      {/* Temperature display */}
+      {/* Temperature */}
       <div
         style={{
           fontSize: 17,
@@ -87,7 +86,7 @@ export default function BottomDock() {
       </div>
 
       {/* Right nav arrow */}
-      <DockItem label="Forward">
+      <DockItem>
         <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
           <path d="M4 2L9 7L4 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
@@ -96,23 +95,23 @@ export default function BottomDock() {
       {/* Divider */}
       <div style={{ width: 1, height: 24, background: "rgba(255,255,255,0.06)", margin: "0 4px", flexShrink: 0 }} />
 
-      {/* FIX #3: App icons with labels */}
-      <DockItem label="Phone" showLabel>
+      {/* Site navigation icons */}
+      <DockItem label="Gallery">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-          <path d="M3.5 1.5h3L8 5l-2 1.5C7.5 9.5 8.5 10.5 11.5 12L13 10l3.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5C8 16 2 10 2 3A1.5 1.5 0 0 1 3.5 1.5z" stroke="currentColor" strokeWidth="1.2" fill="none" />
+          <rect x="1.5" y="1.5" width="15" height="15" rx="2" stroke="currentColor" strokeWidth="1.2" />
+          <circle cx="6" cy="6.5" r="2" stroke="currentColor" strokeWidth="1" />
+          <path d="M1.5 13l4-4 3 3 2.5-2.5L16.5 15" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </DockItem>
 
-      <DockItem label="Camera" showLabel>
+      <DockItem label="Commission">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-          <rect x="1.5" y="5" width="15" height="10" rx="1.5" stroke="currentColor" strokeWidth="1.2" />
-          <circle cx="9" cy="10" r="3" stroke="currentColor" strokeWidth="1.2" />
-          <circle cx="9" cy="10" r="1" fill="currentColor" />
-          <rect x="5" y="3" width="4" height="2" rx="0.5" stroke="currentColor" strokeWidth="0.9" />
+          <path d="M14 2l2 2-9.5 9.5-3.5 1 1-3.5L14 2z" stroke="currentColor" strokeWidth="1.2" fill="none" strokeLinejoin="round" />
+          <line x1="12" y1="4" x2="14" y2="6" stroke="currentColor" strokeWidth="1" />
         </svg>
       </DockItem>
 
-      <DockItem label="Calendar" showLabel>
+      <DockItem label="Events">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
           <rect x="2" y="3.5" width="14" height="13" rx="1.5" stroke="currentColor" strokeWidth="1.2" />
           <line x1="2" y1="7.5" x2="16" y2="7.5" stroke="currentColor" strokeWidth="0.9" />
@@ -122,29 +121,23 @@ export default function BottomDock() {
         </svg>
       </DockItem>
 
-      <DockItem label="Charging" showLabel>
+      <DockItem label="Drops">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-          <path d="M10 1L4 10h5l-1 7 6-9H9l1-7z" stroke="currentColor" strokeWidth="1.2" fill="none" strokeLinejoin="round" />
+          <path d="M9 2C9 2 4 8 4 11a5 5 0 0 0 10 0c0-3-5-9-5-9z" stroke="currentColor" strokeWidth="1.2" fill="none" />
+          <circle cx="9" cy="12" r="1.5" stroke="currentColor" strokeWidth="0.9" />
         </svg>
       </DockItem>
 
-      <DockItem label="Bluetooth" showLabel>
-        <svg width="14" height="18" viewBox="0 0 14 18" fill="none">
-          <path d="M7 1v16M7 1l5.5 4.5L7 9M7 17l5.5-4.5L7 9" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M1.5 5.5L7 9 1.5 12.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </DockItem>
-
-      <DockItem label="Browser" showLabel>
+      <DockItem label="Story">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-          <circle cx="9" cy="9" r="7.5" stroke="currentColor" strokeWidth="1.2" />
-          <ellipse cx="9" cy="9" rx="3.2" ry="7.5" stroke="currentColor" strokeWidth="0.8" />
-          <line x1="1.5" y1="9" x2="16.5" y2="9" stroke="currentColor" strokeWidth="0.8" />
-          <path d="M2.5 5.5h13M2.5 12.5h13" stroke="currentColor" strokeWidth="0.6" />
+          <path d="M3 2h8l4 4v10a1 1 0 0 1-1 1H3V2z" stroke="currentColor" strokeWidth="1.2" fill="none" />
+          <path d="M11 2v4h4" stroke="currentColor" strokeWidth="1.1" />
+          <line x1="5.5" y1="9" x2="12.5" y2="9" stroke="currentColor" strokeWidth="0.9" strokeLinecap="round" />
+          <line x1="5.5" y1="12" x2="10.5" y2="12" stroke="currentColor" strokeWidth="0.9" strokeLinecap="round" />
         </svg>
       </DockItem>
 
-      <DockItem label="Settings" showLabel>
+      <DockItem label="Customize">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
           <circle cx="9" cy="9" r="2.5" stroke="currentColor" strokeWidth="1.1" />
           <path d="M9 1.5v2.5M9 14v2.5M1.5 9H4M14 9h2.5M3.1 3.1l1.8 1.8M13.1 13.1l1.8 1.8M3.1 14.9l1.8-1.8M13.1 4.9l1.8-1.8" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
@@ -154,8 +147,8 @@ export default function BottomDock() {
       {/* Spacer */}
       <div style={{ flex: 1 }} />
 
-      {/* FIX #4: Right nav arrow — more visible */}
-      <DockItem label="More">
+      {/* Right nav arrow — visible */}
+      <DockItem>
         <svg width="14" height="16" viewBox="0 0 14 16" fill="none">
           <path d="M4 2L10 8L4 14" stroke="rgba(255,255,255,0.7)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
