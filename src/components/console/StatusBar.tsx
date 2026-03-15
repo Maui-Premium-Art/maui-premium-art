@@ -37,7 +37,7 @@ export default function StatusBar() {
         pointerEvents: "none",
       }}
     >
-      {/* LEFT: Battery + range + Self-Driving */}
+      {/* LEFT: Battery + range — Self-Driving is its own element below */}
       <div className="ct-status-left" style={{ display: "flex", flexDirection: "column", gap: 6, pointerEvents: "auto" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 1 }}>
@@ -66,10 +66,11 @@ export default function StatusBar() {
             </div>
             <div style={{ width: 2.5, height: 5, borderRadius: "0 1px 1px 0", backgroundColor: "rgba(255,255,255,0.45)" }} />
           </div>
-          <span style={{ fontSize: 16, fontWeight: 500, color: "#ffffff", letterSpacing: "0.01em", fontVariantNumeric: "tabular-nums", lineHeight: 1 }}>
+          <span style={{ fontSize: 16, fontWeight: 500, color: "#ffffff", letterSpacing: "0.01em", fontVariantNumeric: "tabular-nums" as const, lineHeight: 1 }}>
             123 mi
           </span>
         </div>
+        {/* FIX #2: Self-Driving as own standalone element */}
         <button
           style={{
             border: "1.5px solid #3b82f6",
@@ -84,39 +85,40 @@ export default function StatusBar() {
             whiteSpace: "nowrap",
             fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
             lineHeight: 1,
+            alignSelf: "flex-start",
           }}
         >
           Start Self-Driving
         </button>
       </div>
 
-      {/* CENTER: Status icons */}
-      <div style={{ display: "flex", gap: 14, alignItems: "center", paddingTop: 2 }}>
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-          <circle cx="10" cy="7" r="3.2" stroke="rgba(255,255,255,0.5)" strokeWidth="1.4" />
-          <path d="M3 18c0-3.87 3.13-7 7-7s7 3.13 7 7" stroke="rgba(255,255,255,0.5)" strokeWidth="1.4" fill="none" strokeLinecap="round" />
+      {/* CENTER: Status icons — FIX #1: increased opacity + size */}
+      <div style={{ display: "flex", gap: 16, alignItems: "center", paddingTop: 2 }}>
+        <svg width="22" height="22" viewBox="0 0 20 20" fill="none">
+          <circle cx="10" cy="7" r="3.2" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" />
+          <path d="M3 18c0-3.87 3.13-7 7-7s7 3.13 7 7" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" fill="none" strokeLinecap="round" />
         </svg>
-        <svg width="20" height="16" viewBox="0 0 20 16" fill="none">
-          <path d="M1 4C5 0.5 15 0.5 19 4" stroke="rgba(255,255,255,0.3)" strokeWidth="1.4" strokeLinecap="round" />
-          <path d="M4 7C7 4 13 4 16 7" stroke="rgba(255,255,255,0.5)" strokeWidth="1.4" strokeLinecap="round" />
-          <path d="M7 10C8.5 8.5 11.5 8.5 13 10" stroke="rgba(255,255,255,0.7)" strokeWidth="1.4" strokeLinecap="round" />
-          <circle cx="10" cy="13.5" r="1.3" fill="rgba(255,255,255,0.85)" />
+        <svg width="22" height="18" viewBox="0 0 20 16" fill="none">
+          <path d="M1 4C5 0.5 15 0.5 19 4" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5" strokeLinecap="round" />
+          <path d="M4 7C7 4 13 4 16 7" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5" strokeLinecap="round" />
+          <path d="M7 10C8.5 8.5 11.5 8.5 13 10" stroke="rgba(255,255,255,0.85)" strokeWidth="1.5" strokeLinecap="round" />
+          <circle cx="10" cy="13.5" r="1.3" fill="rgba(255,255,255,0.95)" />
         </svg>
-        <span style={{ fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.5)", letterSpacing: "0.06em", fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif" }}>LTE</span>
-        <div style={{ display: "flex", gap: 2, alignItems: "flex-end" }}>
-          {[6, 9, 12, 15].map((h, i) => (
-            <div key={i} style={{ width: 3.5, height: h, borderRadius: 1, backgroundColor: i < 3 ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.18)" }} />
+        <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.7)", letterSpacing: "0.06em", fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif" }}>LTE</span>
+        <div style={{ display: "flex", gap: 2.5, alignItems: "flex-end" }}>
+          {[7, 10, 13, 16].map((h, i) => (
+            <div key={i} style={{ width: 4, height: h, borderRadius: 1, backgroundColor: i < 3 ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.25)" }} />
           ))}
         </div>
-        <svg width="12" height="16" viewBox="0 0 12 16" fill="none">
-          <path d="M6 1v14M6 1l5 4-5 4M6 15l5-4-5-4" stroke="rgba(255,255,255,0.4)" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+        <svg width="14" height="18" viewBox="0 0 12 16" fill="none">
+          <path d="M6 1v14M6 1l5 4-5 4M6 15l5-4-5-4" stroke="rgba(255,255,255,0.6)" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </div>
 
       {/* RIGHT: Clock + weather + compass */}
       <div className="ct-status-right" style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
-        <div style={{ textAlign: "right" }}>
-          <div style={{ fontSize: 32, fontWeight: 300, color: "#ffffff", letterSpacing: "-0.01em", lineHeight: 1, fontVariantNumeric: "tabular-nums", fontFamily: "-apple-system, 'SF Pro Display', system-ui, sans-serif" }}>
+        <div style={{ textAlign: "right" as const }}>
+          <div style={{ fontSize: 32, fontWeight: 300, color: "#ffffff", letterSpacing: "-0.01em", lineHeight: 1, fontVariantNumeric: "tabular-nums" as const, fontFamily: "-apple-system, 'SF Pro Display', system-ui, sans-serif" }}>
             {mounted ? time : "12:00"}
           </div>
           <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", marginTop: 3, display: "flex", alignItems: "center", gap: 4, justifyContent: "flex-end", fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif" }}>

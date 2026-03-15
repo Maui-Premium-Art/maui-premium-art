@@ -79,7 +79,6 @@ function StaticHero() {
       />
 
       {/* Hero image — Mahalo Bird on CT tailgate */}
-      {/* Using CSS background-image (avoids Next.js Image fill height requirements) */}
       <div
         style={{
           position: "absolute",
@@ -87,7 +86,7 @@ function StaticHero() {
           left: "50%",
           transform: "translateX(-50%)",
           width: "min(620px, 92vw)",
-          height: "min(348px, 51.75vw)",  /* 16:9 ratio of width */
+          height: "min(348px, 51.75vw)",
           zIndex: 2,
           backgroundImage: "url('/images/mahalo-bird/electric-prr-hummingbird.jpg')",
           backgroundSize: "cover",
@@ -96,7 +95,6 @@ function StaticHero() {
           filter: "brightness(0.9) contrast(1.04) saturate(1.05)",
         }}
       >
-        {/* Dark vignette — blends into background */}
         <div
           style={{
             position: "absolute",
@@ -115,17 +113,13 @@ function StaticHero() {
 // ── Main export ────────────────────────────────────────────────────────────
 
 export default function HeroArea3D() {
-  // 3D disabled for v1 — static photo is the hero, 3D comes in Phase 1a
   const showWebGL = false;
 
   return (
     <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
-      {/* Static hero — always visible, shown immediately */}
       <StaticHero />
 
-      {/* 3D overlay disabled for v1 — Phase 1a */}
-
-      {/* Art caption — bottom center overlay */}
+      {/* FIX #5: Caption more prominent + FIX #6: larger dots */}
       <div
         style={{
           position: "absolute",
@@ -135,38 +129,37 @@ export default function HeroArea3D() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: 5,
+          gap: 6,
           zIndex: 20,
           pointerEvents: "none",
           whiteSpace: "nowrap",
         }}
       >
-        {/* Title */}
+        {/* FIX #5: More prominent caption */}
         <span
           style={{
-            fontSize: 11,
-            color: "rgba(255,255,255,0.45)",
-            letterSpacing: "0.2em",
+            fontSize: 13,
+            color: "rgba(255,255,255,0.7)",
+            letterSpacing: "0.22em",
             textTransform: "uppercase",
             fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
-            fontWeight: 500,
+            fontWeight: 600,
           }}
         >
           Mahalo Bird · Edition I
         </span>
 
-        {/* Dot pagination */}
-        <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-          <div style={{ width: 6, height: 6, borderRadius: "50%", background: "rgba(255,255,255,0.7)" }} />
-          <div style={{ width: 5, height: 5, borderRadius: "50%", background: "rgba(255,255,255,0.2)" }} />
-          <div style={{ width: 5, height: 5, borderRadius: "50%", background: "rgba(255,255,255,0.2)" }} />
+        {/* FIX #6: Larger dot pagination */}
+        <div style={{ display: "flex", gap: 7, alignItems: "center" }}>
+          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "rgba(255,255,255,0.8)" }} />
+          <div style={{ width: 7, height: 7, borderRadius: "50%", background: "rgba(255,255,255,0.25)" }} />
+          <div style={{ width: 7, height: 7, borderRadius: "50%", background: "rgba(255,255,255,0.25)" }} />
         </div>
 
-        {/* Edition count + handle */}
         <span
           style={{
-            fontSize: 10,
-            color: "rgba(255,255,255,0.22)",
+            fontSize: 11,
+            color: "rgba(255,255,255,0.35)",
             letterSpacing: "0.08em",
             fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
           }}
@@ -175,7 +168,7 @@ export default function HeroArea3D() {
         </span>
       </div>
 
-      {/* Attribution — bottom right */}
+      {/* Attribution */}
       <div
         style={{
           position: "absolute",
