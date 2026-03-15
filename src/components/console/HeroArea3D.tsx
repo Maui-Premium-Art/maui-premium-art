@@ -67,28 +67,38 @@ function StaticHero() {
         }}
       />
 
-      {/* CT rear image — fills hero, sits on the grid */}
+      {/* Mahalo Bird on Cybertruck tailgate — the hero image */}
       <div
         style={{
           position: "absolute",
-          bottom: "12%",
+          bottom: "8%",
           left: "50%",
           transform: "translateX(-50%)",
           zIndex: 2,
-          width: "min(700px, 95vw)",
-          aspectRatio: "16/10",
+          width: "min(680px, 94vw)",
+          aspectRatio: "16/9",
         }}
       >
         <Image
-          src="/images/ct-reference/ct-rear.png"
-          alt="Cybertruck rear view with Mahalo Bird wrap"
+          src="/images/mahalo-bird/wrap-tailgate.jpg"
+          alt="Cybertruck tailgate with Mahalo Bird art wrap by Hulali Lā"
           fill
           style={{
-            objectFit: "contain",
-            objectPosition: "center bottom",
-            filter: "brightness(0.9) contrast(1.05)",
+            objectFit: "cover",
+            objectPosition: "center 30%",
+            filter: "brightness(0.92) contrast(1.04) saturate(1.05)",
+            borderRadius: 4,
           }}
           priority
+        />
+        {/* Subtle dark vignette to blend with background */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            borderRadius: 4,
+            background: "linear-gradient(to bottom, rgba(5,5,10,0.3) 0%, transparent 30%, transparent 70%, rgba(5,5,10,0.5) 100%)",
+          }}
         />
       </div>
     </div>
