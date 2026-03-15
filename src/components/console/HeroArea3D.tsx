@@ -37,12 +37,12 @@ function CybertruckModel() {
     box.getCenter(center);
     console.log("[CT] size:", size, "center:", center);
 
-    // Scale to reasonable size if needed (some GLBs are in mm)
+    // Scale model to fill the hero — target ~5 units wide (car-sized)
     const maxDim = Math.max(size.x, size.y, size.z);
-    if (maxDim > 20) {
-      const s = 5 / maxDim;
-      scene.scale.set(s, s, s);
-    }
+    const targetSize = 5;
+    const s = targetSize / maxDim;
+    scene.scale.set(s, s, s);
+    console.log("[CT] scaled by", s, "→ new size:", size.x * s, size.y * s, size.z * s);
 
     // Center on origin, sit on ground
     box.setFromObject(scene);
@@ -176,7 +176,7 @@ export default function HeroArea3D() {
       {/* 3D Canvas — fills the area */}
       <div style={{ position: "absolute", inset: 0, zIndex: 1 }}>
         <Canvas
-          camera={{ position: [0, 2.5, -7], fov: 44 }}
+          camera={{ position: [0, 2, -9], fov: 40 }}
           shadows
           gl={{
             antialias: true,
@@ -237,8 +237,8 @@ export default function HeroArea3D() {
             enablePan={false}
             enableDamping
             dampingFactor={0.07}
-            minDistance={4}
-            maxDistance={16}
+            minDistance={5}
+            maxDistance={20}
             minPolarAngle={0.25}
             maxPolarAngle={Math.PI / 2 + 0.15}
             target={[0, 0.8, 0]}
