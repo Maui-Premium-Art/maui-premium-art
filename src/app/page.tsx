@@ -48,6 +48,28 @@ export default function Home() {
           <HeroArea />
           <StatusBar />
           <VehicleControls />
+          {/* Closed / Tonneau — right side label */}
+          <div
+            style={{
+              position: "absolute",
+              right: 14,
+              top: "50%",
+              transform: "translateY(-50%)",
+              zIndex: 20,
+              pointerEvents: "none",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 3,
+            }}
+            className="ct-tonneau-label"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <circle cx="8" cy="8" r="6.5" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
+              <text x="8" y="11" fill="rgba(255,255,255,0.3)" fontSize="8" textAnchor="middle" fontWeight="700" fontFamily="sans-serif">!</text>
+            </svg>
+            <span style={{ fontSize: 8, color: "rgba(255,255,255,0.2)", letterSpacing: "0.02em", fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif" }}>Closed / Tonneau</span>
+          </div>
         </div>
 
         {/* Bottom widgets row */}

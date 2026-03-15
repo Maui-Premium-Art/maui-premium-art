@@ -10,7 +10,6 @@ export default function StatusBar() {
   useEffect(() => {
     setMounted(true);
 
-    // Step 2: Live HST clock — updates every second
     const updateTime = () => {
       const now = new Date();
       const hst = new Date(now.toLocaleString("en-US", { timeZone: "Pacific/Honolulu" }));
@@ -23,7 +22,6 @@ export default function StatusBar() {
     updateTime();
     const clockInterval = setInterval(updateTime, 1000);
 
-    // Step 3: Real Kihei weather — open-meteo free API, update every 10min
     const fetchWeather = async () => {
       try {
         const res = await fetch(
@@ -53,49 +51,67 @@ export default function StatusBar() {
         top: 0,
         left: 0,
         right: 0,
-        height: 52,
+        height: 56,
         display: "flex",
         alignItems: "flex-start",
         justifyContent: "space-between",
-        padding: "10px 14px 0",
+        padding: "8px 14px 0",
         zIndex: 20,
         pointerEvents: "none",
       }}
     >
-      {/* LEFT: Battery + range + Gallery button */}
-      <div className="ct-status-left" style={{ display: "flex", flexDirection: "column", gap: 6, pointerEvents: "auto" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 1 }}>
-            <div
-              style={{
-                width: 24,
-                height: 12,
-                border: "1.5px solid rgba(255,255,255,0.7)",
-                borderRadius: 2.5,
-                padding: 1.5,
-                display: "flex",
-                gap: 1,
-                alignItems: "stretch",
-              }}
-            >
-              {[1, 1, 1, 1, 0, 0].map((filled, i) => (
-                <div
-                  key={i}
-                  style={{
-                    flex: 1,
-                    borderRadius: 0.5,
-                    backgroundColor: filled ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.12)",
-                  }}
-                />
-              ))}
-            </div>
-            <div style={{ width: 2.5, height: 5, borderRadius: "0 1px 1px 0", backgroundColor: "rgba(255,255,255,0.45)" }} />
+      {/* LEFT: PRND + charge bar + range + Gallery */}
+      <div className="ct-status-left" style={{ display: "flex", flexDirection: "column", gap: 5, pointerEvents: "auto" }}>
+        {/* PRND gear selector + charge bar */}
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          {/* PRND */}
+          <div style={{ display: "flex", gap: 6, fontFamily: "-apple-system, 'SF Pro Display', system-ui, sans-serif" }}>
+            {["P", "R", "N", "D"].map((g) => (
+              <span
+                key={g}
+                style={{
+                  fontSize: 14,
+                  fontWeight: g === "P" ? 700 : 400,
+                  color: g === "P" ? "#ffffff" : "rgba(255,255,255,0.25)",
+                  letterSpacing: "0.05em",
+                  lineHeight: 1,
+                }}
+              >
+                {g}
+              </span>
+            ))}
           </div>
-          <span style={{ fontSize: 16, fontWeight: 500, color: "#ffffff", letterSpacing: "0.01em", fontVariantNumeric: "tabular-nums" as const, lineHeight: 1 }}>
-            123 mi
-          </span>
+
+          {/* Charge bar — diagonal lines + percentage */}
+          <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+            <div style={{ width: 40, height: 10, position: "relative" as const, overflow: "hidden", borderRadius: 2, border: "1px solid rgba(255,255,255,0.2)" }}>
+              <div style={{ width: "60%", height: "100%", background: "repeating-linear-gradient(135deg, rgba(255,255,255,0.5) 0px, rgba(255,255,255,0.5) 2px, transparent 2px, transparent 4px)" }} />
+            </div>
+            <span style={{ fontSize: 11, color: "rgba(255,255,255,0.5)", fontWeight: 500, fontVariantNumeric: "tabular-nums" as const }}>60%</span>
+          </div>
+
+          {/* Battery + range */}
+          <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <div style={{ width: 20, height: 10, border: "1.5px solid rgba(255,255,255,0.6)", borderRadius: 2, padding: 1, display: "flex", gap: 0.5, alignItems: "stretch" }}>
+                {[1, 1, 1, 0, 0].map((filled, i) => (
+                  <div key={i} style={{ flex: 1, borderRadius: 0.5, backgroundColor: filled ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.1)" }} />
+                ))}
+              </div>
+              <div style={{ width: 2, height: 4, borderRadius: "0 1px 1px 0", backgroundColor: "rgba(255,255,255,0.4)" }} />
+            </div>
+            <span style={{ fontSize: 14, fontWeight: 500, color: "#ffffff", fontVariantNumeric: "tabular-nums" as const, lineHeight: 1 }}>
+              123 mi
+            </span>
+          </div>
         </div>
-        {/* Step 7: Start Self-Driving → Gallery */}
+
+        {/* Tap to activate drive */}
+        <div style={{ fontSize: 9, color: "rgba(255,255,255,0.25)", letterSpacing: "0.04em", fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif" }}>
+          ↑ Tap to activate drive
+        </div>
+
+        {/* Gallery button */}
         <button
           style={{
             border: "1.5px solid rgba(255,255,255,0.25)",
@@ -120,12 +136,20 @@ export default function StatusBar() {
         </button>
       </div>
 
-      {/* CENTER: Status icons */}
+      {/* CENTER: Status icons with login button */}
       <div style={{ display: "flex", gap: 16, alignItems: "center", paddingTop: 2 }}>
-        <svg width="22" height="22" viewBox="0 0 20 20" fill="none">
-          <circle cx="10" cy="7" r="3.2" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" />
-          <path d="M3 18c0-3.87 3.13-7 7-7s7 3.13 7 7" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" fill="none" strokeLinecap="round" />
-        </svg>
+        {/* Person icon → Login button */}
+        <button
+          style={{ background: "none", border: "none", cursor: "pointer", padding: 2, display: "flex", transition: "opacity 0.15s ease", pointerEvents: "auto" } as React.CSSProperties}
+          title="Login"
+          onMouseEnter={(e) => { e.currentTarget.style.opacity = "1"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.opacity = ""; }}
+        >
+          <svg width="22" height="22" viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="7" r="3.2" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" />
+            <path d="M3 18c0-3.87 3.13-7 7-7s7 3.13 7 7" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+          </svg>
+        </button>
         <svg width="22" height="18" viewBox="0 0 20 16" fill="none">
           <path d="M1 4C5 0.5 15 0.5 19 4" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5" strokeLinecap="round" />
           <path d="M4 7C7 4 13 4 16 7" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5" strokeLinecap="round" />
@@ -143,7 +167,7 @@ export default function StatusBar() {
         </svg>
       </div>
 
-      {/* RIGHT: Live HST clock + real weather + compass */}
+      {/* RIGHT: Clock + weather + Hawaii map */}
       <div className="ct-status-right" style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
         <div style={{ textAlign: "right" as const }}>
           <div style={{ fontSize: 32, fontWeight: 300, color: "#ffffff", letterSpacing: "-0.01em", lineHeight: 1, fontVariantNumeric: "tabular-nums" as const, fontFamily: "-apple-system, 'SF Pro Display', system-ui, sans-serif" }}>
@@ -157,18 +181,40 @@ export default function StatusBar() {
             <span>{mounted ? weather : "78°F"}</span>
           </div>
         </div>
-        <div className="ct-minimap" style={{ width: 50, height: 42, borderRadius: 6, overflow: "hidden", border: "1px solid rgba(255,255,255,0.1)", background: "#101420", flexShrink: 0 }}>
-          <svg width="50" height="42" viewBox="0 0 50 42">
-            <rect width="50" height="42" fill="#101420" />
-            <line x1="0" y1="21" x2="50" y2="21" stroke="rgba(255,255,255,0.08)" strokeWidth="0.8" />
-            <line x1="25" y1="0" x2="25" y2="42" stroke="rgba(255,255,255,0.08)" strokeWidth="0.8" />
-            <line x1="0" y1="10" x2="50" y2="10" stroke="rgba(255,255,255,0.04)" strokeWidth="0.5" />
-            <line x1="0" y1="32" x2="50" y2="32" stroke="rgba(255,255,255,0.04)" strokeWidth="0.5" />
-            <line x1="12" y1="0" x2="12" y2="42" stroke="rgba(255,255,255,0.04)" strokeWidth="0.5" />
-            <line x1="38" y1="0" x2="38" y2="42" stroke="rgba(255,255,255,0.04)" strokeWidth="0.5" />
-            <polygon points="25,5 28,14 25,12 22,14" fill="#ef4444" />
-            <circle cx="25" cy="22" r="3" fill="#3b82f6" opacity="0.6" />
-            <circle cx="25" cy="22" r="1.5" fill="#3b82f6" />
+
+        {/* Hawaii map — replaces compass */}
+        <div
+          className="ct-minimap"
+          style={{
+            width: 62,
+            height: 46,
+            borderRadius: 6,
+            overflow: "hidden",
+            border: "1px solid rgba(255,255,255,0.08)",
+            background: "#0a0a0f",
+            flexShrink: 0,
+            position: "relative" as const,
+          }}
+        >
+          <svg width="62" height="46" viewBox="0 0 62 46">
+            <rect width="62" height="46" fill="#0a0a0f" />
+            {/* Simplified Hawaiian Islands — Kauai, Oahu, Molokai, Lanai, Maui, Big Island */}
+            {/* Kauai */}
+            <ellipse cx="8" cy="16" rx="3.5" ry="3" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="0.8" />
+            {/* Oahu */}
+            <ellipse cx="16" cy="18" rx="3" ry="2.5" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="0.8" />
+            {/* Molokai */}
+            <ellipse cx="24" cy="17" rx="4" ry="1.2" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="0.8" />
+            {/* Lanai */}
+            <ellipse cx="26" cy="21" rx="1.5" ry="1.8" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="0.7" />
+            {/* Maui — highlighted */}
+            <path d="M30 15 C32 14 35 15 35 17 C35 19 33 22 31 22 C29 22 28 20 29 18 C29 17 30 16 30 15Z" fill="none" stroke="rgba(255,255,255,0.35)" strokeWidth="0.9" />
+            {/* Big Island */}
+            <path d="M42 18 C45 17 50 19 50 23 C50 27 47 32 44 32 C41 32 39 28 39 25 C39 22 41 19 42 18Z" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="0.8" />
+            {/* Red marker — Haiku, Maui */}
+            <polygon points="32,16 33.5,19 30.5,19" fill="#ef4444" />
+            {/* Label */}
+            <text x="32" y="13" fill="rgba(255,255,255,0.35)" fontSize="5" textAnchor="middle" fontFamily="sans-serif">Haiku</text>
           </svg>
         </div>
       </div>

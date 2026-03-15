@@ -61,6 +61,36 @@ export default function VehicleControls() {
           }
         />
       </div>
+
+      {/* Tire pressure + Frunk label */}
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 3, marginTop: 4 }}>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="8" r="6.5" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
+          <text x="8" y="11" fill="rgba(255,255,255,0.3)" fontSize="8" textAnchor="middle" fontWeight="700" fontFamily="sans-serif">!</text>
+        </svg>
+        <span style={{ fontSize: 8, color: "rgba(255,255,255,0.2)", letterSpacing: "0.02em", fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif" }}>Closed / Frunk</span>
+      </div>
+
+      {/* SWIPE TO CHARGE — vertical text */}
+      <div
+        style={{
+          position: "absolute",
+          left: -6,
+          top: "50%",
+          transform: "translateY(-50%) rotate(-90deg)",
+          transformOrigin: "center center",
+          fontSize: 8,
+          letterSpacing: "0.15em",
+          color: "rgba(255,255,255,0.12)",
+          whiteSpace: "nowrap",
+          fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
+          fontWeight: 600,
+          textTransform: "uppercase",
+          pointerEvents: "none",
+        }}
+      >
+        SWIPE TO CHARGE
+      </div>
     </div>
   );
 }
