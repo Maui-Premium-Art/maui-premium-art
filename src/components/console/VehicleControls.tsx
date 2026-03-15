@@ -1,87 +1,130 @@
 export default function VehicleControls() {
   return (
     <div
+      className="ct-vehicle-controls"
       style={{
         position: "absolute",
-        left: 14,
+        left: 12,
         top: "50%",
         transform: "translateY(-50%)",
         display: "flex",
         flexDirection: "column",
-        gap: 20,
+        gap: 16,
         zIndex: 20,
         alignItems: "flex-start",
       }}
     >
-      {/* Close Door */}
-      <ControlItem
-        label="Close Door"
-        icon={
-          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-            <rect x="3" y="2" width="14" height="18" rx="2" stroke="rgba(255,255,255,0.7)" strokeWidth="1.3" />
-            <line x1="3" y1="11" x2="17" y2="11" stroke="rgba(255,255,255,0.25)" strokeWidth="0.8" />
-            <circle cx="14" cy="11" r="1.2" fill="rgba(255,255,255,0.65)" />
-            <line x1="5" y1="2" x2="5" y2="20" stroke="rgba(255,255,255,0.2)" strokeWidth="0.8" />
-          </svg>
-        }
-      />
+      {/* Dark backing panel */}
+      <div
+        style={{
+          background: "rgba(10,10,15,0.6)",
+          backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
+          borderRadius: 14,
+          border: "1px solid rgba(255,255,255,0.06)",
+          padding: "10px 8px",
+          display: "flex",
+          flexDirection: "column",
+          gap: 14,
+          alignItems: "center",
+        }}
+      >
+        {/* Step 6: Close Door → Artist */}
+        <ControlItem
+          label="Artist"
+          icon={
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="8" r="4" stroke="rgba(255,255,255,0.65)" strokeWidth="1.3" />
+              <path d="M4 20c0-4.42 3.58-8 8-8s8 3.58 8 8" stroke="rgba(255,255,255,0.65)" strokeWidth="1.3" fill="none" strokeLinecap="round" />
+            </svg>
+          }
+        />
+        {/* Step 6: Autopilot → Commission */}
+        <ControlItem
+          label="Commission"
+          icon={
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M16 3l3 3-11 11-4 1 1-4L16 3z" stroke="rgba(255,255,255,0.55)" strokeWidth="1.3" fill="none" strokeLinejoin="round" />
+              <line x1="14" y1="5" x2="17" y2="8" stroke="rgba(255,255,255,0.45)" strokeWidth="1.1" />
+            </svg>
+          }
+        />
+        {/* Step 6: Audio → Gallery */}
+        <ControlItem
+          label="Gallery"
+          icon={
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <rect x="2" y="2" width="18" height="18" rx="2" stroke="rgba(255,255,255,0.55)" strokeWidth="1.2" />
+              <circle cx="7.5" cy="7.5" r="2" stroke="rgba(255,255,255,0.5)" strokeWidth="1" />
+              <path d="M2 17l5-5 3.5 3.5 3-3L20 19" stroke="rgba(255,255,255,0.5)" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          }
+        />
+      </div>
 
-      {/* Auto Pilot */}
-      <ControlItem
-        label="Auto Pilot"
-        icon={
-          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-            <circle cx="11" cy="11" r="8" stroke="rgba(255,255,255,0.6)" strokeWidth="1.3" />
-            <circle cx="11" cy="11" r="3" stroke="rgba(255,255,255,0.6)" strokeWidth="1.2" />
-            <line x1="11" y1="3" x2="11" y2="8" stroke="rgba(255,255,255,0.6)" strokeWidth="1.3" />
-            <line x1="7" y1="9.5" x2="3.5" y2="12" stroke="rgba(255,255,255,0.5)" strokeWidth="1.2" />
-            <line x1="15" y1="9.5" x2="18.5" y2="12" stroke="rgba(255,255,255,0.5)" strokeWidth="1.2" />
-          </svg>
-        }
-      />
+      {/* Tire pressure + Frunk label */}
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 3, marginTop: 4 }}>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="8" r="6.5" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
+          <text x="8" y="11" fill="rgba(255,255,255,0.3)" fontSize="8" textAnchor="middle" fontWeight="700" fontFamily="sans-serif">!</text>
+        </svg>
+        <span style={{ fontSize: 8, color: "rgba(255,255,255,0.2)", letterSpacing: "0.02em", fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif" }}>Closed / Frunk</span>
+      </div>
 
-      {/* Audio */}
-      <ControlItem
-        label="Audio"
-        icon={
-          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-            <rect x="3" y="8" width="2.5" height="6" rx="1" fill="rgba(255,255,255,0.5)" />
-            <rect x="7" y="5" width="2.5" height="12" rx="1" fill="rgba(255,255,255,0.65)" />
-            <rect x="11" y="7" width="2.5" height="8" rx="1" fill="rgba(255,255,255,0.5)" />
-            <rect x="15" y="4" width="2.5" height="14" rx="1" fill="rgba(255,255,255,0.35)" />
-          </svg>
-        }
-      />
+      {/* SWIPE TO CHARGE — vertical text */}
+      <div
+        style={{
+          position: "absolute",
+          left: -18,
+          top: "50%",
+          transform: "translateY(-50%) rotate(-90deg)",
+          transformOrigin: "center center",
+          fontSize: 9,
+          letterSpacing: "0.18em",
+          color: "rgba(255,255,255,0.4)",
+          whiteSpace: "nowrap",
+          fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
+          fontWeight: 600,
+          textTransform: "uppercase",
+          pointerEvents: "none",
+        }}
+      >
+        SWIPE TO CHARGE
+      </div>
     </div>
   );
 }
 
 function ControlItem({ label, icon }: { label: string; icon: React.ReactNode }) {
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+    <div
+      style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, cursor: "pointer", transition: "opacity 0.15s ease" }}
+      onMouseEnter={(e) => { e.currentTarget.style.opacity = "1"; }}
+      onMouseLeave={(e) => { e.currentTarget.style.opacity = ""; }}
+    >
       <div
         style={{
-          width: 42,
-          height: 42,
-          border: "1px solid rgba(255,255,255,0.18)",
-          borderRadius: 8,
+          width: 44,
+          height: 44,
+          border: "1px solid rgba(255,255,255,0.1)",
+          borderRadius: 10,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "rgba(255,255,255,0.03)",
-          cursor: "pointer",
+          background: "rgba(255,255,255,0.04)",
         }}
       >
         {icon}
       </div>
       <span
         style={{
-          fontSize: 11,
-          color: "rgba(255,255,255,0.5)",
+          fontSize: 10,
+          color: "rgba(255,255,255,0.45)",
           letterSpacing: "0.02em",
           textAlign: "center",
           lineHeight: 1.2,
-          fontFamily: "system-ui, -apple-system, sans-serif",
+          fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
+          fontWeight: 500,
         }}
       >
         {label}

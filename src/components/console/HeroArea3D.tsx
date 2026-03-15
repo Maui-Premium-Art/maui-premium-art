@@ -78,32 +78,25 @@ function StaticHero() {
         }}
       />
 
-      {/* Hero image — Mahalo Bird on CT tailgate */}
-      {/* Using CSS background-image (avoids Next.js Image fill height requirements) */}
+      {/* Hero image — fills content zone */}
       <div
         style={{
           position: "absolute",
-          bottom: "10%",
-          left: "50%",
-          transform: "translateX(-50%)",
-          width: "min(620px, 92vw)",
-          height: "min(348px, 51.75vw)",  /* 16:9 ratio of width */
+          inset: 0,
           zIndex: 2,
           backgroundImage: "url('/images/mahalo-bird/electric-prr-hummingbird.jpg')",
           backgroundSize: "cover",
-          backgroundPosition: "center 25%",
-          borderRadius: 4,
-          filter: "brightness(0.9) contrast(1.04) saturate(1.05)",
+          backgroundPosition: "center 35%",
+          filter: "brightness(0.85) contrast(1.05) saturate(1.05)",
         }}
       >
-        {/* Dark vignette — blends into background */}
+        {/* Edge vignette — blends into UI chrome */}
         <div
           style={{
             position: "absolute",
             inset: 0,
-            borderRadius: 4,
             background:
-              "linear-gradient(to bottom, rgba(5,5,10,0.35) 0%, transparent 25%, transparent 65%, rgba(5,5,10,0.6) 100%)",
+              "linear-gradient(to bottom, rgba(10,10,15,0.5) 0%, transparent 20%, transparent 60%, rgba(10,10,15,0.7) 100%), linear-gradient(to right, rgba(10,10,15,0.5) 0%, transparent 15%, transparent 85%, rgba(10,10,15,0.5) 100%)",
             pointerEvents: "none",
           }}
         />
@@ -115,21 +108,17 @@ function StaticHero() {
 // ── Main export ────────────────────────────────────────────────────────────
 
 export default function HeroArea3D() {
-  // 3D disabled for v1 — static photo is the hero, 3D comes in Phase 1a
   const showWebGL = false;
 
   return (
     <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
-      {/* Static hero — always visible, shown immediately */}
       <StaticHero />
 
-      {/* 3D overlay disabled for v1 — Phase 1a */}
-
-      {/* Art caption — bottom center */}
+      {/* FIX #5: Caption more prominent + FIX #6: larger dots */}
       <div
         style={{
           position: "absolute",
-          bottom: 36,
+          bottom: 32,
           left: "50%",
           transform: "translateX(-50%)",
           display: "flex",
@@ -141,64 +130,56 @@ export default function HeroArea3D() {
           whiteSpace: "nowrap",
         }}
       >
-        {/* Title */}
+        {/* FIX #5: More prominent caption */}
         <span
           style={{
-            fontSize: 11,
-            color: "rgba(255,255,255,0.5)",
-            letterSpacing: "0.18em",
+            fontSize: 13,
+            color: "rgba(255,255,255,0.7)",
+            letterSpacing: "0.22em",
             textTransform: "uppercase",
-            fontFamily: "system-ui, -apple-system, sans-serif",
-            fontWeight: 500,
+            fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
+            fontWeight: 600,
           }}
         >
           Mahalo Bird · Edition I
         </span>
 
-        {/* Dot pagination */}
-        <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-          <div style={{ width: 6, height: 6, borderRadius: "50%", background: "rgba(255,255,255,0.75)" }} />
-          <div style={{ width: 5, height: 5, borderRadius: "50%", background: "rgba(255,255,255,0.25)" }} />
-          <div style={{ width: 5, height: 5, borderRadius: "50%", background: "rgba(255,255,255,0.25)" }} />
+        {/* FIX #6: Larger dot pagination */}
+        <div style={{ display: "flex", gap: 7, alignItems: "center" }}>
+          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "rgba(255,255,255,0.8)" }} />
+          <div style={{ width: 7, height: 7, borderRadius: "50%", background: "rgba(255,255,255,0.25)" }} />
+          <div style={{ width: 7, height: 7, borderRadius: "50%", background: "rgba(255,255,255,0.25)" }} />
         </div>
 
-        {/* 3 of 10 by @handle */}
         <span
           style={{
-            fontSize: 10,
-            color: "rgba(255,255,255,0.28)",
+            fontSize: 11,
+            color: "rgba(255,255,255,0.35)",
             letterSpacing: "0.08em",
-            fontFamily: "system-ui, -apple-system, sans-serif",
+            fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
           }}
         >
           3 of 10 · @Maui_PremiumArt
         </span>
       </div>
 
-      {/* CC attribution — bottom right */}
+      {/* Attribution */}
       <div
         style={{
           position: "absolute",
-          bottom: 8,
+          bottom: 6,
           right: 10,
           fontSize: 9,
-          color: "rgba(255,255,255,0.18)",
+          color: "rgba(255,255,255,0.15)",
           letterSpacing: "0.02em",
           zIndex: 20,
           pointerEvents: "none",
-          fontFamily: "system-ui, -apple-system, sans-serif",
+          fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
         }}
       >
-        3D model by{" "}
-        <a
-          href="https://sketchfab.com/onurpearl"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ color: "rgba(255,255,255,0.28)", textDecoration: "none", pointerEvents: "auto" }}
-        >
-          onurpearl
-        </a>
-        {" "}— CC BY 4.0
+        Art by{" "}
+        <span style={{ color: "rgba(255,255,255,0.22)" }}>Hulali Lā</span>
+        {" "}· mauipremiumart.com
       </div>
     </div>
   );
