@@ -4,7 +4,7 @@ import { useState, useCallback } from "react";
 import SplashScreen from "@/components/splash/SplashScreen";
 import StatusBar from "@/components/console/StatusBar";
 import VehicleControls from "@/components/console/VehicleControls";
-import HeroArea3D from "@/components/console/HeroArea3D";
+import HeroArea from "@/components/console/HeroArea3D";
 import MediaPlayer from "@/components/console/MediaPlayer";
 import NavigationWidget from "@/components/console/NavigationWidget";
 import BottomDock from "@/components/console/BottomDock";
@@ -45,7 +45,7 @@ export default function Home() {
       >
         {/* Hero area — fills available space */}
         <div style={{ flex: 1, position: "relative", minHeight: 0 }}>
-          <HeroArea3D />
+          <HeroArea />
           <StatusBar />
           <VehicleControls />
         </div>
