@@ -10,7 +10,7 @@ import NavigationWidget from "@/components/console/NavigationWidget";
 import BottomDock from "@/components/console/BottomDock";
 
 export default function Home() {
-  const [splashDone, setSplashDone] = useState(true); // splash disabled for v1 — Phase 1a
+  const [splashDone, setSplashDone] = useState(true);
 
   const handleSplashComplete = useCallback(() => {
     setSplashDone(true);
@@ -28,10 +28,8 @@ export default function Home() {
         position: "relative",
       }}
     >
-      {/* Boot splash screen */}
       {!splashDone && <SplashScreen onComplete={handleSplashComplete} />}
 
-      {/* Main console — fades in after splash */}
       <div
         style={{
           flex: 1,
@@ -43,20 +41,55 @@ export default function Home() {
           minHeight: 0,
         }}
       >
-        {/* Hero area — fills available space */}
-        <div style={{ flex: 1, position: "relative", minHeight: 0 }}>
-          <HeroArea />
+        {/* HEADER — 48px fixed, clear separation */}
+        <div
+          style={{
+            height: 48,
+            flexShrink: 0,
+            position: "relative",
+            zIndex: 25,
+            background: "#0a0a0f",
+            borderBottom: "1px solid rgba(255,255,255,0.04)",
+          }}
+        >
           <StatusBar />
-          <VehicleControls />
         </div>
 
-        {/* Bottom widgets row */}
+        {/* CONTENT ZONE — image + sidebar, fills remaining space */}
+        <div style={{ flex: 1, position: "relative", minHeight: 0 }}>
+          <HeroArea />
+          <VehicleControls />
+          {/* Closed / Tonneau — right side */}
+          <div
+            className="ct-tonneau-label"
+            style={{
+              position: "absolute",
+              right: 14,
+              top: "50%",
+              transform: "translateY(-50%)",
+              zIndex: 20,
+              pointerEvents: "none",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 3,
+            }}
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <circle cx="8" cy="8" r="6.5" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
+              <text x="8" y="11" fill="rgba(255,255,255,0.3)" fontSize="8" textAnchor="middle" fontWeight="700" fontFamily="sans-serif">!</text>
+            </svg>
+            <span style={{ fontSize: 8, color: "rgba(255,255,255,0.2)", letterSpacing: "0.02em", fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif" }}>Closed / Tonneau</span>
+          </div>
+        </div>
+
+        {/* BOTTOM CARDS — compact 155px zone */}
         <div
           className="ct-widgets-row"
           style={{
             display: "flex",
-            gap: 10,
-            padding: "0 12px 10px",
+            gap: 8,
+            padding: "0 10px 6px",
             flexShrink: 0,
           }}
         >
@@ -64,7 +97,7 @@ export default function Home() {
           <NavigationWidget />
         </div>
 
-        {/* Bottom dock */}
+        {/* DOCK — 52px fixed */}
         <BottomDock />
       </div>
     </main>

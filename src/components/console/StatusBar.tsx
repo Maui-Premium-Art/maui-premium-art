@@ -5,198 +5,214 @@ import { useEffect, useState } from "react";
 export default function StatusBar() {
   const [time, setTime] = useState("");
   const [mounted, setMounted] = useState(false);
+  const [weather, setWeather] = useState("78°F");
 
   useEffect(() => {
     setMounted(true);
-    const update = () => {
+
+    const updateTime = () => {
       const now = new Date();
-      const h = now.getHours();
-      const m = now.getMinutes().toString().padStart(2, "0");
+      const hst = new Date(now.toLocaleString("en-US", { timeZone: "Pacific/Honolulu" }));
+      const h = hst.getHours();
+      const m = hst.getMinutes().toString().padStart(2, "0");
+      const s = hst.getSeconds().toString().padStart(2, "0");
       const hour = h % 12 || 12;
-      setTime(`${hour}:${m}`);
+      setTime(`${hour}:${m}:${s}`);
     };
-    update();
-    const interval = setInterval(update, 30000);
-    return () => clearInterval(interval);
+    updateTime();
+    const clockInterval = setInterval(updateTime, 1000);
+
+    const fetchWeather = async () => {
+      try {
+        const res = await fetch(
+          "https://api.open-meteo.com/v1/forecast?latitude=20.76&longitude=-156.44&current=temperature_2m&temperature_unit=fahrenheit&timezone=Pacific%2FHonolulu"
+        );
+        const data = await res.json();
+        const temp = Math.round(data.current.temperature_2m);
+        setWeather(`${temp}°F`);
+      } catch {
+        setWeather("78°F");
+      }
+    };
+    fetchWeather();
+    const weatherInterval = setInterval(fetchWeather, 600000);
+
+    return () => {
+      clearInterval(clockInterval);
+      clearInterval(weatherInterval);
+    };
   }, []);
 
   return (
     <div
+      className="ct-status-bar"
       style={{
-        position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
-        height: 56,
+        position: "relative",
+        width: "100%",
+        height: 48,
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        padding: "0 16px",
+        padding: "0 14px",
         zIndex: 20,
         pointerEvents: "none",
       }}
     >
-      {/* ── LEFT: Battery + range + Self-Driving ── */}
-      <div style={{ display: "flex", flexDirection: "column", gap: 5, pointerEvents: "auto" }}>
-        {/* Battery + range */}
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          {/* Battery bars */}
-          <div style={{ display: "flex", gap: 2, alignItems: "flex-end" }}>
-            {[14, 14, 14, 12, 10].map((h, i) => (
-              <div
-                key={i}
+      {/* LEFT: PRND + charge bar + range + Gallery */}
+      <div className="ct-status-left" style={{ display: "flex", flexDirection: "column", gap: 5, pointerEvents: "auto" }}>
+        {/* PRND gear selector + charge bar */}
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          {/* PRND */}
+          <div style={{ display: "flex", gap: 6, fontFamily: "-apple-system, 'SF Pro Display', system-ui, sans-serif" }}>
+            {["P", "R", "N", "D"].map((g) => (
+              <span
+                key={g}
                 style={{
-                  width: 3.5,
-                  height: h,
-                  borderRadius: 1.5,
-                  backgroundColor: i < 3 ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.25)",
+                  fontSize: 14,
+                  fontWeight: g === "P" ? 700 : 400,
+                  color: g === "P" ? "#ffffff" : "rgba(255,255,255,0.25)",
+                  letterSpacing: "0.05em",
+                  lineHeight: 1,
                 }}
-              />
+              >
+                {g}
+              </span>
             ))}
           </div>
-          <span
-            style={{
-              fontSize: 16,
-              fontWeight: 500,
-              color: "#ffffff",
-              letterSpacing: "0.02em",
-              fontVariantNumeric: "tabular-nums",
-            }}
-          >
-            123 mi
-          </span>
+
+          {/* Charge bar — diagonal lines + percentage */}
+          <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+            <div style={{ width: 40, height: 10, position: "relative" as const, overflow: "hidden", borderRadius: 2, border: "1px solid rgba(255,255,255,0.2)" }}>
+              <div style={{ width: "60%", height: "100%", background: "repeating-linear-gradient(135deg, rgba(255,255,255,0.5) 0px, rgba(255,255,255,0.5) 2px, transparent 2px, transparent 4px)" }} />
+            </div>
+            <span style={{ fontSize: 11, color: "rgba(255,255,255,0.5)", fontWeight: 500, fontVariantNumeric: "tabular-nums" as const }}>60%</span>
+          </div>
+
+          {/* Battery + range */}
+          <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <div style={{ width: 20, height: 10, border: "1.5px solid rgba(255,255,255,0.6)", borderRadius: 2, padding: 1, display: "flex", gap: 0.5, alignItems: "stretch" }}>
+                {[1, 1, 1, 0, 0].map((filled, i) => (
+                  <div key={i} style={{ flex: 1, borderRadius: 0.5, backgroundColor: filled ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.1)" }} />
+                ))}
+              </div>
+              <div style={{ width: 2, height: 4, borderRadius: "0 1px 1px 0", backgroundColor: "rgba(255,255,255,0.4)" }} />
+            </div>
+            <span style={{ fontSize: 14, fontWeight: 500, color: "#ffffff", fontVariantNumeric: "tabular-nums" as const, lineHeight: 1 }}>
+              123 mi
+            </span>
+          </div>
         </div>
 
-        {/* Start Self-Driving button */}
+        {/* Tap to activate drive */}
+        <div style={{ fontSize: 9, color: "rgba(255,255,255,0.25)", letterSpacing: "0.04em", fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif" }}>
+          ↑ Tap to activate drive
+        </div>
+
+        {/* Gallery button */}
         <button
           style={{
-            border: "1px solid #3b82f6",
-            background: "rgba(59,130,246,0.08)",
-            color: "#3b82f6",
-            padding: "4px 12px",
+            border: "1.5px solid rgba(255,255,255,0.25)",
+            background: "transparent",
+            color: "rgba(255,255,255,0.7)",
+            padding: "5px 14px",
             borderRadius: 20,
             fontSize: 11,
             fontWeight: 500,
-            letterSpacing: "0.01em",
+            letterSpacing: "0.02em",
             cursor: "pointer",
             whiteSpace: "nowrap",
-            fontFamily: "system-ui, -apple-system, sans-serif",
+            fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
+            lineHeight: 1,
+            alignSelf: "flex-start",
+            transition: "all 0.15s ease",
           }}
+          onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#3b82f6"; e.currentTarget.style.color = "#3b82f6"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.25)"; e.currentTarget.style.color = "rgba(255,255,255,0.7)"; }}
         >
-          Start Self-Driving
+          Gallery
         </button>
       </div>
 
-      {/* ── CENTER: Status icons ── */}
-      <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
-        {/* Person icon */}
-        <svg width="20" height="20" viewBox="0 0 18 18" fill="none">
-          <circle cx="9" cy="6" r="3" stroke="rgba(255,255,255,0.55)" strokeWidth="1.3" />
-          <path d="M2.5 16.5C2.5 13.46 5.46 11 9 11s6.5 2.46 6.5 5.5" stroke="rgba(255,255,255,0.55)" strokeWidth="1.3" fill="none" strokeLinecap="round" />
-        </svg>
-
-        {/* WiFi icon */}
-        <svg width="20" height="18" viewBox="0 0 18 16" fill="none">
-          <path d="M1 4.5C4.5 1 13.5 1 17 4.5" stroke="rgba(255,255,255,0.4)" strokeWidth="1.3" strokeLinecap="round" />
-          <path d="M3.5 7C6.2 4.3 11.8 4.3 14.5 7" stroke="rgba(255,255,255,0.55)" strokeWidth="1.3" strokeLinecap="round" />
-          <path d="M6.2 9.5C7.6 8.1 10.4 8.1 11.8 9.5" stroke="rgba(255,255,255,0.75)" strokeWidth="1.3" strokeLinecap="round" />
-          <circle cx="9" cy="13" r="1.2" fill="rgba(255,255,255,0.9)" />
-        </svg>
-
-        {/* LTE */}
-        <span
-          style={{
-            fontSize: 11,
-            fontWeight: 700,
-            color: "rgba(255,255,255,0.55)",
-            letterSpacing: "0.08em",
-          }}
+      {/* CENTER: Status icons with login button */}
+      <div style={{ display: "flex", gap: 16, alignItems: "center", paddingTop: 2 }}>
+        {/* Person icon → Login button */}
+        <button
+          style={{ background: "none", border: "none", cursor: "pointer", padding: 2, display: "flex", transition: "opacity 0.15s ease", pointerEvents: "auto" } as React.CSSProperties}
+          title="Login"
+          onMouseEnter={(e) => { e.currentTarget.style.opacity = "1"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.opacity = ""; }}
         >
-          LTE
-        </span>
-
-        {/* Signal bars */}
+          <svg width="22" height="22" viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="7" r="3.2" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" />
+            <path d="M3 18c0-3.87 3.13-7 7-7s7 3.13 7 7" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+          </svg>
+        </button>
+        <svg width="22" height="18" viewBox="0 0 20 16" fill="none">
+          <path d="M1 4C5 0.5 15 0.5 19 4" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5" strokeLinecap="round" />
+          <path d="M4 7C7 4 13 4 16 7" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5" strokeLinecap="round" />
+          <path d="M7 10C8.5 8.5 11.5 8.5 13 10" stroke="rgba(255,255,255,0.85)" strokeWidth="1.5" strokeLinecap="round" />
+          <circle cx="10" cy="13.5" r="1.3" fill="rgba(255,255,255,0.95)" />
+        </svg>
+        <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.7)", letterSpacing: "0.06em", fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif" }}>LTE</span>
         <div style={{ display: "flex", gap: 2.5, alignItems: "flex-end" }}>
           {[7, 10, 13, 16].map((h, i) => (
-            <div
-              key={i}
-              style={{
-                width: 3.5,
-                height: h,
-                borderRadius: 1.5,
-                backgroundColor: i < 3 ? "rgba(255,255,255,0.75)" : "rgba(255,255,255,0.2)",
-              }}
-            />
+            <div key={i} style={{ width: 4, height: h, borderRadius: 1, backgroundColor: i < 3 ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.25)" }} />
           ))}
         </div>
-
-        {/* Location/sync icon */}
-        <svg width="14" height="16" viewBox="0 0 14 16" fill="none">
-          <circle cx="7" cy="7" r="5.5" stroke="rgba(255,255,255,0.4)" strokeWidth="1.2" />
-          <circle cx="7" cy="7" r="2" stroke="rgba(255,255,255,0.4)" strokeWidth="1.2" />
-          <line x1="7" y1="1.5" x2="7" y2="4" stroke="rgba(255,255,255,0.4)" strokeWidth="1.2" />
-          <line x1="7" y1="10" x2="7" y2="13" stroke="rgba(255,255,255,0.4)" strokeWidth="1.2" />
+        <svg width="14" height="18" viewBox="0 0 12 16" fill="none">
+          <path d="M6 1v14M6 1l5 4-5 4M6 15l5-4-5-4" stroke="rgba(255,255,255,0.6)" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </div>
 
-      {/* ── RIGHT: Clock + weather + compass ── */}
-      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        {/* Time + weather */}
-        <div style={{ textAlign: "right" }}>
-          <div
-            style={{
-              fontSize: 32,
-              fontWeight: 300,
-              color: "#ffffff",
-              letterSpacing: "0.02em",
-              lineHeight: 1,
-              fontVariantNumeric: "tabular-nums",
-            }}
-          >
-            {mounted ? time : "12:00"}
+      {/* RIGHT: Clock + weather + Hawaii map */}
+      <div className="ct-status-right" style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
+        <div style={{ textAlign: "right" as const }}>
+          <div style={{ fontSize: 32, fontWeight: 300, color: "#ffffff", letterSpacing: "-0.01em", lineHeight: 1, fontVariantNumeric: "tabular-nums" as const, fontFamily: "-apple-system, 'SF Pro Display', system-ui, sans-serif" }}>
+            {mounted ? time : "12:00:00"}
           </div>
-          <div
-            style={{
-              fontSize: 11,
-              color: "rgba(255,255,255,0.55)",
-              marginTop: 2,
-              display: "flex",
-              alignItems: "center",
-              gap: 3,
-              justifyContent: "flex-end",
-            }}
-          >
-            {/* Cloud icon */}
-            <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
-              <path d="M2 8C2 8 1 8 0.8 7C0.6 6 1.2 5 2 5C2 5 2 3 3.5 3C5 3 5 5 5 5C5 5 5.5 4 6.5 4C8 4 8 5.5 8 5.5C8 5.5 8.5 5 9 5C10 5 10.5 6 10.5 7C10.5 8 9.5 8 9.5 8H2Z" fill="rgba(255,255,255,0.6)" />
+          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", marginTop: 3, display: "flex", alignItems: "center", gap: 4, justifyContent: "flex-end", fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif" }}>
+            <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
+              <circle cx="11" cy="4" r="3" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
+              <path d="M3 10.5C1.5 10.5 0.5 9.5 0.5 8.2C0.5 7 1.3 6 2.5 5.8C2.5 4 4 2.5 6 2.5C7.5 2.5 8.7 3.5 9.2 4.8C9.5 4.6 10 4.5 10.5 4.5C12 4.5 13.2 5.7 13.2 7.2C13.2 7.5 13.1 7.8 13 8C13 9.4 11.8 10.5 10.5 10.5H3Z" fill="rgba(255,255,255,0.55)" />
             </svg>
-            <span>78°F</span>
+            <span>{mounted ? weather : "78°F"}</span>
           </div>
         </div>
 
-        {/* Compass/mini-map */}
+        {/* Hawaii map — replaces compass */}
         <div
+          className="ct-minimap"
           style={{
-            width: 52,
-            height: 44,
+            width: 62,
+            height: 46,
             borderRadius: 6,
             overflow: "hidden",
-            border: "1px solid rgba(255,255,255,0.12)",
-            background: "#111826",
-            position: "relative",
+            border: "1px solid rgba(255,255,255,0.08)",
+            background: "#0a0a0f",
             flexShrink: 0,
+            position: "relative" as const,
           }}
         >
-          <svg width="52" height="44" viewBox="0 0 52 44" fill="none">
-            {/* Grid lines */}
-            <line x1="0" y1="22" x2="52" y2="22" stroke="rgba(255,255,255,0.12)" strokeWidth="0.7" />
-            <line x1="26" y1="0" x2="26" y2="44" stroke="rgba(255,255,255,0.12)" strokeWidth="0.7" />
-            <line x1="0" y1="11" x2="52" y2="11" stroke="rgba(255,255,255,0.06)" strokeWidth="0.5" />
-            <line x1="0" y1="33" x2="52" y2="33" stroke="rgba(255,255,255,0.06)" strokeWidth="0.5" />
-            <line x1="13" y1="0" x2="13" y2="44" stroke="rgba(255,255,255,0.06)" strokeWidth="0.5" />
-            <line x1="39" y1="0" x2="39" y2="44" stroke="rgba(255,255,255,0.06)" strokeWidth="0.5" />
-            {/* Red compass arrow */}
-            <polygon points="26,4 29,14 26,12 23,14" fill="#ef4444" />
+          <svg width="62" height="46" viewBox="0 0 62 46">
+            <rect width="62" height="46" fill="#0a0a0f" />
+            {/* Simplified Hawaiian Islands — Kauai, Oahu, Molokai, Lanai, Maui, Big Island */}
+            {/* Kauai */}
+            <ellipse cx="8" cy="16" rx="3.5" ry="3" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="0.8" />
+            {/* Oahu */}
+            <ellipse cx="16" cy="18" rx="3" ry="2.5" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="0.8" />
+            {/* Molokai */}
+            <ellipse cx="24" cy="17" rx="4" ry="1.2" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="0.8" />
+            {/* Lanai */}
+            <ellipse cx="26" cy="21" rx="1.5" ry="1.8" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="0.7" />
+            {/* Maui — highlighted */}
+            <path d="M30 15 C32 14 35 15 35 17 C35 19 33 22 31 22 C29 22 28 20 29 18 C29 17 30 16 30 15Z" fill="none" stroke="rgba(255,255,255,0.35)" strokeWidth="0.9" />
+            {/* Big Island */}
+            <path d="M42 18 C45 17 50 19 50 23 C50 27 47 32 44 32 C41 32 39 28 39 25 C39 22 41 19 42 18Z" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="0.8" />
+            {/* Red marker — Haiku, Maui */}
+            <polygon points="32,16 33.5,19 30.5,19" fill="#ef4444" />
+            {/* Label */}
+            <text x="32" y="13" fill="rgba(255,255,255,0.35)" fontSize="5" textAnchor="middle" fontFamily="sans-serif">Haiku</text>
           </svg>
         </div>
       </div>
