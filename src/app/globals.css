@@ -135,6 +135,39 @@ canvas {
   display: block;
 }
 
+/* Dock microinteractions */
+.dock-label {
+  display: block;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  margin-top: 3px;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 150ms ease-out, transform 150ms ease-out;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.ct-dock-icon:hover .dock-label {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.ct-dock-icon {
+  transition: transform 150ms ease-out;
+}
+
+.ct-dock-icon:hover {
+  transform: scale(1.12);
+}
+
+.ct-dock-icon:active {
+  transform: scale(0.95);
+}
+
 /* Mobile responsive overrides */
 @media (max-width: 768px) {
   html, body {
