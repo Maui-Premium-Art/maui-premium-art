@@ -13,18 +13,16 @@ export default function MediaPlayer() {
   const [trackIdx, setTrackIdx] = useState(0);
   const [progress, setProgress] = useState(0);
   const [elapsed, setElapsed] = useState("0:00");
-  const [duration, setDuration] = useState("4:28");
+  const [duration] = useState("4:28");
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const audioCtxRef = useRef<AudioContext | null>(null);
-  const oscillatorRef = useRef<OscillatorNode | null>(null);
-  const gainRef = useRef<GainNode | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
+  const nodesRef = useRef<AudioNode[]>([]);
   const rafRef = useRef<number>(0);
   const startTimeRef = useRef<number>(0);
 
   const track = TRACKS[trackIdx];
 
-  // Waveform visualization
   const drawWaveform = useCallback(() => {
     const canvas = canvasRef.current;
     const analyser = analyserRef.current;
@@ -61,12 +59,27 @@ export default function MediaPlayer() {
     }
   }, [playing]);
 
-  // Ambient tone generator (slack key inspired harmonics)
+  const drawFlatLine = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = "rgba(255,255,255,0.15)";
+    ctx.beginPath();
+    ctx.moveTo(0, canvas.height / 2);
+    ctx.lineTo(canvas.width, canvas.height / 2);
+    ctx.stroke();
+  }, []);
+
+  // FIX: Track all audio nodes for clean teardown — no leaked oscillators/LFOs
   const startAudio = useCallback(() => {
     if (audioCtxRef.current) return;
 
     const ctx = new AudioContext();
     audioCtxRef.current = ctx;
+    const nodes: AudioNode[] = [];
 
     const analyser = ctx.createAnalyser();
     analyser.fftSize = 256;
@@ -74,66 +87,81 @@ export default function MediaPlayer() {
 
     const gain = ctx.createGain();
     gain.gain.value = 0.08;
-    gainRef.current = gain;
+    nodes.push(gain);
 
-    // Slack key: layered harmonics for ambient Hawaiian sound
-    const freqs = [196, 293.66, 392, 587.33]; // G3, D4, G4, D5
+    const freqs = [196, 293.66, 392, 587.33];
     freqs.forEach((freq, i) => {
       const osc = ctx.createOscillator();
       osc.type = i < 2 ? "sine" : "triangle";
       osc.frequency.value = freq;
+      nodes.push(osc);
 
       const oscGain = ctx.createGain();
       oscGain.gain.value = i === 0 ? 0.04 : 0.02;
+      nodes.push(oscGain);
 
-      // Gentle LFO for wavering
       const lfo = ctx.createOscillator();
       lfo.frequency.value = 0.3 + i * 0.1;
+      nodes.push(lfo);
       const lfoGain = ctx.createGain();
       lfoGain.gain.value = 2;
+      nodes.push(lfoGain);
+
       lfo.connect(lfoGain);
       lfoGain.connect(osc.frequency);
       lfo.start();
-
       osc.connect(oscGain);
       oscGain.connect(gain);
       osc.start();
-
-      if (i === 0) oscillatorRef.current = osc;
     });
 
     gain.connect(analyser);
     analyser.connect(ctx.destination);
+    nodesRef.current = nodes;
 
     startTimeRef.current = Date.now();
     setPlaying(true);
   }, []);
 
+  // FIX: Clean teardown — disconnect all nodes, close context
   const stopAudio = useCallback(() => {
+    cancelAnimationFrame(rafRef.current);
+
+    // Disconnect all tracked nodes
+    for (const node of nodesRef.current) {
+      try {
+        node.disconnect();
+        if (node instanceof OscillatorNode) node.stop();
+      } catch { /* already stopped */ }
+    }
+    nodesRef.current = [];
+
     if (audioCtxRef.current) {
       audioCtxRef.current.close();
       audioCtxRef.current = null;
-      oscillatorRef.current = null;
-      analyserRef.current = null;
-      gainRef.current = null;
     }
-    cancelAnimationFrame(rafRef.current);
-    setPlaying(false);
+    analyserRef.current = null;
 
-    // Draw flat line
-    const canvas = canvasRef.current;
-    if (canvas) {
-      const ctx = canvas.getContext("2d");
-      if (ctx) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.lineWidth = 1;
-        ctx.strokeStyle = "rgba(255,255,255,0.15)";
-        ctx.beginPath();
-        ctx.moveTo(0, canvas.height / 2);
-        ctx.lineTo(canvas.width, canvas.height / 2);
-        ctx.stroke();
+    setPlaying(false);
+    drawFlatLine();
+  }, [drawFlatLine]);
+
+  // FIX: Cleanup on unmount — prevents AudioContext leak
+  useEffect(() => {
+    return () => {
+      cancelAnimationFrame(rafRef.current);
+      for (const node of nodesRef.current) {
+        try {
+          node.disconnect();
+          if (node instanceof OscillatorNode) node.stop();
+        } catch { /* already stopped */ }
       }
-    }
+      nodesRef.current = [];
+      if (audioCtxRef.current) {
+        audioCtxRef.current.close();
+        audioCtxRef.current = null;
+      }
+    };
   }, []);
 
   const togglePlay = useCallback(() => {
@@ -161,40 +189,27 @@ export default function MediaPlayer() {
     }
   }, [playing, startAudio, stopAudio]);
 
-  // Update progress and waveform while playing
   useEffect(() => {
     if (!playing) return;
-
     drawWaveform();
-
     const interval = setInterval(() => {
-      const totalSec = 268; // 4:28
+      const totalSec = 268;
       const elapsedSec = Math.floor((Date.now() - startTimeRef.current) / 1000) % totalSec;
       const m = Math.floor(elapsedSec / 60);
       const s = (elapsedSec % 60).toString().padStart(2, "0");
       setElapsed(`${m}:${s}`);
       setProgress((elapsedSec / totalSec) * 100);
     }, 500);
-
     return () => clearInterval(interval);
   }, [playing, drawWaveform]);
 
-  // Draw flat line on mount
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-    ctx.lineWidth = 1;
-    ctx.strokeStyle = "rgba(255,255,255,0.15)";
-    ctx.beginPath();
-    ctx.moveTo(0, canvas.height / 2);
-    ctx.lineTo(canvas.width, canvas.height / 2);
-    ctx.stroke();
-  }, []);
+  useEffect(() => { drawFlatLine(); }, [drawFlatLine]);
 
   return (
+    // A11y: region with accessible label
     <div
+      role="region"
+      aria-label="Hawaiian Radio music player"
       style={{
         background: "#14141e",
         border: "1px solid rgba(255,255,255,0.06)",
@@ -208,21 +223,30 @@ export default function MediaPlayer() {
       <div style={{ fontSize: 9, fontWeight: 600, color: "rgba(255,255,255,0.3)", letterSpacing: "0.12em", textTransform: "uppercase" as const, marginBottom: 6 }}>
         Hawaiian Radio
       </div>
-      <div style={{ marginBottom: 6 }}>
+      <div style={{ marginBottom: 6 }} aria-live="polite">
         <div style={{ fontSize: 13, fontWeight: 500, color: "#ffffff", letterSpacing: "0.01em", lineHeight: 1.3 }}>{track.title}</div>
         <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", marginTop: 1, lineHeight: 1.3 }}>{track.artist} · {track.genre}</div>
       </div>
 
-      {/* Waveform visualization */}
+      {/* A11y: canvas with accessible description */}
       <canvas
         ref={canvasRef}
         width={300}
         height={20}
+        role="img"
+        aria-label="Audio waveform visualization"
         style={{ width: "100%", height: 20, marginBottom: 3, borderRadius: 2 }}
       />
 
-      {/* Progress bar */}
-      <div style={{ height: 2.5, background: "rgba(255,255,255,0.08)", borderRadius: 2, marginBottom: 4, position: "relative" as const, cursor: "pointer" }}>
+      {/* A11y: progress bar with slider semantics */}
+      <div
+        role="progressbar"
+        aria-label="Track progress"
+        aria-valuenow={Math.round(progress)}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        style={{ height: 2.5, background: "rgba(255,255,255,0.08)", borderRadius: 2, marginBottom: 4, position: "relative" as const, cursor: "pointer" }}
+      >
         <div style={{ width: `${progress}%`, height: "100%", background: "rgba(255,255,255,0.55)", borderRadius: 2, transition: "width 0.5s linear" }} />
         <div style={{ position: "absolute" as const, left: `${progress}%`, top: "50%", transform: "translate(-50%, -50%)", width: 8, height: 8, borderRadius: "50%", background: "#ffffff", boxShadow: "0 0 4px rgba(0,0,0,0.4)" }} />
       </div>
@@ -232,14 +256,14 @@ export default function MediaPlayer() {
       </div>
 
       {/* Transport controls */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+      <div role="toolbar" aria-label="Playback controls" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <button style={btnStyle} aria-label="Shuffle">
           <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
             <path d="M1 10h2l3-3M1 4h2l8 6h4M11 4h4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
             <path d="M13 2l2 2-2 2M13 8l2 2-2 2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
-        <button style={btnStyle} aria-label="Previous" onClick={prevTrack}>
+        <button style={btnStyle} aria-label="Previous track" onClick={prevTrack}>
           <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
             <rect x="1" y="2" width="2" height="10" rx="0.8" fill="currentColor" />
             <path d="M14 2L5 7L14 12V2Z" fill="currentColor" />
@@ -268,7 +292,7 @@ export default function MediaPlayer() {
             </svg>
           )}
         </button>
-        <button style={btnStyle} aria-label="Next" onClick={nextTrack}>
+        <button style={btnStyle} aria-label="Next track" onClick={nextTrack}>
           <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
             <rect x="13" y="2" width="2" height="10" rx="0.8" fill="currentColor" />
             <path d="M2 2L11 7L2 12V2Z" fill="currentColor" />
