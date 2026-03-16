@@ -168,6 +168,29 @@ canvas {
   transform: scale(0.95);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .dock-label {
+    transition: none;
+    transform: none;
+  }
+
+  .ct-dock-icon {
+    transition: none;
+  }
+
+  .ct-dock-icon:hover {
+    transform: none;
+  }
+
+  .ct-dock-icon:active {
+    transform: none;
+  }
+
+  .ct-dock-icon:hover .dock-label {
+    transform: none;
+  }
+}
+
 /* Mobile responsive overrides */
 @media (max-width: 768px) {
   html, body {
