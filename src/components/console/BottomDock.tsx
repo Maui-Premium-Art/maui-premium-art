@@ -1,5 +1,6 @@
 "use client";
 
+// Force Vercel rebuild — stale cache detected 2026-03-16
 import { useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { dockSounds } from "@/lib/dockSounds";
