@@ -28,34 +28,127 @@ function StaticHero() {
         }}
       />
 
-      {/* Mountain silhouette */}
+      {/* Low-poly terrain mesh — Tron/wireframe meets Hawaiian landscape */}
       <svg
         style={{
           position: "absolute",
           bottom: 0,
           left: 0,
           width: "100%",
-          height: "55%",
+          height: "60%",
           pointerEvents: "none",
         }}
-        viewBox="0 0 1200 350"
+        viewBox="0 0 1200 400"
         preserveAspectRatio="xMidYMax slice"
+        aria-hidden="true"
       >
-        <path
-          d="M0 350 L0 200 L80 170 L160 190 L240 155 L320 178 L400 145 L480 168 L560 132 L640 155 L720 128 L800 150 L880 128 L960 148 L1040 135 L1120 158 L1200 142 L1200 350 Z"
-          fill="#0f0f1a"
-        />
-        <path
-          d="M0 350 L0 250 L100 225 L200 240 L300 215 L400 232 L500 205 L600 225 L700 200 L800 220 L900 198 L1000 218 L1100 205 L1200 222 L1200 350 Z"
-          fill="#0c0c16"
-        />
-        <path
-          d="M0 350 L0 295 L150 278 L300 288 L450 272 L600 285 L750 270 L900 283 L1050 270 L1200 282 L1200 350 Z"
-          fill="#090912"
-        />
+        <defs>
+          <linearGradient id="terrain-fade" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="rgba(255,255,255,0.06)" />
+            <stop offset="100%" stopColor="rgba(255,255,255,0)" />
+          </linearGradient>
+        </defs>
+
+        {/* Far range — distant peaks, darkest */}
+        <g fill="#0c0c14" stroke="rgba(255,255,255,0.04)" strokeWidth="0.5">
+          <polygon points="0,200 60,155 120,175 0,200" />
+          <polygon points="60,155 120,175 180,140 60,155" />
+          <polygon points="120,175 180,140 240,162 120,175" />
+          <polygon points="180,140 240,162 300,128 180,140" />
+          <polygon points="240,162 300,128 360,152 240,162" />
+          <polygon points="300,128 360,152 420,118 300,128" />
+          <polygon points="360,152 420,118 480,145 360,152" />
+          <polygon points="420,118 480,145 540,110 420,118" />
+          <polygon points="480,145 540,110 600,138 480,145" />
+          <polygon points="540,110 600,138 660,105 540,110" />
+          <polygon points="600,138 660,105 720,132 600,138" />
+          <polygon points="660,105 720,132 780,98 660,105" />
+          <polygon points="720,132 780,98 840,125 720,132" />
+          <polygon points="780,98 840,125 900,108 780,98" />
+          <polygon points="840,125 900,108 960,130 840,125" />
+          <polygon points="900,108 960,130 1020,115 900,108" />
+          <polygon points="960,130 1020,115 1080,138 960,130" />
+          <polygon points="1020,115 1080,138 1140,120 1020,115" />
+          <polygon points="1080,138 1140,120 1200,142 1080,138" />
+          {/* Fill down to base */}
+          <polygon points="0,200 120,175 0,400" />
+          <polygon points="120,175 240,162 0,400" />
+          <polygon points="240,162 360,152 0,400" />
+          <polygon points="0,400 360,152 600,138 0,400" />
+          <polygon points="0,400 600,138 1200,142 1200,400" />
+        </g>
+
+        {/* Mid range — closer ridgeline, slightly lighter */}
+        <g fill="#0e0e1a" stroke="rgba(255,255,255,0.06)" strokeWidth="0.5">
+          <polygon points="0,260 80,225 160,248" />
+          <polygon points="80,225 160,248 200,218" />
+          <polygon points="160,248 200,218 280,240" />
+          <polygon points="200,218 280,240 340,210" />
+          <polygon points="280,240 340,210 400,235" />
+          <polygon points="340,210 400,235 460,200" />
+          <polygon points="400,235 460,200 520,228" />
+          <polygon points="460,200 520,228 580,195" />
+          <polygon points="520,228 580,195 640,222" />
+          <polygon points="580,195 640,222 700,188" />
+          <polygon points="640,222 700,188 760,215" />
+          <polygon points="700,188 760,215 820,195" />
+          <polygon points="760,215 820,195 880,220" />
+          <polygon points="820,195 880,220 940,202" />
+          <polygon points="880,220 940,202 1000,225" />
+          <polygon points="940,202 1000,225 1060,208" />
+          <polygon points="1000,225 1060,208 1120,230" />
+          <polygon points="1060,208 1120,230 1200,215" />
+          {/* Fill triangles connecting mid to base */}
+          <polygon points="0,260 160,248 80,290" />
+          <polygon points="160,248 80,290 240,285" />
+          <polygon points="160,248 280,240 240,285" />
+          <polygon points="280,240 240,285 400,280" />
+          <polygon points="280,240 400,235 400,280" />
+          <polygon points="400,235 400,280 560,275" />
+          <polygon points="400,235 520,228 560,275" />
+          <polygon points="520,228 560,275 680,270" />
+          <polygon points="520,228 640,222 680,270" />
+          <polygon points="640,222 680,270 800,268" />
+          <polygon points="640,222 760,215 800,268" />
+          <polygon points="760,215 800,268 920,272" />
+          <polygon points="760,215 880,220 920,272" />
+          <polygon points="880,220 920,272 1060,275" />
+          <polygon points="880,220 1000,225 1060,275" />
+          <polygon points="1000,225 1060,275 1200,270" />
+          <polygon points="1000,225 1200,215 1200,270" />
+        </g>
+
+        {/* Near range — foreground terrain, lightest facets */}
+        <g stroke="rgba(255,255,255,0.07)" strokeWidth="0.5">
+          <polygon points="0,310 80,290 160,305" fill="#10101e" />
+          <polygon points="80,290 160,305 240,285" fill="#0f0f1c" />
+          <polygon points="160,305 240,285 320,300" fill="#111120" />
+          <polygon points="240,285 320,300 400,280" fill="#0f0f1c" />
+          <polygon points="320,300 400,280 480,298" fill="#10101e" />
+          <polygon points="400,280 480,298 560,275" fill="#0e0e1a" />
+          <polygon points="480,298 560,275 640,295" fill="#111120" />
+          <polygon points="560,275 640,295 720,278" fill="#10101e" />
+          <polygon points="640,295 720,278 800,292" fill="#0f0f1c" />
+          <polygon points="720,278 800,292 880,275" fill="#10101e" />
+          <polygon points="800,292 880,275 960,290" fill="#111120" />
+          <polygon points="880,275 960,290 1040,278" fill="#0f0f1c" />
+          <polygon points="960,290 1040,278 1120,295" fill="#10101e" />
+          <polygon points="1040,278 1120,295 1200,282" fill="#0e0e1a" />
+          {/* Bottom fill to viewport edge */}
+          <polygon points="0,310 160,305 0,400" fill="#111120" />
+          <polygon points="160,305 320,300 0,400" fill="#10101e" />
+          <polygon points="0,400 320,300 480,298" fill="#0f0f1c" />
+          <polygon points="0,400 480,298 720,278 1200,282 1200,400" fill="#10101e" />
+        </g>
+
+        {/* Wireframe highlight overlay — subtle edge glow */}
+        <g fill="none" stroke="url(#terrain-fade)" strokeWidth="0.8">
+          <polyline points="0,260 80,225 200,218 340,210 460,200 580,195 700,188 820,195 940,202 1060,208 1200,215" />
+          <polyline points="0,310 80,290 240,285 400,280 560,275 720,278 880,275 1040,278 1200,282" />
+        </g>
       </svg>
 
-      {/* Grid floor — perspective */}
+      {/* Grid floor — perspective wireframe */}
       <div
         style={{
           position: "absolute",
@@ -64,16 +157,16 @@ function StaticHero() {
           right: "-30%",
           height: "38%",
           backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)
+            linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)
           `,
           backgroundSize: "44px 44px",
           transform: "perspective(280px) rotateX(62deg)",
           transformOrigin: "bottom center",
           maskImage:
-            "linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%)",
+            "linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%)",
           WebkitMaskImage:
-            "linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%)",
+            "linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%)",
           pointerEvents: "none",
         }}
       />
