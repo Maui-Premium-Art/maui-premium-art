@@ -1,11 +1,43 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+
+type Gear = "P" | "R" | "N" | "D";
+
+const CHARGE_LEVEL = 72;
+
+function getChargeColor(pct: number): string {
+  if (pct <= 20) return "#ef4444";
+  if (pct <= 50) return "#eab308";
+  return "#22c55e";
+}
+
+function getChargeGradient(pct: number): string {
+  if (pct <= 20) return "linear-gradient(90deg, #dc2626, #ef4444)";
+  if (pct <= 50) return "linear-gradient(90deg, #ef4444, #eab308)";
+  return "linear-gradient(90deg, #22c55e, #4ade80)";
+}
+
+function getRangeForCharge(pct: number): number {
+  return Math.round((pct / 100) * 320);
+}
+
+function getBatterySegments(pct: number): boolean[] {
+  const filled = Math.round((pct / 100) * 5);
+  return Array.from({ length: 5 }, (_, i) => i < filled);
+}
 
 export default function StatusBar() {
   const [time, setTime] = useState("");
   const [mounted, setMounted] = useState(false);
   const [weather, setWeather] = useState("78°F");
+  const [gear, setGear] = useState<Gear>("P");
+  const [charge, setCharge] = useState(0);
+  const [chargeAnimated, setChargeAnimated] = useState(false);
+
+  const handleGearSelect = useCallback((g: Gear) => {
+    setGear(g);
+  }, []);
 
   useEffect(() => {
     setMounted(true);
@@ -37,9 +69,16 @@ export default function StatusBar() {
     fetchWeather();
     const weatherInterval = setInterval(fetchWeather, 600000);
 
+    // Animate charge bar from 0 to CHARGE_LEVEL on mount
+    const chargeTimeout = setTimeout(() => {
+      setCharge(CHARGE_LEVEL);
+      setChargeAnimated(true);
+    }, 300);
+
     return () => {
       clearInterval(clockInterval);
       clearInterval(weatherInterval);
+      clearTimeout(chargeTimeout);
     };
   }, []);
 
@@ -63,50 +102,105 @@ export default function StatusBar() {
         {/* PRND gear selector + charge bar */}
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           {/* PRND */}
-          <div style={{ display: "flex", gap: 6, fontFamily: "-apple-system, 'SF Pro Display', system-ui, sans-serif" }}>
-            {["P", "R", "N", "D"].map((g) => (
-              <span
+          <div
+            role="radiogroup"
+            aria-label="Gear selector"
+            style={{ display: "flex", gap: 6, fontFamily: "-apple-system, 'SF Pro Display', system-ui, sans-serif" }}
+          >
+            {(["P", "R", "N", "D"] as Gear[]).map((g) => (
+              <button
                 key={g}
+                role="radio"
+                aria-checked={gear === g}
+                aria-label={`Gear ${g}`}
+                onClick={() => handleGearSelect(g)}
                 style={{
                   fontSize: 14,
-                  fontWeight: g === "P" ? 700 : 400,
-                  color: g === "P" ? "#ffffff" : "rgba(255,255,255,0.25)",
+                  fontWeight: gear === g ? 700 : 400,
+                  color: gear === g ? "#ffffff" : "rgba(255,255,255,0.25)",
                   letterSpacing: "0.05em",
                   lineHeight: 1,
+                  background: "none",
+                  border: "none",
+                  padding: "2px 1px",
+                  cursor: "pointer",
+                  transition: "color 0.2s ease, font-weight 0.2s ease",
                 }}
               >
                 {g}
-              </span>
+              </button>
             ))}
           </div>
 
-          {/* Charge bar — diagonal lines + percentage */}
+          {/* Charge bar — animated gradient + percentage */}
           <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-            <div style={{ width: 40, height: 10, position: "relative" as const, overflow: "hidden", borderRadius: 2, border: "1px solid rgba(255,255,255,0.2)" }}>
-              <div style={{ width: "60%", height: "100%", background: "repeating-linear-gradient(135deg, rgba(255,255,255,0.5) 0px, rgba(255,255,255,0.5) 2px, transparent 2px, transparent 4px)" }} />
+            <div
+              style={{
+                width: 40,
+                height: 10,
+                position: "relative" as const,
+                overflow: "hidden",
+                borderRadius: 2,
+                border: `1px solid ${chargeAnimated ? getChargeColor(charge) + "40" : "rgba(255,255,255,0.2)"}`,
+                transition: "border-color 0.8s ease",
+              }}
+              role="meter"
+              aria-label="Charge level"
+              aria-valuenow={charge}
+              aria-valuemin={0}
+              aria-valuemax={100}
+            >
+              <div
+                style={{
+                  width: `${charge}%`,
+                  height: "100%",
+                  background: getChargeGradient(charge),
+                  transition: chargeAnimated ? "width 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)" : "none",
+                  borderRadius: 1,
+                }}
+              />
             </div>
-            <span style={{ fontSize: 11, color: "rgba(255,255,255,0.5)", fontWeight: 500, fontVariantNumeric: "tabular-nums" as const }}>60%</span>
+            <span
+              style={{
+                fontSize: 11,
+                color: chargeAnimated ? getChargeColor(charge) : "rgba(255,255,255,0.5)",
+                fontWeight: 500,
+                fontVariantNumeric: "tabular-nums" as const,
+                transition: "color 0.8s ease",
+                minWidth: 28,
+              }}
+            >
+              {charge}%
+            </span>
           </div>
 
           {/* Battery + range */}
           <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 1 }}>
               <div style={{ width: 20, height: 10, border: "1.5px solid rgba(255,255,255,0.6)", borderRadius: 2, padding: 1, display: "flex", gap: 0.5, alignItems: "stretch" }}>
-                {[1, 1, 1, 0, 0].map((filled, i) => (
-                  <div key={i} style={{ flex: 1, borderRadius: 0.5, backgroundColor: filled ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.1)" }} />
+                {getBatterySegments(charge).map((filled, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      flex: 1,
+                      borderRadius: 0.5,
+                      backgroundColor: filled ? getChargeColor(charge) : "rgba(255,255,255,0.1)",
+                      transition: "background-color 0.8s ease",
+                    }}
+                  />
                 ))}
               </div>
               <div style={{ width: 2, height: 4, borderRadius: "0 1px 1px 0", backgroundColor: "rgba(255,255,255,0.4)" }} />
             </div>
             <span style={{ fontSize: 14, fontWeight: 500, color: "#ffffff", fontVariantNumeric: "tabular-nums" as const, lineHeight: 1 }}>
-              123 mi
+              {getRangeForCharge(charge)} mi
             </span>
           </div>
         </div>
 
-        {/* Tap to activate drive */}
+        {/* Gear hint */}
         <div style={{ fontSize: 9, color: "rgba(255,255,255,0.25)", letterSpacing: "0.04em", fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif" }}>
-          ↑ Tap to activate drive
+          {gear === "P" ? "↑ Tap to activate drive" : gear === "D" ? "Drive mode active" : gear === "R" ? "Reverse mode active" : "Neutral — coasting"}
         </div>
 
         {/* Gallery button */}
