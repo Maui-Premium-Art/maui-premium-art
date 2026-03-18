@@ -69,6 +69,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" style={{ background: "#0a0a0f" }}>
+      <head>
+        <link rel="preconnect" href="https://api.open-meteo.com" />
+      </head>
       <body style={{ background: "#0a0a0f", margin: 0, padding: 0, overflow: "hidden" }}>{children}</body>
     </html>
   );

@@ -193,26 +193,38 @@ export default function StatusBar() {
             flexShrink: 0,
             position: "relative" as const,
           }}
+          title="Kihei, Maui"
         >
-          <svg width="62" height="46" viewBox="0 0 62 46">
+          <svg width="62" height="46" viewBox="0 0 62 46" aria-label="Hawaiian island chain with Kihei marker">
+            <defs>
+              <style>{`
+                @keyframes kiheiPulse {
+                  0%, 100% { r: 1.2; opacity: 0.9; }
+                  50% { r: 2.5; opacity: 0.4; }
+                }
+                .kihei-pulse { animation: kiheiPulse 2s ease-in-out infinite; }
+              `}</style>
+            </defs>
             <rect width="62" height="46" fill="#0a0a0f" />
-            {/* Simplified Hawaiian Islands — Kauai, Oahu, Molokai, Lanai, Maui, Big Island */}
+            {/* Niihau */}
+            <ellipse cx="5" cy="15" rx="1.8" ry="2.2" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.15)" strokeWidth="0.8" />
             {/* Kauai */}
-            <ellipse cx="8" cy="16" rx="3.5" ry="3" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="0.8" />
+            <ellipse cx="10" cy="14" rx="3.5" ry="3" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
             {/* Oahu */}
-            <ellipse cx="16" cy="18" rx="3" ry="2.5" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="0.8" />
+            <path d="M17 16 C19 14.5 22 15 22 17 C22 18.5 20 20 18 19.5 C16 19 16 17 17 16Z" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
             {/* Molokai */}
-            <ellipse cx="24" cy="17" rx="4" ry="1.2" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="0.8" />
+            <ellipse cx="27" cy="16.5" rx="4.5" ry="1.3" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.2)" strokeWidth="0.8" />
             {/* Lanai */}
-            <ellipse cx="26" cy="21" rx="1.5" ry="1.8" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="0.7" />
+            <ellipse cx="28" cy="21" rx="1.8" ry="2" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.15)" strokeWidth="0.8" />
+            {/* Kahoolawe */}
+            <ellipse cx="32" cy="24" rx="1.5" ry="1" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.15)" strokeWidth="0.7" />
             {/* Maui — highlighted */}
-            <path d="M30 15 C32 14 35 15 35 17 C35 19 33 22 31 22 C29 22 28 20 29 18 C29 17 30 16 30 15Z" fill="none" stroke="rgba(255,255,255,0.35)" strokeWidth="0.9" />
-            {/* Big Island */}
-            <path d="M42 18 C45 17 50 19 50 23 C50 27 47 32 44 32 C41 32 39 28 39 25 C39 22 41 19 42 18Z" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="0.8" />
-            {/* Red marker — Haiku, Maui */}
-            <polygon points="32,16 33.5,19 30.5,19" fill="#ef4444" />
-            {/* Label */}
-            <text x="32" y="13" fill="rgba(255,255,255,0.35)" fontSize="5" textAnchor="middle" fontFamily="sans-serif">Haiku</text>
+            <path d="M31 14.5 C33 13.5 36 14.5 36.5 16.5 C37 18.5 35 22.5 33 23 C31.5 23.3 30 21.5 30.5 19 C30 18 30 17 31 15.5Z" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.35)" strokeWidth="1.2" />
+            {/* Hawaii (Big Island) */}
+            <path d="M44 18 C47 16.5 52 18.5 52.5 22 C53 26 50 32 46 33 C42.5 33.5 40 29 40 25 C40 21.5 42 19 44 18Z" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
+            {/* Kihei marker — pulsing dot on south Maui */}
+            <circle className="kihei-pulse" cx="33" cy="21" r="1.2" fill="#ef4444" />
+            <circle cx="33" cy="21" r="1" fill="#ef4444" />
           </svg>
         </div>
       </div>
