@@ -37,9 +37,10 @@ const GALLERY_ITEMS = [
 interface GalleryCarouselProps {
   open: boolean;
   onClose: () => void;
+  onArtSelect?: (slug: string) => void;
 }
 
-export default function GalleryCarousel({ open, onClose }: GalleryCarouselProps) {
+export default function GalleryCarousel({ open, onClose, onArtSelect }: GalleryCarouselProps) {
   const [index, setIndex] = useState(0);
   const item = GALLERY_ITEMS[index];
 
@@ -98,8 +99,10 @@ export default function GalleryCarousel({ open, onClose }: GalleryCarouselProps)
           </svg>
         </button>
 
-        {/* Image */}
-        <div
+        {/* Image — tap to zoom */}
+        <button
+          onClick={() => onArtSelect?.(item.slug)}
+          aria-label={`View ${item.title} details`}
           style={{
             position: "absolute",
             inset: 0,
@@ -107,6 +110,9 @@ export default function GalleryCarousel({ open, onClose }: GalleryCarouselProps)
             backgroundSize: "cover",
             backgroundPosition: "center",
             transition: "background-image 0.3s ease",
+            border: "none",
+            cursor: "pointer",
+            padding: 0,
           }}
         />
 
@@ -194,9 +200,9 @@ export default function GalleryCarousel({ open, onClose }: GalleryCarouselProps)
         </div>
       </div>
 
-      {/* View details link */}
-      <a
-        href={`/art/${item.slug}`}
+      {/* View details button */}
+      <button
+        onClick={() => onArtSelect?.(item.slug)}
         style={{
           display: "flex",
           alignItems: "center",
@@ -210,13 +216,13 @@ export default function GalleryCarousel({ open, onClose }: GalleryCarouselProps)
           color: "#ffffff",
           fontSize: 13,
           fontWeight: 500,
-          textDecoration: "none",
+          cursor: "pointer",
           fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
           letterSpacing: "0.02em",
         }}
       >
         View Details · From $395
-      </a>
+      </button>
     </Panel>
   );
 }

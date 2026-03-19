@@ -9,6 +9,7 @@ import PricingPanel from "@/components/console/PricingPanel";
 import EventsPanel from "@/components/console/EventsPanel";
 import StoryPanel from "@/components/console/StoryPanel";
 import ArtistBioPanel from "@/components/console/ArtistBioPanel";
+import ArtZoomView from "@/components/console/ArtZoomView";
 import { dockSounds } from "@/lib/dockSounds";
 import VehicleControls from "@/components/console/VehicleControls";
 import HeroArea from "@/components/console/HeroArea3D";
@@ -32,6 +33,7 @@ export default function Home() {
   const [eventsOpen, setEventsOpen] = useState(false);
   const [storyOpen, setStoryOpen] = useState(false);
   const [artistBioOpen, setArtistBioOpen] = useState(false);
+  const [zoomArtSlug, setZoomArtSlug] = useState<string | null>(null);
   const [tonneauMsg, setTonneauMsg] = useState<string | null>(null);
   const tonneauTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -48,6 +50,8 @@ export default function Home() {
   const closeStory = useCallback(() => setStoryOpen(false), []);
   const openArtistBio = useCallback(() => { closeAllPanels(); setArtistBioOpen(true); }, [closeAllPanels]);
   const closeArtistBio = useCallback(() => setArtistBioOpen(false), []);
+  const handleArtSelect = useCallback((slug: string) => { closeAllPanels(); setZoomArtSlug(slug); }, [closeAllPanels]);
+  const closeArtZoom = useCallback(() => setZoomArtSlug(null), []);
 
   const handleSplashComplete = useCallback(() => {
     setSplashDone(true);
@@ -103,12 +107,13 @@ export default function Home() {
         {/* CONTENT ZONE — image + sidebar, fills remaining space */}
         <div style={{ flex: 1, position: "relative", minHeight: 0 }}>
           <HeroArea />
-          <GalleryCarousel open={galleryOpen} onClose={closeGallery} />
+          <GalleryCarousel open={galleryOpen} onClose={closeGallery} onArtSelect={handleArtSelect} />
           {connectOpen && <ConnectOverlay onClose={closeConnect} />}
           <PricingPanel open={pricingOpen} onClose={closePricing} />
           <EventsPanel open={eventsOpen} onClose={closeEvents} />
           <StoryPanel open={storyOpen} onClose={closeStory} />
           <ArtistBioPanel open={artistBioOpen} onClose={closeArtistBio} />
+          <ArtZoomView slug={zoomArtSlug} onClose={closeArtZoom} />
           <VehicleControls onGalleryOpen={openGallery} onArtistOpen={openArtistBio} />
           {/* Closed / Tonneau — right side — EASTER EGG */}
           <button
