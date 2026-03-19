@@ -73,6 +73,82 @@ export default function RootLayout({
     <html lang="en" style={{ background: "#0a0a0f" }}>
       <head>
         <link rel="preconnect" href="https://api.open-meteo.com" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "LocalBusiness",
+              name: "Maui Premium Art",
+              description:
+                "Original Hawaiian fine art vinyl wraps for the Cybertruck. Limited editions by Hulali Lā.",
+              url: "https://mauipremiumart.com",
+              image: "https://mauipremiumart.com/images/og-image.png",
+              address: {
+                "@type": "PostalAddress",
+                addressLocality: "Kihei",
+                addressRegion: "HI",
+                addressCountry: "US",
+              },
+              geo: {
+                "@type": "GeoCoordinates",
+                latitude: 20.76,
+                longitude: -156.44,
+              },
+              sameAs: ["https://x.com/Maui_PremiumArt"],
+              founder: {
+                "@type": "Person",
+                name: "Juan Linnon Ellis",
+                alternateName: "Hulali Lā",
+              },
+              hasOfferCatalog: {
+                "@type": "OfferCatalog",
+                name: "Cybertruck Vinyl Wraps",
+                itemListElement: [
+                  {
+                    "@type": "Product",
+                    name: "Panel Wrap — Mahalo Bird Edition I",
+                    description: "Single panel original fine art wrap for the Cybertruck.",
+                    offers: {
+                      "@type": "Offer",
+                      price: "295",
+                      priceCurrency: "USD",
+                      availability: "https://schema.org/InStock",
+                      itemCondition: "https://schema.org/NewCondition",
+                    },
+                    brand: { "@type": "Brand", name: "Maui Premium Art" },
+                  },
+                  {
+                    "@type": "Product",
+                    name: "Half Wrap — Mahalo Bird Edition I",
+                    description: "Tailgate + side panels original fine art wrap for the Cybertruck.",
+                    offers: {
+                      "@type": "Offer",
+                      price: "695",
+                      priceCurrency: "USD",
+                      availability: "https://schema.org/InStock",
+                      itemCondition: "https://schema.org/NewCondition",
+                    },
+                    brand: { "@type": "Brand", name: "Maui Premium Art" },
+                  },
+                  {
+                    "@type": "Product",
+                    name: "Full Wrap — Mahalo Bird Edition I",
+                    description: "All exterior panels original fine art wrap for the Cybertruck.",
+                    offers: {
+                      "@type": "Offer",
+                      price: "1295",
+                      priceCurrency: "USD",
+                      availability: "https://schema.org/InStock",
+                      itemCondition: "https://schema.org/NewCondition",
+                    },
+                    brand: { "@type": "Brand", name: "Maui Premium Art" },
+                  },
+                ],
+              },
+            }),
+          }}
+        />
       </head>
       <body style={{ background: "#0a0a0f", margin: 0, padding: 0, overflow: "hidden" }}>
         {children}
