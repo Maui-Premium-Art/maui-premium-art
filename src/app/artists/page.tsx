@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import FeaturedArtistCard from "@/components/artists/FeaturedArtistCard";
 import ArtistCard from "@/components/artists/ArtistCard";
-import { featuredArtist, upAndComingArtists, lastRefreshed } from "@/data/artists";
+import { residentArtists, upAndComingArtists, lastRefreshed } from "@/data/artists";
 
 export const metadata: Metadata = {
   title: "Artists — Maui Premium Art",
@@ -89,9 +89,142 @@ export default function ArtistsPage() {
         }}
       >
 
-        {/* ── FEATURED ARTIST ──────────────────────────────── */}
+        {/* ── RESIDENT ARTISTS ─────────────────────────────── */}
         <div style={{ marginBottom: 56 }}>
-          <FeaturedArtistCard artist={featuredArtist} />
+          <div
+            style={{
+              display: "flex",
+              alignItems: "baseline",
+              justifyContent: "space-between",
+              marginBottom: 20,
+              paddingBottom: 12,
+              borderBottom: "1px solid rgba(255,255,255,0.06)",
+            }}
+          >
+            <div>
+              <h2
+                style={{
+                  fontSize: 16,
+                  fontWeight: 400,
+                  letterSpacing: "0.06em",
+                  textTransform: "uppercase",
+                  margin: "0 0 4px",
+                  color: "rgba(255,255,255,0.8)",
+                }}
+              >
+                Resident Artists
+              </h2>
+              <p
+                style={{
+                  fontSize: 12,
+                  color: "rgba(255,255,255,0.3)",
+                  margin: 0,
+                }}
+              >
+                The creative force behind every Maui Premium Art wrap.
+              </p>
+            </div>
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            {residentArtists.map((artist) => (
+              <FeaturedArtistCard key={artist.id} artist={artist} />
+            ))}
+          </div>
+        </div>
+
+        {/* ── CTA — Commission / Inquiry ─────────────────── */}
+        <div
+          style={{
+            background: "rgba(74,158,255,0.06)",
+            border: "1px solid rgba(74,158,255,0.15)",
+            borderRadius: 14,
+            padding: "32px 28px",
+            marginBottom: 56,
+            textAlign: "center",
+          }}
+        >
+          <div
+            style={{
+              fontSize: 10,
+              fontWeight: 600,
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+              color: "#4a9eff",
+              marginBottom: 10,
+            }}
+          >
+            Limited Editions
+          </div>
+          <h3
+            style={{
+              fontSize: 22,
+              fontWeight: 300,
+              margin: "0 0 8px",
+              color: "#ffffff",
+              letterSpacing: "0.02em",
+            }}
+          >
+            Your Cybertruck deserves original art.
+          </h3>
+          <p
+            style={{
+              fontSize: 14,
+              color: "rgba(255,255,255,0.5)",
+              margin: "0 0 24px",
+              lineHeight: 1.6,
+              maxWidth: 480,
+              marginLeft: "auto",
+              marginRight: "auto",
+            }}
+          >
+            Every wrap is limited to 10 per design. Custom commissions start at $2,995.
+            Reach out — we&apos;d love to hear your vision.
+          </p>
+          <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+            <a
+              href="https://x.com/Maui_PremiumArt"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                fontSize: 13,
+                fontWeight: 500,
+                color: "#ffffff",
+                background: "rgba(74,158,255,0.15)",
+                border: "1px solid rgba(74,158,255,0.3)",
+                borderRadius: 8,
+                padding: "10px 20px",
+                textDecoration: "none",
+                letterSpacing: "0.02em",
+              }}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+              </svg>
+              Contact on X
+            </a>
+            <Link
+              href="/"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+                fontSize: 13,
+                fontWeight: 500,
+                color: "rgba(255,255,255,0.6)",
+                border: "1px solid rgba(255,255,255,0.12)",
+                borderRadius: 8,
+                padding: "10px 20px",
+                textDecoration: "none",
+                letterSpacing: "0.02em",
+              }}
+            >
+              ← Back to Console
+            </Link>
+          </div>
         </div>
 
         {/* ── UP AND COMING ────────────────────────────────── */}
