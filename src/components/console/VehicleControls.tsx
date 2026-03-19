@@ -21,9 +21,10 @@ const TONNEAU_MESSAGES = [
 
 interface VehicleControlsProps {
   onGalleryOpen?: () => void;
+  onArtistOpen?: () => void;
 }
 
-export default function VehicleControls({ onGalleryOpen }: VehicleControlsProps) {
+export default function VehicleControls({ onGalleryOpen, onArtistOpen }: VehicleControlsProps) {
   const [frunkMsg, setFrunkMsg] = useState<string | null>(null);
   const [frunkShake, setFrunkShake] = useState(false);
 
@@ -68,7 +69,7 @@ export default function VehicleControls({ onGalleryOpen }: VehicleControlsProps)
         {/* Step 6: Close Door → Artist */}
         <ControlItem
           label="Artist"
-          href="/artists"
+          onClick={onArtistOpen}
           icon={
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <circle cx="12" cy="8" r="4" stroke="rgba(255,255,255,0.65)" strokeWidth="1.3" />
