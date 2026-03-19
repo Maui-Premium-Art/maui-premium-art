@@ -98,9 +98,10 @@ function triggerPowerUp() {
 interface BottomDockProps {
   onGalleryOpen?: () => void;
   onConnectOpen?: () => void;
+  onPricingOpen?: () => void;
 }
 
-export default function BottomDock({ onGalleryOpen, onConnectOpen }: BottomDockProps) {
+export default function BottomDock({ onGalleryOpen, onConnectOpen, onPricingOpen }: BottomDockProps) {
   const router = useRouter();
   const cameraClickCount = useRef(0);
   const cameraTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -331,7 +332,11 @@ export default function BottomDock({ onGalleryOpen, onConnectOpen }: BottomDockP
         ariaLabel="Pricing"
         onClick={() => {
           dockSounds.charging();
-          router.push("/pricing");
+          if (onPricingOpen) {
+            onPricingOpen();
+          } else {
+            router.push("/pricing");
+          }
         }}
         onPointerDown={handleChargeDown}
         onPointerUp={handleChargeUp}
