@@ -86,7 +86,7 @@ export default function Home() {
         {/* CONTENT ZONE — image + sidebar, fills remaining space */}
         <div style={{ flex: 1, position: "relative", minHeight: 0 }}>
           <HeroArea />
-          {galleryOpen && <GalleryCarousel onClose={closeGallery} />}
+          <GalleryCarousel open={galleryOpen} onClose={closeGallery} />
           {connectOpen && <ConnectOverlay onClose={closeConnect} />}
           <VehicleControls onGalleryOpen={openGallery} />
           {/* Closed / Tonneau — right side — EASTER EGG */}
