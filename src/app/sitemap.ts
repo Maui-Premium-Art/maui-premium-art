@@ -1,9 +1,18 @@
 import type { MetadataRoute } from "next";
+import { getAllSlugs } from "@/data/artworks";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://mauipremiumart.com";
 
+  const artPages = getAllSlugs().map((slug) => ({
+    url: `${baseUrl}/art/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.9,
+  }));
+
   return [
+    ...artPages,
     {
       url: baseUrl,
       lastModified: new Date(),
