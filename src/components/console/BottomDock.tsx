@@ -331,7 +331,7 @@ export default function BottomDock({ onGalleryOpen, onConnectOpen }: BottomDockP
         ariaLabel="Pricing"
         onClick={() => {
           dockSounds.charging();
-          router.push("/commission");
+          router.push("/pricing");
         }}
         onPointerDown={handleChargeDown}
         onPointerUp={handleChargeUp}
