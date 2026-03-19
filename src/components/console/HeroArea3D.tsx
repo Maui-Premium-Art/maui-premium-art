@@ -1,17 +1,13 @@
 "use client";
 
-/**
- * HeroArea3D — CT-style hero with static photo + optional 3D upgrade
- *
- * 3D model: Tesla Cybertruck by onurpearl (Sketchfab)
- * License: CC BY 4.0 — https://creativecommons.org/licenses/by/4.0/
- *
- * Strategy: Always show a great static photo. Never show a black hole.
- * 3D loads on top ONLY after the truck mesh is confirmed in the scene.
- */
+import CybertruckCSS3D from "@/components/console/CybertruckCSS3D";
 
-// 3D disabled for v1 — static photo hero
-// CybertruckScene re-enabled in Phase 1a
+/**
+ * HeroArea3D — CT-style hero with CSS 3D model + terrain backdrop
+ *
+ * Strategy: Show the 3D CT model with art on the tailgate.
+ * Terrain background visible behind. User drag-rotates.
+ */
 
 // ── Static hero — always visible ───────────────────────────────────────────
 
@@ -182,51 +178,15 @@ function StaticHero() {
         }}
       />
 
-      {/* Hero image — framed art piece floating over terrain */}
+      {/* CSS 3D Cybertruck model — art on tailgate */}
       <div
         style={{
           position: "absolute",
           inset: 0,
           zIndex: 2,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          pointerEvents: "none",
         }}
       >
-        <div
-          style={{
-            width: "75%",
-            height: "78%",
-            maxWidth: 720,
-            position: "relative",
-            borderRadius: 14,
-            overflow: "hidden",
-            border: "1px solid rgba(255,255,255,0.08)",
-            boxShadow: "0 8px 40px rgba(0,0,0,0.6), 0 0 80px rgba(0,0,0,0.3)",
-          }}
-        >
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              backgroundImage: "url('/images/mahalo-bird/electric-prr-hummingbird.jpg')",
-              backgroundSize: "cover",
-              backgroundPosition: "center 35%",
-              filter: "brightness(0.88) contrast(1.05) saturate(1.05)",
-            }}
-          />
-          {/* Subtle inner vignette */}
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background:
-                "linear-gradient(to bottom, rgba(10,10,15,0.15) 0%, transparent 15%, transparent 75%, rgba(10,10,15,0.25) 100%), linear-gradient(to right, rgba(10,10,15,0.15) 0%, transparent 10%, transparent 90%, rgba(10,10,15,0.15) 100%)",
-              pointerEvents: "none",
-            }}
-          />
-        </div>
+        <CybertruckCSS3D artImage="/images/mahalo-bird/electric-prr-hummingbird.jpg" />
       </div>
     </div>
   );
