@@ -4,6 +4,7 @@ import { useState, useCallback, useRef } from "react";
 import SplashScreen from "@/components/splash/SplashScreen";
 import StatusBar from "@/components/console/StatusBar";
 import GalleryCarousel from "@/components/console/GalleryCarousel";
+import ConnectOverlay from "@/components/console/ConnectOverlay";
 import { dockSounds } from "@/lib/dockSounds";
 import VehicleControls from "@/components/console/VehicleControls";
 import HeroArea from "@/components/console/HeroArea3D";
@@ -22,11 +23,14 @@ const TONNEAU_MESSAGES = [
 export default function Home() {
   const [splashDone, setSplashDone] = useState(true);
   const [galleryOpen, setGalleryOpen] = useState(false);
+  const [connectOpen, setConnectOpen] = useState(false);
   const [tonneauMsg, setTonneauMsg] = useState<string | null>(null);
   const tonneauTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const openGallery = useCallback(() => setGalleryOpen(true), []);
+  const openGallery = useCallback(() => { setConnectOpen(false); setGalleryOpen(true); }, []);
   const closeGallery = useCallback(() => setGalleryOpen(false), []);
+  const openConnect = useCallback(() => { setGalleryOpen(false); setConnectOpen(true); }, []);
+  const closeConnect = useCallback(() => setConnectOpen(false), []);
 
   const handleSplashComplete = useCallback(() => {
     setSplashDone(true);
@@ -82,6 +86,7 @@ export default function Home() {
         <div style={{ flex: 1, position: "relative", minHeight: 0 }}>
           <HeroArea />
           {galleryOpen && <GalleryCarousel onClose={closeGallery} />}
+          {connectOpen && <ConnectOverlay onClose={closeConnect} />}
           <VehicleControls onGalleryOpen={openGallery} />
           {/* Closed / Tonneau — right side — EASTER EGG */}
           <button
@@ -150,7 +155,7 @@ export default function Home() {
         </div>
 
         {/* DOCK — 52px fixed */}
-        <BottomDock onGalleryOpen={openGallery} />
+        <BottomDock onGalleryOpen={openGallery} onConnectOpen={openConnect} />
       </div>
     </main>
   );
