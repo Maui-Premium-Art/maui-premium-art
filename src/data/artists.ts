@@ -26,23 +26,43 @@ export interface FeaturedArtist {
   shopUrl?: string;
 }
 
-// ─── ANCHOR ARTIST — Juan / Hulali Lā ───────────────────────────────────────
-// This is Boss. His page. His story. Ships at launch.
+// ─── RESIDENT ARTISTS ────────────────────────────────────────────────────────
+// Core artists who create original work for Maui Premium Art.
 
-export const featuredArtist: FeaturedArtist = {
-  id: "hulali-la",
-  name: "Juan Linnon Ellis",
-  publicName: "Hulali Lā ☀️",
-  handle: "Maui_PremiumArt",
-  profileUrl: "https://x.com/Maui_PremiumArt",
-  heroImageUrl: "/images/mahalo-bird/wrap-2.jpg",
-  tagline: "Fine art born in Maui. Made for the Cybertruck.",
-  story:
-    "Juan Linnon Ellis is a painter from Maui whose work draws on the color, spirit, and depth of Hawaiian culture. The Mahalo Bird wasn't adapted for the Cybertruck — it was conceived for it. Original fine art vinyl wraps, limited to 10 per design.",
-  medium: "Fine Art / Vinyl Wrap",
-  location: "Maui, Hawaiʻi",
-  shopUrl: "https://mauipremiumart.com",
-};
+export const residentArtists: FeaturedArtist[] = [
+  {
+    id: "hulali-la",
+    name: "Juan Linnon Ellis",
+    publicName: "Hulali Lā ☀️",
+    handle: "Maui_PremiumArt",
+    profileUrl: "https://x.com/Maui_PremiumArt",
+    heroImageUrl: "/images/mahalo-bird/wrap-2.jpg",
+    portraitImageUrl: "/images/artists/juan-linnon-ellis.jpg",
+    tagline: "Fine art born in Maui. Made for the Cybertruck.",
+    story:
+      "Juan Linnon Ellis is a painter from Maui whose work draws on the color, spirit, and depth of Hawaiian culture. The Mahalo Bird wasn't adapted for the Cybertruck — it was conceived for it. Original fine art vinyl wraps, limited to 10 per design.",
+    medium: "Fine Art / Vinyl Wrap",
+    location: "Maui, Hawaiʻi",
+    shopUrl: "https://mauipremiumart.com",
+  },
+  {
+    id: "maui-premium-art",
+    name: "Maui Premium Art",
+    publicName: "Maui Premium Art",
+    handle: "Maui_PremiumArt",
+    profileUrl: "https://x.com/Maui_PremiumArt",
+    heroImageUrl: "/images/mahalo-bird/electric-prr-hummingbird.jpg",
+    tagline: "Where Hawaiian art meets the future of driving.",
+    story:
+      "Maui Premium Art is a studio built around one idea: original fine art belongs on the Cybertruck. Every design is created specifically for the CT's geometry — never repurposed, never mass-produced. Limited to 10 wraps per edition.",
+    medium: "Studio / Brand",
+    location: "Kihei, Maui",
+    shopUrl: "https://mauipremiumart.com",
+  },
+];
+
+// Backwards compat — primary featured artist
+export const featuredArtist: FeaturedArtist = residentArtists[0];
 
 // ─── UP AND COMING ───────────────────────────────────────────────────────────
 // Curated monthly. Outreach before featuring. One image, one sentence.
