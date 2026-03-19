@@ -385,7 +385,7 @@ export default function BottomDock({ onGalleryOpen, onConnectOpen }: BottomDockP
         ariaLabel="Our Story"
         onClick={() => {
           dockSounds.browser();
-          router.push("/artist");
+          router.push("/story");
         }}
       >
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
