@@ -8,6 +8,7 @@ import ConnectOverlay from "@/components/console/ConnectOverlay";
 import PricingPanel from "@/components/console/PricingPanel";
 import EventsPanel from "@/components/console/EventsPanel";
 import StoryPanel from "@/components/console/StoryPanel";
+import ArtistBioPanel from "@/components/console/ArtistBioPanel";
 import { dockSounds } from "@/lib/dockSounds";
 import VehicleControls from "@/components/console/VehicleControls";
 import HeroArea from "@/components/console/HeroArea3D";
@@ -30,10 +31,11 @@ export default function Home() {
   const [pricingOpen, setPricingOpen] = useState(false);
   const [eventsOpen, setEventsOpen] = useState(false);
   const [storyOpen, setStoryOpen] = useState(false);
+  const [artistBioOpen, setArtistBioOpen] = useState(false);
   const [tonneauMsg, setTonneauMsg] = useState<string | null>(null);
   const tonneauTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const closeAllPanels = useCallback(() => { setGalleryOpen(false); setConnectOpen(false); setPricingOpen(false); setEventsOpen(false); setStoryOpen(false); }, []);
+  const closeAllPanels = useCallback(() => { setGalleryOpen(false); setConnectOpen(false); setPricingOpen(false); setEventsOpen(false); setStoryOpen(false); setArtistBioOpen(false); }, []);
   const openGallery = useCallback(() => { closeAllPanels(); setGalleryOpen(true); }, [closeAllPanels]);
   const closeGallery = useCallback(() => setGalleryOpen(false), []);
   const openConnect = useCallback(() => { closeAllPanels(); setConnectOpen(true); }, [closeAllPanels]);
@@ -44,6 +46,8 @@ export default function Home() {
   const closeEvents = useCallback(() => setEventsOpen(false), []);
   const openStory = useCallback(() => { closeAllPanels(); setStoryOpen(true); }, [closeAllPanels]);
   const closeStory = useCallback(() => setStoryOpen(false), []);
+  const openArtistBio = useCallback(() => { closeAllPanels(); setArtistBioOpen(true); }, [closeAllPanels]);
+  const closeArtistBio = useCallback(() => setArtistBioOpen(false), []);
 
   const handleSplashComplete = useCallback(() => {
     setSplashDone(true);
@@ -104,7 +108,8 @@ export default function Home() {
           <PricingPanel open={pricingOpen} onClose={closePricing} />
           <EventsPanel open={eventsOpen} onClose={closeEvents} />
           <StoryPanel open={storyOpen} onClose={closeStory} />
-          <VehicleControls onGalleryOpen={openGallery} />
+          <ArtistBioPanel open={artistBioOpen} onClose={closeArtistBio} />
+          <VehicleControls onGalleryOpen={openGallery} onArtistOpen={openArtistBio} />
           {/* Closed / Tonneau — right side — EASTER EGG */}
           <button
             className="ct-tonneau-label"
