@@ -3,6 +3,7 @@
 import { useState, useCallback, useRef } from "react";
 import SplashScreen from "@/components/splash/SplashScreen";
 import StatusBar from "@/components/console/StatusBar";
+import GalleryCarousel from "@/components/console/GalleryCarousel";
 import { dockSounds } from "@/lib/dockSounds";
 import VehicleControls from "@/components/console/VehicleControls";
 import HeroArea from "@/components/console/HeroArea3D";
@@ -20,8 +21,12 @@ const TONNEAU_MESSAGES = [
 
 export default function Home() {
   const [splashDone, setSplashDone] = useState(true);
+  const [galleryOpen, setGalleryOpen] = useState(false);
   const [tonneauMsg, setTonneauMsg] = useState<string | null>(null);
   const tonneauTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const openGallery = useCallback(() => setGalleryOpen(true), []);
+  const closeGallery = useCallback(() => setGalleryOpen(false), []);
 
   const handleSplashComplete = useCallback(() => {
     setSplashDone(true);
@@ -70,13 +75,14 @@ export default function Home() {
             borderBottom: "1px solid rgba(255,255,255,0.04)",
           }}
         >
-          <StatusBar />
+          <StatusBar onGalleryOpen={openGallery} />
         </div>
 
         {/* CONTENT ZONE — image + sidebar, fills remaining space */}
         <div style={{ flex: 1, position: "relative", minHeight: 0 }}>
           <HeroArea />
-          <VehicleControls />
+          {galleryOpen && <GalleryCarousel onClose={closeGallery} />}
+          <VehicleControls onGalleryOpen={openGallery} />
           {/* Closed / Tonneau — right side — EASTER EGG */}
           <button
             className="ct-tonneau-label"
@@ -144,7 +150,7 @@ export default function Home() {
         </div>
 
         {/* DOCK — 52px fixed */}
-        <BottomDock />
+        <BottomDock onGalleryOpen={openGallery} />
       </div>
     </main>
   );

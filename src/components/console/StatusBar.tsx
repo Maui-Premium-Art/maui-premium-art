@@ -27,7 +27,11 @@ function getBatterySegments(pct: number): boolean[] {
   return Array.from({ length: 5 }, (_, i) => i < filled);
 }
 
-export default function StatusBar() {
+interface StatusBarProps {
+  onGalleryOpen?: () => void;
+}
+
+export default function StatusBar({ onGalleryOpen }: StatusBarProps) {
   const [time, setTime] = useState("");
   const [mounted, setMounted] = useState(false);
   const [weather, setWeather] = useState("78°F");
@@ -205,6 +209,8 @@ export default function StatusBar() {
 
         {/* Gallery button */}
         <button
+          onClick={onGalleryOpen}
+          aria-label="Open gallery"
           style={{
             border: "1.5px solid rgba(255,255,255,0.25)",
             background: "transparent",
