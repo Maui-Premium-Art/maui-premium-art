@@ -1,4 +1,6 @@
 import type { Metadata, Viewport } from "next";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -72,7 +74,11 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://api.open-meteo.com" />
       </head>
-      <body style={{ background: "#0a0a0f", margin: 0, padding: 0, overflow: "hidden" }}>{children}</body>
+      <body style={{ background: "#0a0a0f", margin: 0, padding: 0, overflow: "hidden" }}>
+        {children}
+        <Analytics />
+        <SpeedInsights />
+      </body>
     </html>
   );
 }
