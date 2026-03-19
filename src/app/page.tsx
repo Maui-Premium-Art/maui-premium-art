@@ -53,6 +53,7 @@ export default function Home() {
         flexDirection: "column",
         overflow: "hidden",
         position: "relative",
+        paddingTop: "env(safe-area-inset-top, 0px)",
       }}
     >
       {!splashDone && <SplashScreen onComplete={handleSplashComplete} />}
