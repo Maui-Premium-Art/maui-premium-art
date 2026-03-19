@@ -100,9 +100,10 @@ interface BottomDockProps {
   onConnectOpen?: () => void;
   onPricingOpen?: () => void;
   onEventsOpen?: () => void;
+  onStoryOpen?: () => void;
 }
 
-export default function BottomDock({ onGalleryOpen, onConnectOpen, onPricingOpen, onEventsOpen }: BottomDockProps) {
+export default function BottomDock({ onGalleryOpen, onConnectOpen, onPricingOpen, onEventsOpen, onStoryOpen }: BottomDockProps) {
   const router = useRouter();
   const cameraClickCount = useRef(0);
   const cameraTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -395,7 +396,11 @@ export default function BottomDock({ onGalleryOpen, onConnectOpen, onPricingOpen
         ariaLabel="Our Story"
         onClick={() => {
           dockSounds.browser();
-          router.push("/story");
+          if (onStoryOpen) {
+            onStoryOpen();
+          } else {
+            router.push("/story");
+          }
         }}
       >
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none">

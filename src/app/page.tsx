@@ -7,6 +7,7 @@ import GalleryCarousel from "@/components/console/GalleryCarousel";
 import ConnectOverlay from "@/components/console/ConnectOverlay";
 import PricingPanel from "@/components/console/PricingPanel";
 import EventsPanel from "@/components/console/EventsPanel";
+import StoryPanel from "@/components/console/StoryPanel";
 import { dockSounds } from "@/lib/dockSounds";
 import VehicleControls from "@/components/console/VehicleControls";
 import HeroArea from "@/components/console/HeroArea3D";
@@ -28,10 +29,11 @@ export default function Home() {
   const [connectOpen, setConnectOpen] = useState(false);
   const [pricingOpen, setPricingOpen] = useState(false);
   const [eventsOpen, setEventsOpen] = useState(false);
+  const [storyOpen, setStoryOpen] = useState(false);
   const [tonneauMsg, setTonneauMsg] = useState<string | null>(null);
   const tonneauTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const closeAllPanels = useCallback(() => { setGalleryOpen(false); setConnectOpen(false); setPricingOpen(false); setEventsOpen(false); }, []);
+  const closeAllPanels = useCallback(() => { setGalleryOpen(false); setConnectOpen(false); setPricingOpen(false); setEventsOpen(false); setStoryOpen(false); }, []);
   const openGallery = useCallback(() => { closeAllPanels(); setGalleryOpen(true); }, [closeAllPanels]);
   const closeGallery = useCallback(() => setGalleryOpen(false), []);
   const openConnect = useCallback(() => { closeAllPanels(); setConnectOpen(true); }, [closeAllPanels]);
@@ -40,6 +42,8 @@ export default function Home() {
   const closePricing = useCallback(() => setPricingOpen(false), []);
   const openEvents = useCallback(() => { closeAllPanels(); setEventsOpen(true); }, [closeAllPanels]);
   const closeEvents = useCallback(() => setEventsOpen(false), []);
+  const openStory = useCallback(() => { closeAllPanels(); setStoryOpen(true); }, [closeAllPanels]);
+  const closeStory = useCallback(() => setStoryOpen(false), []);
 
   const handleSplashComplete = useCallback(() => {
     setSplashDone(true);
@@ -99,6 +103,7 @@ export default function Home() {
           {connectOpen && <ConnectOverlay onClose={closeConnect} />}
           <PricingPanel open={pricingOpen} onClose={closePricing} />
           <EventsPanel open={eventsOpen} onClose={closeEvents} />
+          <StoryPanel open={storyOpen} onClose={closeStory} />
           <VehicleControls onGalleryOpen={openGallery} />
           {/* Closed / Tonneau — right side — EASTER EGG */}
           <button
@@ -167,7 +172,7 @@ export default function Home() {
         </div>
 
         {/* DOCK — 52px fixed */}
-        <BottomDock onGalleryOpen={openGallery} onConnectOpen={openConnect} onPricingOpen={openPricing} onEventsOpen={openEvents} />
+        <BottomDock onGalleryOpen={openGallery} onConnectOpen={openConnect} onPricingOpen={openPricing} onEventsOpen={openEvents} onStoryOpen={openStory} />
       </div>
     </main>
   );
