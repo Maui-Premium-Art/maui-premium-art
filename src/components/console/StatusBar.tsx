@@ -96,7 +96,7 @@ export default function StatusBar({ onGalleryOpen }: StatusBarProps) {
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        padding: "4px 14px 0",
+        padding: "0 14px",
         zIndex: 20,
         pointerEvents: "none",
       }}
