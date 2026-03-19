@@ -182,28 +182,51 @@ function StaticHero() {
         }}
       />
 
-      {/* Hero image — fills content zone */}
+      {/* Hero image — framed art piece floating over terrain */}
       <div
         style={{
           position: "absolute",
           inset: 0,
           zIndex: 2,
-          backgroundImage: "url('/images/mahalo-bird/electric-prr-hummingbird.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center 35%",
-          filter: "brightness(0.85) contrast(1.05) saturate(1.05)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          pointerEvents: "none",
         }}
       >
-        {/* Edge vignette — blends into UI chrome */}
         <div
           style={{
-            position: "absolute",
-            inset: 0,
-            background:
-              "linear-gradient(to bottom, rgba(10,10,15,0.5) 0%, transparent 20%, transparent 60%, rgba(10,10,15,0.7) 100%), linear-gradient(to right, rgba(10,10,15,0.5) 0%, transparent 15%, transparent 85%, rgba(10,10,15,0.5) 100%)",
-            pointerEvents: "none",
+            width: "75%",
+            height: "78%",
+            maxWidth: 720,
+            position: "relative",
+            borderRadius: 14,
+            overflow: "hidden",
+            border: "1px solid rgba(255,255,255,0.08)",
+            boxShadow: "0 8px 40px rgba(0,0,0,0.6), 0 0 80px rgba(0,0,0,0.3)",
           }}
-        />
+        >
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              backgroundImage: "url('/images/mahalo-bird/electric-prr-hummingbird.jpg')",
+              backgroundSize: "cover",
+              backgroundPosition: "center 35%",
+              filter: "brightness(0.88) contrast(1.05) saturate(1.05)",
+            }}
+          />
+          {/* Subtle inner vignette */}
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background:
+                "linear-gradient(to bottom, rgba(10,10,15,0.15) 0%, transparent 15%, transparent 75%, rgba(10,10,15,0.25) 100%), linear-gradient(to right, rgba(10,10,15,0.15) 0%, transparent 10%, transparent 90%, rgba(10,10,15,0.15) 100%)",
+              pointerEvents: "none",
+            }}
+          />
+        </div>
       </div>
     </div>
   );
