@@ -274,7 +274,7 @@ export default function BottomDock({ onGalleryOpen, onConnectOpen }: BottomDockP
         ariaLabel="Events"
         onClick={() => {
           dockSounds.calendar();
-          router.push("/");
+          router.push("/events");
         }}
       >
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
