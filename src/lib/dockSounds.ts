@@ -72,4 +72,22 @@ export const dockSounds = {
   powerUp: () =>
     ok() &&
     tone({ type: "sawtooth", freq: 100, freqEnd: 800, a: 0.02, d: 0.3, s: 0.1, r: 0.2, g: 0.4 }),
+  // Easter egg sounds for dead CT controls
+  denied: () =>
+    ok() &&
+    (tone({ type: "square", freq: 200, a: 0.002, d: 0.06, s: 0, r: 0.03, g: 0.15 }),
+    setTimeout(
+      () => tone({ type: "square", freq: 150, a: 0.002, d: 0.08, s: 0, r: 0.04, g: 0.12 }),
+      80
+    )),
+  frunkOpen: () =>
+    ok() &&
+    (tone({ type: "sine", freq: 220, freqEnd: 440, a: 0.01, d: 0.15, s: 0.1, r: 0.1, g: 0.25 }),
+    setTimeout(
+      () => tone({ type: "sine", freq: 660, a: 0.005, d: 0.05, s: 0, r: 0.03, g: 0.15 }),
+      180
+    )),
+  tonneauSlide: () =>
+    ok() &&
+    tone({ type: "sawtooth", freq: 80, freqEnd: 160, a: 0.02, d: 0.2, s: 0.15, r: 0.1, g: 0.2 }),
 };
