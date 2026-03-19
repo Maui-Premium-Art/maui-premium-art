@@ -97,9 +97,10 @@ function triggerPowerUp() {
 
 interface BottomDockProps {
   onGalleryOpen?: () => void;
+  onConnectOpen?: () => void;
 }
 
-export default function BottomDock({ onGalleryOpen }: BottomDockProps) {
+export default function BottomDock({ onGalleryOpen, onConnectOpen }: BottomDockProps) {
   const router = useRouter();
   const cameraClickCount = useRef(0);
   const cameraTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -347,13 +348,17 @@ export default function BottomDock({ onGalleryOpen }: BottomDockProps) {
         </svg>
       </DockItem>
 
-      {/* Bluetooth — Connect (X/Twitter) */}
+      {/* Bluetooth — Connect overlay */}
       <DockItem
         label="Connect"
         ariaLabel="Connect"
         onClick={() => {
           dockSounds.bluetooth();
-          window.open("https://x.com/Maui_PremiumArt", "_blank", "noopener");
+          if (onConnectOpen) {
+            onConnectOpen();
+          } else {
+            window.open("https://x.com/Maui_PremiumArt", "_blank", "noopener");
+          }
         }}
       >
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
