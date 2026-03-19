@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { artworks } from "@/data/artworks";
 import type { ArtFormat } from "@/data/artworks";
 
@@ -19,13 +19,48 @@ export default function ArtZoomView({ slug, onClose }: ArtZoomViewProps) {
   const [visible, setVisible] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [selectedFormat, setSelectedFormat] = useState<ArtFormat | null>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [swipeDir, setSwipeDir] = useState<"left" | "right" | null>(null);
+  const touchStartX = useRef(0);
 
-  const artwork = slug ? artworks.find((a) => a.slug === slug) : null;
+  const artworkIndex = slug ? artworks.findIndex((a) => a.slug === slug) : -1;
+  const artwork = artworkIndex >= 0 ? artworks[artworkIndex] : null;
+
+  // Gallery images within current artwork
+  const images = artwork?.galleryImages ?? (artwork ? [artwork.heroImage] : []);
+
+  const goNextImage = useCallback(() => {
+    if (images.length <= 1) return;
+    setSwipeDir("left");
+    setCurrentIndex((i) => (i + 1) % images.length);
+    setTimeout(() => setSwipeDir(null), 300);
+  }, [images.length]);
+
+  const goPrevImage = useCallback(() => {
+    if (images.length <= 1) return;
+    setSwipeDir("right");
+    setCurrentIndex((i) => (i === 0 ? images.length - 1 : i - 1));
+    setTimeout(() => setSwipeDir(null), 300);
+  }, [images.length]);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  }, []);
+
+  const handleTouchEnd = useCallback(
+    (e: React.TouchEvent) => {
+      const delta = e.changedTouches[0].clientX - touchStartX.current;
+      if (delta < -60) goNextImage();
+      else if (delta > 60) goPrevImage();
+    },
+    [goNextImage, goPrevImage]
+  );
 
   useEffect(() => {
     if (slug && artwork) {
       setMounted(true);
       setSelectedFormat(artwork.formats[0]);
+      setCurrentIndex(0);
       requestAnimationFrame(() => {
         requestAnimationFrame(() => setVisible(true));
       });
@@ -34,6 +69,7 @@ export default function ArtZoomView({ slug, onClose }: ArtZoomViewProps) {
       const timer = setTimeout(() => {
         setMounted(false);
         setSelectedFormat(null);
+        setCurrentIndex(0);
       }, 400);
       return () => clearTimeout(timer);
     }
@@ -125,18 +161,118 @@ export default function ArtZoomView({ slug, onClose }: ArtZoomViewProps) {
           WebkitOverflowScrolling: "touch",
         }}
       >
-        {/* Hero image — zoomed in */}
+        {/* Hero image — swipeable gallery */}
         <div
           style={{
             width: "100%",
             aspectRatio: "16/9",
-            backgroundImage: `url('${artwork.heroImage}')`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
+            position: "relative",
+            overflow: "hidden",
             transform: visible ? "scale(1)" : "scale(0.92)",
             transition: "transform 0.5s cubic-bezier(0.32, 0.72, 0, 1)",
           }}
-        />
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              backgroundImage: `url('${images[currentIndex]}')`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              transition: "opacity 0.3s ease",
+              opacity: swipeDir ? 0.7 : 1,
+            }}
+          />
+
+          {/* Prev/Next arrows */}
+          {images.length > 1 && (
+            <>
+              <button
+                onClick={goPrevImage}
+                aria-label="Previous image"
+                style={{
+                  position: "absolute",
+                  left: 8,
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  width: 32,
+                  height: 32,
+                  borderRadius: 8,
+                  background: "rgba(10,10,15,0.6)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  color: "rgba(255,255,255,0.6)",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  zIndex: 5,
+                }}
+              >
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                  <path d="M10 3L5 8L10 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                </svg>
+              </button>
+              <button
+                onClick={goNextImage}
+                aria-label="Next image"
+                style={{
+                  position: "absolute",
+                  right: 8,
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  width: 32,
+                  height: 32,
+                  borderRadius: 8,
+                  background: "rgba(10,10,15,0.6)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  color: "rgba(255,255,255,0.6)",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  zIndex: 5,
+                }}
+              >
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                  <path d="M6 3L11 8L6 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                </svg>
+              </button>
+
+              {/* Dot indicators */}
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: 8,
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                  display: "flex",
+                  gap: 5,
+                  zIndex: 5,
+                }}
+              >
+                {images.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setCurrentIndex(i)}
+                    aria-label={`Image ${i + 1}`}
+                    style={{
+                      width: i === currentIndex ? 8 : 5,
+                      height: 5,
+                      borderRadius: 3,
+                      background: i === currentIndex ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.3)",
+                      border: "none",
+                      padding: 0,
+                      cursor: "pointer",
+                      transition: "all 0.2s ease",
+                    }}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+        </div>
 
         {/* Info section */}
         <div style={{ padding: "20px 16px 24px" }}>
