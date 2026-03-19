@@ -95,7 +95,11 @@ function triggerPowerUp() {
   }, 1850);
 }
 
-export default function BottomDock() {
+interface BottomDockProps {
+  onGalleryOpen?: () => void;
+}
+
+export default function BottomDock({ onGalleryOpen }: BottomDockProps) {
   const router = useRouter();
   const cameraClickCount = useRef(0);
   const cameraTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -112,9 +116,13 @@ export default function BottomDock() {
     }
     cameraTimer.current = setTimeout(() => {
       cameraClickCount.current = 0;
-      router.push("/gallery");
+      if (onGalleryOpen) {
+        onGalleryOpen();
+      } else {
+        router.push("/gallery");
+      }
     }, 800);
-  }, [router]);
+  }, [router, onGalleryOpen]);
 
   const handleChargeDown = useCallback(() => {
     chargeHoldTimer.current = setTimeout(triggerPowerUp, 2000);

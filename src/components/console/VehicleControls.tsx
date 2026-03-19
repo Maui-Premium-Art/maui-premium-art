@@ -19,7 +19,11 @@ const TONNEAU_MESSAGES = [
   "Art is stored in the tonneau of the mind.",
 ];
 
-export default function VehicleControls() {
+interface VehicleControlsProps {
+  onGalleryOpen?: () => void;
+}
+
+export default function VehicleControls({ onGalleryOpen }: VehicleControlsProps) {
   const [frunkMsg, setFrunkMsg] = useState<string | null>(null);
   const [frunkShake, setFrunkShake] = useState(false);
 
@@ -93,7 +97,7 @@ export default function VehicleControls() {
               <path d="M2 17l5-5 3.5 3.5 3-3L20 19" stroke="rgba(255,255,255,0.5)" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           }
-          easterEgg
+          onClick={onGalleryOpen}
         />
       </div>
 
@@ -186,7 +190,7 @@ export default function VehicleControls() {
   );
 }
 
-function ControlItem({ label, icon, href, easterEgg }: { label: string; icon: React.ReactNode; href?: string; easterEgg?: boolean }) {
+function ControlItem({ label, icon, href, easterEgg, onClick }: { label: string; icon: React.ReactNode; href?: string; easterEgg?: boolean; onClick?: () => void }) {
   const [flash, setFlash] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
 
@@ -195,13 +199,12 @@ function ControlItem({ label, icon, href, easterEgg }: { label: string; icon: Re
     "$2,995 – $4,995 · DM us on X.",
     "Custom wraps — coming soon.",
   ];
-  const GALLERY_MSGS = [
-    "Gallery loading…",
-    "3 of 10 available.",
-    "Swipe coming in Phase 2.",
-  ];
 
   const handleClick = useCallback(() => {
+    if (onClick) {
+      onClick();
+      return;
+    }
     if (href) {
       window.location.href = href;
       return;
@@ -209,11 +212,11 @@ function ControlItem({ label, icon, href, easterEgg }: { label: string; icon: Re
     if (!easterEgg) return;
     dockSounds.denied();
     setFlash(true);
-    const msgs = label === "Commission" ? COMMISSION_MSGS : GALLERY_MSGS;
+    const msgs = COMMISSION_MSGS;
     setMsg(msgs[Math.floor(Math.random() * msgs.length)]);
     setTimeout(() => setFlash(false), 300);
     setTimeout(() => setMsg(null), 2000);
-  }, [href, easterEgg, label]);
+  }, [href, easterEgg, onClick]);
 
   return (
     <div
