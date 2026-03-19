@@ -18,13 +18,24 @@
 function StaticHero() {
   return (
     <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
-      {/* Sky gradient */}
+      {/* Background — CT wireframe terrain */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage: "url('/images/cybertruck-bg-clean.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center top",
+          backgroundRepeat: "no-repeat",
+        }}
+      />
+      {/* Dark overlay to blend with UI chrome */}
       <div
         style={{
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(180deg, #05050a 0%, #080810 40%, #0a0a0f 60%, #080810 100%)",
+            "linear-gradient(180deg, rgba(5,5,10,0.4) 0%, rgba(10,10,15,0.2) 40%, rgba(10,10,15,0.3) 70%, rgba(10,10,15,0.6) 100%)",
         }}
       />
 
