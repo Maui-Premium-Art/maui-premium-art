@@ -35,6 +35,7 @@ export default function Home() {
   const [storyOpen, setStoryOpen] = useState(false);
   const [artistBioOpen, setArtistBioOpen] = useState(false);
   const [zoomArtSlug, setZoomArtSlug] = useState<string | null>(null);
+  const [heroArtImage, setHeroArtImage] = useState("/images/mahalo-bird/electric-prr-hummingbird.jpg");
   const [tonneauMsg, setTonneauMsg] = useState<string | null>(null);
   const tonneauTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -107,8 +108,8 @@ export default function Home() {
 
         {/* CONTENT ZONE — image + sidebar, fills remaining space */}
         <div style={{ flex: 1, position: "relative", minHeight: 0 }}>
-          <HeroArea />
-          <GalleryCarousel open={galleryOpen} onClose={closeGallery} onArtSelect={handleArtSelect} />
+          <HeroArea artImage={heroArtImage} />
+          <GalleryCarousel open={galleryOpen} onClose={closeGallery} onArtSelect={handleArtSelect} onArtImageChange={setHeroArtImage} />
           {connectOpen && <ConnectOverlay onClose={closeConnect} />}
           <PricingPanel open={pricingOpen} onClose={closePricing} />
           <EventsPanel open={eventsOpen} onClose={closeEvents} />

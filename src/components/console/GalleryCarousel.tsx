@@ -38,19 +38,28 @@ interface GalleryCarouselProps {
   open: boolean;
   onClose: () => void;
   onArtSelect?: (slug: string) => void;
+  onArtImageChange?: (src: string) => void;
 }
 
-export default function GalleryCarousel({ open, onClose, onArtSelect }: GalleryCarouselProps) {
+export default function GalleryCarousel({ open, onClose, onArtSelect, onArtImageChange }: GalleryCarouselProps) {
   const [index, setIndex] = useState(0);
   const item = GALLERY_ITEMS[index];
 
   const prev = useCallback(() => {
-    setIndex((i) => (i === 0 ? GALLERY_ITEMS.length - 1 : i - 1));
-  }, []);
+    setIndex((i) => {
+      const newIndex = i === 0 ? GALLERY_ITEMS.length - 1 : i - 1;
+      onArtImageChange?.(GALLERY_ITEMS[newIndex].src);
+      return newIndex;
+    });
+  }, [onArtImageChange]);
 
   const next = useCallback(() => {
-    setIndex((i) => (i === GALLERY_ITEMS.length - 1 ? 0 : i + 1));
-  }, []);
+    setIndex((i) => {
+      const newIndex = i === GALLERY_ITEMS.length - 1 ? 0 : i + 1;
+      onArtImageChange?.(GALLERY_ITEMS[newIndex].src);
+      return newIndex;
+    });
+  }, [onArtImageChange]);
 
   return (
     <Panel
