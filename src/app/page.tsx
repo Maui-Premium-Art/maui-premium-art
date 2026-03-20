@@ -17,6 +17,7 @@ import HeroArea from "@/components/console/HeroArea3D";
 import MediaPlayer from "@/components/console/MediaPlayer";
 import NavigationWidget from "@/components/console/NavigationWidget";
 import BottomDock from "@/components/console/BottomDock";
+import SocialProof from "@/components/console/SocialProof";
 
 const TONNEAU_MESSAGES = [
   "Tonneau sealed — art inside.",
@@ -182,6 +183,9 @@ export default function Home() {
           <MediaPlayer />
           <NavigationWidget />
         </div>
+
+        {/* SOCIAL PROOF */}
+        <SocialProof />
 
         {/* DOCK — 52px fixed */}
         <BottomDock onGalleryOpen={openGallery} onConnectOpen={openConnect} onPricingOpen={openPricing} onEventsOpen={openEvents} onStoryOpen={openStory} />
