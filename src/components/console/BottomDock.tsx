@@ -47,7 +47,8 @@ function DockItem({
           ? "rgba(255,255,255,0.9)"
           : "rgba(255,255,255,0.45)",
         flexShrink: 0,
-        minWidth: 34,
+        minWidth: 40,
+        minHeight: 44,
       }}
       onClick={onClick}
       onPointerDown={onPointerDown}

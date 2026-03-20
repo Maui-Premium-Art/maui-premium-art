@@ -71,9 +71,9 @@ export default function Panel({
       const deltaY = e.changedTouches[0].clientY - touchStartY.current;
       const deltaX = e.changedTouches[0].clientX - touchStartX.current;
 
-      if (direction === "up" && deltaY > 80) {
+      if (direction === "up" && deltaY > 60) {
         onClose();
-      } else if (direction === "right" && deltaX > 80) {
+      } else if (direction === "right" && deltaX > 60) {
         onClose();
       }
     },
@@ -125,7 +125,7 @@ export default function Panel({
                 left: 0,
                 right: 0,
                 height,
-                maxHeight: "85vh",
+                maxHeight: "calc(100dvh - 120px)",
                 borderRadius: "16px 16px 0 0",
                 transform: visible ? "translateY(0)" : "translateY(100%)",
               }

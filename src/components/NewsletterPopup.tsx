@@ -36,11 +36,13 @@ export default function NewsletterPopup() {
     <div
       style={{
         position: "fixed",
-        bottom: 72,
-        right: 16,
+        bottom: 68,
+        right: 12,
+        left: 12,
         zIndex: 60,
-        width: 320,
-        maxWidth: "calc(100vw - 32px)",
+        width: "auto",
+        maxWidth: 320,
+        marginLeft: "auto",
         background: "rgba(12,12,20,0.95)",
         backdropFilter: "blur(16px)",
         WebkitBackdropFilter: "blur(16px)",
