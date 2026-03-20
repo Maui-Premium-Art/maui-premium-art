@@ -1,10 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { getArtworkBySlug, getAllSlugs } from "@/data/artworks";
 import type { ArtFormat } from "@/data/artworks";
+import { loadStripe } from "@stripe/stripe-js";
+
+const stripePromise = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+  ? loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
+  : null;
 
 function formatPrice(price: number): string {
   return price >= 1000
@@ -44,7 +49,39 @@ export default function ArtProductPage() {
     );
   }
 
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
   const images = artwork.galleryImages ?? [artwork.heroImage];
+
+  const handleCheckout = useCallback(async () => {
+    if (!selectedFormat) return;
+
+    // If no Stripe key configured, fall back to X DM
+    if (!stripePromise || !selectedFormat.stripePriceId) {
+      window.open("https://x.com/Maui_PremiumArt", "_blank", "noopener");
+      return;
+    }
+
+    setCheckoutLoading(true);
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          priceId: selectedFormat.stripePriceId,
+          artworkTitle: artwork.title,
+          formatName: selectedFormat.name,
+        }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      }
+    } catch {
+      window.open("https://x.com/Maui_PremiumArt", "_blank", "noopener");
+    } finally {
+      setCheckoutLoading(false);
+    }
+  }, [selectedFormat, artwork.title]);
 
   return (
     <main
@@ -314,10 +351,9 @@ export default function ArtProductPage() {
             </div>
 
             {/* Reserve CTA */}
-            <a
-              href="https://x.com/Maui_PremiumArt"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={handleCheckout}
+              disabled={checkoutLoading}
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -325,21 +361,22 @@ export default function ArtProductPage() {
                 gap: 8,
                 width: "100%",
                 padding: "14px 24px",
-                background: "rgba(74,158,255,0.15)",
+                background: checkoutLoading ? "rgba(74,158,255,0.08)" : "rgba(74,158,255,0.15)",
                 border: "1px solid rgba(74,158,255,0.3)",
                 borderRadius: 10,
                 color: "#ffffff",
                 fontSize: 14,
                 fontWeight: 600,
                 letterSpacing: "0.02em",
-                textDecoration: "none",
-                cursor: "pointer",
+                cursor: checkoutLoading ? "wait" : "pointer",
                 fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
                 marginBottom: 12,
+                opacity: checkoutLoading ? 0.6 : 1,
+                transition: "opacity 0.2s ease",
               }}
             >
-              Reserve Your Edition
-            </a>
+              {checkoutLoading ? "Opening checkout…" : "Reserve Your Edition"}
+            </button>
 
             <p
               style={{
