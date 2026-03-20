@@ -86,7 +86,7 @@ export default function VehicleControls({ onGalleryOpen, onArtistOpen }: Vehicle
               <line x1="14" y1="5" x2="17" y2="8" stroke="rgba(255,255,255,0.45)" strokeWidth="1.1" />
             </svg>
           }
-          easterEgg
+          href="/commission"
         />
         {/* Step 6: Audio → Gallery */}
         <ControlItem
