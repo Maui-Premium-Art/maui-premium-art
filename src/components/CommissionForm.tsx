@@ -141,7 +141,7 @@ export default function CommissionForm() {
       </div>
 
       {/* Name + Email */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+      <div className="commission-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
         <div>
           <label style={labelStyle}>Name *</label>
           <input
@@ -176,7 +176,7 @@ export default function CommissionForm() {
       </div>
 
       {/* CT Year + Color */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+      <div className="commission-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
         <div>
           <label style={labelStyle}>CT Year</label>
           <input
@@ -302,6 +302,12 @@ export default function CommissionForm() {
       >
         We respond within 48 hours. Custom commissions start at $2,995.
       </p>
+
+      <style>{`
+        @media (max-width: 480px) {
+          .commission-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </form>
   );
 }
