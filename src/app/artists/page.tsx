@@ -3,6 +3,7 @@ import Link from "next/link";
 import FeaturedArtistCard from "@/components/artists/FeaturedArtistCard";
 import ArtistCard from "@/components/artists/ArtistCard";
 import { residentArtists, upAndComingArtists, lastRefreshed } from "@/data/artists";
+import ArtistSubmissionForm from "@/components/artists/ArtistSubmissionForm";
 
 export const metadata: Metadata = {
   title: "Artists — Maui Premium Art",
@@ -332,6 +333,11 @@ export default function ArtistsPage() {
             </a>
             .
           </p>
+        </div>
+
+        {/* ── ARTIST SUBMISSION ──────────────────────────────── */}
+        <div style={{ marginTop: 48 }}>
+          <ArtistSubmissionForm />
         </div>
       </div>
     </main>
