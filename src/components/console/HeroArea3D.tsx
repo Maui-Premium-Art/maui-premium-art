@@ -11,7 +11,7 @@ import CybertruckCSS3D from "@/components/console/CybertruckCSS3D";
 
 // ── Static hero — always visible ───────────────────────────────────────────
 
-function StaticHero() {
+function StaticHero({ artImage }: { artImage: string }) {
   return (
     <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
       {/* Background — CT wireframe terrain */}
@@ -186,7 +186,7 @@ function StaticHero() {
           zIndex: 2,
         }}
       >
-        <CybertruckCSS3D artImage="/images/mahalo-bird/electric-prr-hummingbird.jpg" />
+        <CybertruckCSS3D artImage={artImage} />
       </div>
     </div>
   );
@@ -194,12 +194,14 @@ function StaticHero() {
 
 // ── Main export ────────────────────────────────────────────────────────────
 
-export default function HeroArea3D() {
-  const showWebGL = false;
+interface HeroArea3DProps {
+  artImage?: string;
+}
 
+export default function HeroArea3D({ artImage = "/images/mahalo-bird/electric-prr-hummingbird.jpg" }: HeroArea3DProps) {
   return (
     <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
-      <StaticHero />
+      <StaticHero artImage={artImage} />
 
       {/* FIX #5: Caption more prominent + FIX #6: larger dots */}
       <div
