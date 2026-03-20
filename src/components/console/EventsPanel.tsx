@@ -1,6 +1,7 @@
 "use client";
 
 import Panel from "@/components/ui/Panel";
+import NewsletterSignup from "@/components/NewsletterSignup";
 
 interface EventsPanelProps {
   open: boolean;
@@ -78,7 +79,7 @@ export default function EventsPanel({ open, onClose }: EventsPanelProps) {
         ))}
       </div>
 
-      {/* Email signup placeholder */}
+      {/* Email signup */}
       <div
         style={{
           padding: "16px",
@@ -88,53 +89,7 @@ export default function EventsPanel({ open, onClose }: EventsPanelProps) {
           marginBottom: 16,
         }}
       >
-        <div
-          style={{
-            fontSize: 10,
-            fontWeight: 600,
-            letterSpacing: "0.12em",
-            textTransform: "uppercase",
-            color: "rgba(255,255,255,0.35)",
-            marginBottom: 10,
-            fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
-          }}
-        >
-          Get notified
-        </div>
-        <div style={{ display: "flex", gap: 8 }}>
-          <input
-            type="email"
-            placeholder="your@email.com"
-            aria-label="Email address"
-            style={{
-              flex: 1,
-              padding: "9px 12px",
-              background: "rgba(255,255,255,0.04)",
-              border: "1px solid rgba(255,255,255,0.1)",
-              borderRadius: 8,
-              color: "#ffffff",
-              fontSize: 13,
-              fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
-              outline: "none",
-            }}
-          />
-          <button
-            style={{
-              padding: "9px 16px",
-              background: "rgba(74,158,255,0.12)",
-              border: "1px solid rgba(74,158,255,0.25)",
-              borderRadius: 8,
-              color: "#ffffff",
-              fontSize: 12,
-              fontWeight: 500,
-              cursor: "pointer",
-              fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
-              whiteSpace: "nowrap",
-            }}
-          >
-            Notify Me
-          </button>
-        </div>
+        <NewsletterSignup source="events-panel" compact />
       </div>
 
       {/* Follow link */}

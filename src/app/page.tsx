@@ -10,6 +10,7 @@ import EventsPanel from "@/components/console/EventsPanel";
 import StoryPanel from "@/components/console/StoryPanel";
 import ArtistBioPanel from "@/components/console/ArtistBioPanel";
 import ArtZoomView from "@/components/console/ArtZoomView";
+import NewsletterPopup from "@/components/NewsletterPopup";
 import { dockSounds } from "@/lib/dockSounds";
 import VehicleControls from "@/components/console/VehicleControls";
 import HeroArea from "@/components/console/HeroArea3D";
@@ -184,6 +185,8 @@ export default function Home() {
         {/* DOCK — 52px fixed */}
         <BottomDock onGalleryOpen={openGallery} onConnectOpen={openConnect} onPricingOpen={openPricing} onEventsOpen={openEvents} onStoryOpen={openStory} />
       </div>
+
+      <NewsletterPopup />
     </main>
   );
 }
