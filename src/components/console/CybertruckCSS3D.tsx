@@ -18,29 +18,32 @@ export default function CybertruckCSS3D({
 }: CybertruckCSS3DProps) {
   const [rotateY, setRotateY] = useState(-155);
   const [rotateX, setRotateX] = useState(12);
-  const [dragging, setDragging] = useState(false);
+  const [cursorStyle, setCursorStyle] = useState<"grab" | "grabbing">("grab");
+  const draggingRef = useRef(false);
   const lastPos = useRef({ x: 0, y: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const handlePointerDown = useCallback((e: React.PointerEvent) => {
-    setDragging(true);
+    e.preventDefault();
+    draggingRef.current = true;
+    setCursorStyle("grabbing");
     lastPos.current = { x: e.clientX, y: e.clientY };
-    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+    containerRef.current?.setPointerCapture(e.pointerId);
   }, []);
 
-  const handlePointerMove = useCallback(
-    (e: React.PointerEvent) => {
-      if (!dragging) return;
-      const dx = e.clientX - lastPos.current.x;
-      const dy = e.clientY - lastPos.current.y;
-      setRotateY((r) => r + dx * 0.4);
-      setRotateX((r) => Math.max(-30, Math.min(30, r - dy * 0.3)));
-      lastPos.current = { x: e.clientX, y: e.clientY };
-    },
-    [dragging]
-  );
+  const handlePointerMove = useCallback((e: React.PointerEvent) => {
+    if (!draggingRef.current) return;
+    e.preventDefault();
+    const dx = e.clientX - lastPos.current.x;
+    const dy = e.clientY - lastPos.current.y;
+    setRotateY((r) => r + dx * 0.4);
+    setRotateX((r) => Math.max(-30, Math.min(30, r - dy * 0.3)));
+    lastPos.current = { x: e.clientX, y: e.clientY };
+  }, []);
 
   const handlePointerUp = useCallback(() => {
-    setDragging(false);
+    draggingRef.current = false;
+    setCursorStyle("grab");
   }, []);
 
   // CT proportions (approximate): 5.7m long, 2m wide, 1.8m tall
@@ -59,6 +62,7 @@ export default function CybertruckCSS3D({
 
   return (
     <div
+      ref={containerRef}
       style={{
         width: "100%",
         height: "100%",
@@ -66,14 +70,15 @@ export default function CybertruckCSS3D({
         alignItems: "center",
         justifyContent: "center",
         perspective: 800,
-        cursor: dragging ? "grabbing" : "grab",
+        cursor: cursorStyle,
         userSelect: "none",
+        touchAction: "none",
         ...style,
       }}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
-      onPointerLeave={handlePointerUp}
+      onPointerCancel={handlePointerUp}
       role="img"
       aria-label="3D Cybertruck model — drag to rotate"
     >
@@ -84,7 +89,7 @@ export default function CybertruckCSS3D({
           position: "relative",
           transformStyle: "preserve-3d",
           transform: `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
-          transition: dragging ? "none" : "transform 0.3s ease-out",
+          transition: draggingRef.current ? "none" : "transform 0.3s ease-out",
         }}
       >
         {/* TAILGATE (back face) — HERO ART */}
@@ -184,7 +189,7 @@ export default function CybertruckCSS3D({
       </div>
 
       {/* Drag hint */}
-      {!dragging && (
+      {cursorStyle === "grab" && (
         <div
           style={{
             position: "absolute",
