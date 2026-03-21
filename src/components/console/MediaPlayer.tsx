@@ -26,7 +26,12 @@ function shuffleArray<T>(arr: T[]): T[] {
 }
 
 export default function MediaPlayer() {
-  const [tracks] = useState(() => shuffleArray(ALL_TRACKS));
+  const [tracks, setTracks] = useState(ALL_TRACKS);
+
+  // Shuffle on client only to avoid hydration mismatch (BUG-005)
+  useEffect(() => {
+    setTracks(shuffleArray(ALL_TRACKS));
+  }, []);
   const [playing, setPlaying] = useState(false);
   const [trackIdx, setTrackIdx] = useState(0);
   const [progress, setProgress] = useState(0);
@@ -36,6 +41,7 @@ export default function MediaPlayer() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioCtxRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
+  const gainRef = useRef<GainNode | null>(null);
   const sourceRef = useRef<MediaElementAudioSourceNode | null>(null);
   const rafRef = useRef<number>(0);
 
@@ -97,19 +103,25 @@ export default function MediaPlayer() {
     const analyser = ctx.createAnalyser();
     analyser.fftSize = 256;
     analyserRef.current = analyser;
+    const gain = ctx.createGain();
+    gain.gain.value = 1.0;
+    gainRef.current = gain;
   }, []);
 
   const connectSource = useCallback((audio: HTMLAudioElement) => {
     const ctx = audioCtxRef.current;
     const analyser = analyserRef.current;
-    if (!ctx || !analyser) return;
+    const gain = gainRef.current;
+    if (!ctx || !analyser || !gain) return;
     // Disconnect old source if exists
     if (sourceRef.current) {
       try { sourceRef.current.disconnect(); } catch {}
     }
     const source = ctx.createMediaElementSource(audio);
+    // Chain: source → analyser → gain → destination (BUG-004 fix)
     source.connect(analyser);
-    analyser.connect(ctx.destination);
+    analyser.connect(gain);
+    gain.connect(ctx.destination);
     sourceRef.current = source;
   }, []);
 

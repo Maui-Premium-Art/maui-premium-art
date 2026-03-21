@@ -36,7 +36,7 @@ export default function NewsletterPopup() {
     <div
       style={{
         position: "fixed",
-        bottom: 68,
+        bottom: 120,
         right: 12,
         left: 12,
         zIndex: 60,
