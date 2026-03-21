@@ -169,6 +169,7 @@ export default function VehicleControls({ onGalleryOpen, onArtistOpen }: Vehicle
           fontWeight: 600,
           textTransform: "uppercase",
           pointerEvents: "none",
+          zIndex: -1,
         }}
       >
         SWIPE TO CHARGE

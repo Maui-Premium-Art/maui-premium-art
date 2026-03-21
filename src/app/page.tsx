@@ -178,6 +178,8 @@ export default function Home() {
             gap: 8,
             padding: "0 10px 6px",
             flexShrink: 0,
+            position: "relative",
+            zIndex: 22,
           }}
         >
           <MediaPlayer />
