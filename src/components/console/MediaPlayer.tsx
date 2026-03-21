@@ -6,6 +6,14 @@ const ALL_TRACKS = [
   { title: "Hawaiian Ska", artist: "Hetyati", genre: "Hawaiian Ska", src: "/music/hawaiian-ska.mp3" },
   { title: "Hawaiian Peaceful", artist: "James Franco Jr", genre: "Hawaiian", src: "/music/hawaiian-peaceful.mp3" },
   { title: "Blue Island", artist: "Matthew Mike Music", genre: "Hawaiian", src: "/music/blue-island.mp3" },
+  { title: "Trouble in the Tiki Bar", artist: "AI Picture This", genre: "Hawaiian", src: "/music/trouble-in-the-tiki-bar.mp3" },
+  { title: "Hawaiian Sea", artist: "Alana Jordan", genre: "Hawaiian", src: "/music/hawaiian-sea.mp3" },
+  { title: "Happy Ukulele", artist: "Emmraan", genre: "Hawaiian", src: "/music/happy-ukulele.mp3" },
+  { title: "Luau", artist: "Matthew Mike Music", genre: "Hawaiian", src: "/music/luau.mp3" },
+  { title: "Having Fun", artist: "Nerdworld", genre: "Hawaiian", src: "/music/having-fun.mp3" },
+  { title: "A Cheerful World", artist: "Red Productions", genre: "Hawaiian", src: "/music/cheerful-world.mp3" },
+  { title: "Wave", artist: "Tooone", genre: "Hawaiian", src: "/music/wave.mp3" },
+  { title: "Honohono", artist: "Yasuko", genre: "Hawaiian", src: "/music/honohono.mp3" },
 ];
 
 function shuffleArray<T>(arr: T[]): T[] {
