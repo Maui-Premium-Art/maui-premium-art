@@ -2,32 +2,47 @@
 
 import { useRef, useState, useEffect, useCallback } from "react";
 
-const TRACKS = [
-  { title: "Slack Key Sessions", artist: "Keola Beamer", genre: "Hawaiian Slack Key" },
-  { title: "Maui Sunset", artist: "Keola Beamer", genre: "Hawaiian Slack Key" },
-  { title: "Aloha ʻOe", artist: "Israel Kamakawiwoʻole", genre: "Hawaiian" },
+const ALL_TRACKS = [
+  { title: "Hawaiian Ska", artist: "Hetyati", genre: "Hawaiian Ska", src: "/music/hawaiian-ska.mp3" },
+  { title: "Hawaiian Peaceful", artist: "James Franco Jr", genre: "Hawaiian", src: "/music/hawaiian-peaceful.mp3" },
+  { title: "Blue Island", artist: "Matthew Mike Music", genre: "Hawaiian", src: "/music/blue-island.mp3" },
 ];
 
+function shuffleArray<T>(arr: T[]): T[] {
+  const shuffled = [...arr];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
 export default function MediaPlayer() {
+  const [tracks] = useState(() => shuffleArray(ALL_TRACKS));
   const [playing, setPlaying] = useState(false);
   const [trackIdx, setTrackIdx] = useState(0);
   const [progress, setProgress] = useState(0);
   const [elapsed, setElapsed] = useState("0:00");
-  const [duration] = useState("4:28");
+  const [totalDuration, setTotalDuration] = useState("0:00");
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioCtxRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
-  const nodesRef = useRef<AudioNode[]>([]);
+  const sourceRef = useRef<MediaElementAudioSourceNode | null>(null);
   const rafRef = useRef<number>(0);
-  const startTimeRef = useRef<number>(0);
 
-  const track = TRACKS[trackIdx];
+  const track = tracks[trackIdx];
+
+  const formatTime = (sec: number) => {
+    const m = Math.floor(sec / 60);
+    const s = Math.floor(sec % 60).toString().padStart(2, "0");
+    return `${m}:${s}`;
+  };
 
   const drawWaveform = useCallback(() => {
     const canvas = canvasRef.current;
     const analyser = analyserRef.current;
     if (!canvas || !analyser) return;
-
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
@@ -39,10 +54,8 @@ export default function MediaPlayer() {
     ctx.lineWidth = 1.5;
     ctx.strokeStyle = "rgba(255,255,255,0.4)";
     ctx.beginPath();
-
     const sliceWidth = canvas.width / bufferLength;
     let x = 0;
-
     for (let i = 0; i < bufferLength; i++) {
       const v = dataArray[i] / 128.0;
       const y = (v * canvas.height) / 2;
@@ -50,13 +63,9 @@ export default function MediaPlayer() {
       else ctx.lineTo(x, y);
       x += sliceWidth;
     }
-
     ctx.lineTo(canvas.width, canvas.height / 2);
     ctx.stroke();
-
-    if (playing) {
-      rafRef.current = requestAnimationFrame(drawWaveform);
-    }
+    if (playing) rafRef.current = requestAnimationFrame(drawWaveform);
   }, [playing]);
 
   const drawFlatLine = useCallback(() => {
@@ -73,140 +82,113 @@ export default function MediaPlayer() {
     ctx.stroke();
   }, []);
 
-  // FIX: Track all audio nodes for clean teardown — no leaked oscillators/LFOs
-  const startAudio = useCallback(() => {
+  const ensureAudioContext = useCallback(() => {
     if (audioCtxRef.current) return;
-
     const ctx = new AudioContext();
     audioCtxRef.current = ctx;
-    const nodes: AudioNode[] = [];
-
     const analyser = ctx.createAnalyser();
     analyser.fftSize = 256;
     analyserRef.current = analyser;
+  }, []);
 
-    const gain = ctx.createGain();
-    gain.gain.value = 0.08;
-    nodes.push(gain);
+  const connectSource = useCallback((audio: HTMLAudioElement) => {
+    const ctx = audioCtxRef.current;
+    const analyser = analyserRef.current;
+    if (!ctx || !analyser) return;
+    // Disconnect old source if exists
+    if (sourceRef.current) {
+      try { sourceRef.current.disconnect(); } catch {}
+    }
+    const source = ctx.createMediaElementSource(audio);
+    source.connect(analyser);
+    analyser.connect(ctx.destination);
+    sourceRef.current = source;
+  }, []);
 
-    const freqs = [196, 293.66, 392, 587.33];
-    freqs.forEach((freq, i) => {
-      const osc = ctx.createOscillator();
-      osc.type = i < 2 ? "sine" : "triangle";
-      osc.frequency.value = freq;
-      nodes.push(osc);
+  const playTrack = useCallback((idx: number) => {
+    ensureAudioContext();
+    const t = tracks[idx];
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.removeAttribute("src");
+    }
+    const audio = new Audio(t.src);
+    audio.crossOrigin = "anonymous";
+    audioRef.current = audio;
 
-      const oscGain = ctx.createGain();
-      oscGain.gain.value = i === 0 ? 0.04 : 0.02;
-      nodes.push(oscGain);
-
-      const lfo = ctx.createOscillator();
-      lfo.frequency.value = 0.3 + i * 0.1;
-      nodes.push(lfo);
-      const lfoGain = ctx.createGain();
-      lfoGain.gain.value = 2;
-      nodes.push(lfoGain);
-
-      lfo.connect(lfoGain);
-      lfoGain.connect(osc.frequency);
-      lfo.start();
-      osc.connect(oscGain);
-      oscGain.connect(gain);
-      osc.start();
+    audio.addEventListener("loadedmetadata", () => {
+      setTotalDuration(formatTime(audio.duration));
+    });
+    audio.addEventListener("ended", () => {
+      // Auto-advance to next track
+      const nextIdx = (idx + 1) % tracks.length;
+      setTrackIdx(nextIdx);
+      playTrack(nextIdx);
     });
 
-    gain.connect(analyser);
-    analyser.connect(ctx.destination);
-    nodesRef.current = nodes;
-
-    startTimeRef.current = Date.now();
+    connectSource(audio);
+    audio.play().catch(() => {});
     setPlaying(true);
-  }, []);
-
-  // FIX: Clean teardown — disconnect all nodes, close context
-  const stopAudio = useCallback(() => {
-    cancelAnimationFrame(rafRef.current);
-
-    // Disconnect all tracked nodes
-    for (const node of nodesRef.current) {
-      try {
-        node.disconnect();
-        if (node instanceof OscillatorNode) node.stop();
-      } catch { /* already stopped */ }
-    }
-    nodesRef.current = [];
-
-    if (audioCtxRef.current) {
-      audioCtxRef.current.close();
-      audioCtxRef.current = null;
-    }
-    analyserRef.current = null;
-
-    setPlaying(false);
-    drawFlatLine();
-  }, [drawFlatLine]);
-
-  // FIX: Cleanup on unmount — prevents AudioContext leak
-  useEffect(() => {
-    return () => {
-      cancelAnimationFrame(rafRef.current);
-      for (const node of nodesRef.current) {
-        try {
-          node.disconnect();
-          if (node instanceof OscillatorNode) node.stop();
-        } catch { /* already stopped */ }
-      }
-      nodesRef.current = [];
-      if (audioCtxRef.current) {
-        audioCtxRef.current.close();
-        audioCtxRef.current = null;
-      }
-    };
-  }, []);
+  }, [tracks, ensureAudioContext, connectSource]);
 
   const togglePlay = useCallback(() => {
-    if (playing) stopAudio();
-    else startAudio();
-  }, [playing, startAudio, stopAudio]);
+    if (playing) {
+      audioRef.current?.pause();
+      setPlaying(false);
+      cancelAnimationFrame(rafRef.current);
+      drawFlatLine();
+    } else {
+      if (audioRef.current?.src) {
+        audioRef.current.play().catch(() => {});
+        setPlaying(true);
+      } else {
+        playTrack(trackIdx);
+      }
+    }
+  }, [playing, trackIdx, playTrack, drawFlatLine]);
 
   const nextTrack = useCallback(() => {
-    setTrackIdx((i) => (i + 1) % TRACKS.length);
+    const next = (trackIdx + 1) % tracks.length;
+    setTrackIdx(next);
     setProgress(0);
     setElapsed("0:00");
-    if (playing) {
-      stopAudio();
-      setTimeout(startAudio, 100);
-    }
-  }, [playing, startAudio, stopAudio]);
+    if (playing) playTrack(next);
+  }, [trackIdx, tracks.length, playing, playTrack]);
 
   const prevTrack = useCallback(() => {
-    setTrackIdx((i) => (i - 1 + TRACKS.length) % TRACKS.length);
+    const prev = (trackIdx - 1 + tracks.length) % tracks.length;
+    setTrackIdx(prev);
     setProgress(0);
     setElapsed("0:00");
-    if (playing) {
-      stopAudio();
-      setTimeout(startAudio, 100);
-    }
-  }, [playing, startAudio, stopAudio]);
+    if (playing) playTrack(prev);
+  }, [trackIdx, tracks.length, playing, playTrack]);
 
+  // Update progress bar and elapsed time
   useEffect(() => {
     if (!playing) return;
     drawWaveform();
     const interval = setInterval(() => {
-      const totalSec = 268;
-      const elapsedSec = Math.floor((Date.now() - startTimeRef.current) / 1000) % totalSec;
-      const m = Math.floor(elapsedSec / 60);
-      const s = (elapsedSec % 60).toString().padStart(2, "0");
-      setElapsed(`${m}:${s}`);
-      setProgress((elapsedSec / totalSec) * 100);
+      const audio = audioRef.current;
+      if (!audio || !audio.duration) return;
+      setElapsed(formatTime(audio.currentTime));
+      setProgress((audio.currentTime / audio.duration) * 100);
     }, 500);
     return () => clearInterval(interval);
   }, [playing, drawWaveform]);
 
   useEffect(() => { drawFlatLine(); }, [drawFlatLine]);
 
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      cancelAnimationFrame(rafRef.current);
+      audioRef.current?.pause();
+      if (sourceRef.current) try { sourceRef.current.disconnect(); } catch {}
+      if (audioCtxRef.current) audioCtxRef.current.close();
+    };
+  }, []);
+
   return (
-    // A11y: region with accessible label
     <div
       role="region"
       aria-label="Hawaiian Radio music player"
@@ -228,7 +210,6 @@ export default function MediaPlayer() {
         <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", marginTop: 1, lineHeight: 1.3 }}>{track.artist} · {track.genre}</div>
       </div>
 
-      {/* A11y: canvas with accessible description */}
       <canvas
         ref={canvasRef}
         width={300}
@@ -238,7 +219,6 @@ export default function MediaPlayer() {
         style={{ width: "100%", height: 20, marginBottom: 3, borderRadius: 2 }}
       />
 
-      {/* A11y: progress bar with slider semantics */}
       <div
         role="progressbar"
         aria-label="Track progress"
@@ -252,10 +232,9 @@ export default function MediaPlayer() {
       </div>
       <div style={{ display: "flex", justifyContent: "space-between", fontSize: 9, color: "rgba(255,255,255,0.28)", marginBottom: 6, fontVariantNumeric: "tabular-nums" as const }}>
         <span>{elapsed}</span>
-        <span>{duration}</span>
+        <span>{totalDuration}</span>
       </div>
 
-      {/* Transport controls */}
       <div role="toolbar" aria-label="Playback controls" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <button style={btnStyle} aria-label="Shuffle">
           <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
