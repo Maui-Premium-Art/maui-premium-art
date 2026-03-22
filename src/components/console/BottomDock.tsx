@@ -236,7 +236,7 @@ export default function BottomDock({ onGalleryOpen, onConnectOpen, onPricingOpen
         ariaLabel="Call Us"
         onClick={() => {
           dockSounds.phone();
-          window.location.href = "tel:+18084959969";
+          window.location.href = "tel:+18082501162";
         }}
       >
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
