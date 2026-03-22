@@ -70,6 +70,7 @@ export default function ArtProductPage() {
           priceId: selectedFormat.stripePriceId,
           artworkTitle: artwork.title,
           formatName: selectedFormat.name,
+          slug: artwork.slug,
         }),
       });
       const data = await res.json();
