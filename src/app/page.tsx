@@ -17,7 +17,7 @@ import HeroArea from "@/components/console/HeroArea3D";
 import MediaPlayer from "@/components/console/MediaPlayer";
 import NavigationWidget from "@/components/console/NavigationWidget";
 import BottomDock from "@/components/console/BottomDock";
-import SocialProof from "@/components/console/SocialProof";
+import SocialProofPanel from "@/components/console/SocialProofPanel";
 
 const TONNEAU_MESSAGES = [
   "Tonneau sealed — art inside.",
@@ -35,12 +35,13 @@ export default function Home() {
   const [eventsOpen, setEventsOpen] = useState(false);
   const [storyOpen, setStoryOpen] = useState(false);
   const [artistBioOpen, setArtistBioOpen] = useState(false);
+  const [socialOpen, setSocialOpen] = useState(false);
   const [zoomArtSlug, setZoomArtSlug] = useState<string | null>(null);
   const [heroArtImage, setHeroArtImage] = useState("/images/mahalo-bird/electric-prr-hummingbird.jpg");
   const [tonneauMsg, setTonneauMsg] = useState<string | null>(null);
   const tonneauTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const closeAllPanels = useCallback(() => { setGalleryOpen(false); setConnectOpen(false); setPricingOpen(false); setEventsOpen(false); setStoryOpen(false); setArtistBioOpen(false); }, []);
+  const closeAllPanels = useCallback(() => { setGalleryOpen(false); setConnectOpen(false); setPricingOpen(false); setEventsOpen(false); setStoryOpen(false); setArtistBioOpen(false); setSocialOpen(false); }, []);
   const openGallery = useCallback(() => { closeAllPanels(); setGalleryOpen(true); }, [closeAllPanels]);
   const closeGallery = useCallback(() => setGalleryOpen(false), []);
   const openConnect = useCallback(() => { closeAllPanels(); setConnectOpen(true); }, [closeAllPanels]);
@@ -53,6 +54,8 @@ export default function Home() {
   const closeStory = useCallback(() => setStoryOpen(false), []);
   const openArtistBio = useCallback(() => { closeAllPanels(); setArtistBioOpen(true); }, [closeAllPanels]);
   const closeArtistBio = useCallback(() => setArtistBioOpen(false), []);
+  const openSocial = useCallback(() => { closeAllPanels(); setSocialOpen(true); }, [closeAllPanels]);
+  const closeSocial = useCallback(() => setSocialOpen(false), []);
   const handleArtSelect = useCallback((slug: string) => { closeAllPanels(); setZoomArtSlug(slug); }, [closeAllPanels]);
   const closeArtZoom = useCallback(() => setZoomArtSlug(null), []);
 
@@ -117,6 +120,7 @@ export default function Home() {
           <StoryPanel open={storyOpen} onClose={closeStory} />
           <ArtistBioPanel open={artistBioOpen} onClose={closeArtistBio} />
           <ArtZoomView slug={zoomArtSlug} onClose={closeArtZoom} />
+          <SocialProofPanel open={socialOpen} onClose={closeSocial} />
           <VehicleControls onGalleryOpen={openGallery} onArtistOpen={openArtistBio} />
           {/* Closed / Tonneau — right side — EASTER EGG */}
           <button
@@ -186,11 +190,8 @@ export default function Home() {
           <NavigationWidget />
         </div>
 
-        {/* SOCIAL PROOF */}
-        <SocialProof />
-
         {/* DOCK — 52px fixed */}
-        <BottomDock onGalleryOpen={openGallery} onConnectOpen={openConnect} onPricingOpen={openPricing} onEventsOpen={openEvents} onStoryOpen={openStory} />
+        <BottomDock onGalleryOpen={openGallery} onConnectOpen={openConnect} onPricingOpen={openPricing} onEventsOpen={openEvents} onStoryOpen={openStory} onSocialOpen={openSocial} />
       </div>
 
       <NewsletterPopup />

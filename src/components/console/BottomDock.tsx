@@ -102,9 +102,10 @@ interface BottomDockProps {
   onPricingOpen?: () => void;
   onEventsOpen?: () => void;
   onStoryOpen?: () => void;
+  onSocialOpen?: () => void;
 }
 
-export default function BottomDock({ onGalleryOpen, onConnectOpen, onPricingOpen, onEventsOpen, onStoryOpen }: BottomDockProps) {
+export default function BottomDock({ onGalleryOpen, onConnectOpen, onPricingOpen, onEventsOpen, onStoryOpen, onSocialOpen }: BottomDockProps) {
   const router = useRouter();
   const cameraClickCount = useRef(0);
   const cameraTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -441,8 +442,8 @@ export default function BottomDock({ onGalleryOpen, onConnectOpen, onPricingOpen
       {/* Spacer */}
       <div style={{ flex: 1 }} />
 
-      {/* Right nav arrow */}
-      <DockItem ariaLabel="More">
+      {/* Right nav arrow → Social Proof */}
+      <DockItem ariaLabel="Reviews" onClick={() => onSocialOpen?.()}>
         <svg width="14" height="16" viewBox="0 0 14 16" fill="none">
           <path
             d="M4 2L10 8L4 14"
