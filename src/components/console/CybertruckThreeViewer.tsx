@@ -40,7 +40,7 @@ function CybertruckModel({ artImage }: CybertruckModelProps) {
   }, [artImage, scene]);
 
   return (
-    <group ref={groupRef} rotation={[0, Math.PI * 0.5, 0]} position={[0, -0.3, 0]}>
+    <group ref={groupRef} rotation={[0, Math.PI, 0]} position={[0, -0.3, 0]}>
       <primitive object={scene} scale={1.2} />
     </group>
   );
@@ -64,7 +64,7 @@ export default function CybertruckThreeViewer({
       aria-label="3D Cybertruck model — drag to rotate"
     >
       <Canvas
-        camera={{ position: [0, 0.5, 5], fov: 28 }}
+        camera={{ position: [8, 1.2, 0], fov: 30 }}
         gl={{ antialias: true, alpha: true }}
         style={{ background: "transparent" }}
       >

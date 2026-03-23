@@ -91,7 +91,7 @@ function LoadingBox() {
 export default function CybertruckScene() {
   return (
     <Canvas
-      camera={{ position: [0, 2, -9], fov: 40 }}
+      camera={{ position: [9, 1.5, 0], fov: 35 }}
       shadows
       gl={{
         antialias: true,
