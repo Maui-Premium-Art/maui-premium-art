@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense, useRef, useEffect } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
@@ -39,15 +39,8 @@ function CybertruckModel({ artImage }: CybertruckModelProps) {
     });
   }, [artImage, scene]);
 
-  // Gentle idle rotation when not being dragged
-  useFrame((_, delta) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y += delta * 0.05;
-    }
-  });
-
   return (
-    <group ref={groupRef} rotation={[0, Math.PI * 0.75, 0]} position={[0, -0.3, 0]}>
+    <group ref={groupRef} rotation={[0, Math.PI * 0.5, 0]} position={[0, -0.3, 0]}>
       <primitive object={scene} scale={1.2} />
     </group>
   );
@@ -71,7 +64,7 @@ export default function CybertruckThreeViewer({
       aria-label="3D Cybertruck model — drag to rotate"
     >
       <Canvas
-        camera={{ position: [4.5, 0.6, 3], fov: 30 }}
+        camera={{ position: [0, 0.5, 5], fov: 28 }}
         gl={{ antialias: true, alpha: true }}
         style={{ background: "transparent" }}
       >

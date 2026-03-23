@@ -32,7 +32,7 @@ function StaticHero({ artImage }: { artImage: string }) {
         style={{
           position: "absolute",
           inset: 0,
-          backgroundImage: "url('/images/cybertruck-bg-clean.jpg')",
+          backgroundImage: "url('/images/cybertruck-display-bg.jpg')",
           backgroundSize: "cover",
           backgroundPosition: "center top",
           backgroundRepeat: "no-repeat",
