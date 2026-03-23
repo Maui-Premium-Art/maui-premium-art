@@ -1,7 +1,7 @@
 "use client";
 
-import { Suspense, useRef, useEffect } from "react";
-import { Canvas } from "@react-three/fiber";
+import { Suspense, useRef, useEffect, useState } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
@@ -12,10 +12,11 @@ interface CybertruckModelProps {
 function CybertruckModel({ artImage }: CybertruckModelProps) {
   const { scene } = useGLTF("/models/cybertruck.glb");
   const groupRef = useRef<THREE.Group>(null);
+  const [revealDone, setRevealDone] = useState(false);
+  const startTime = useRef(0);
 
-  // Apply art texture to the SolarTextureWIP material on the Cube mesh
+  // Boost material brightness for stainless steel body
   useEffect(() => {
-    // Boost material brightness for all meshes
     scene.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         const materials = Array.isArray(child.material)
@@ -24,7 +25,6 @@ function CybertruckModel({ artImage }: CybertruckModelProps) {
 
         materials.forEach((mat) => {
           if (mat instanceof THREE.MeshStandardMaterial) {
-            // Make the stainless steel body brighter
             if (mat.name !== "SolarTextureWIP" && mat.name !== "SolarTexture") {
               mat.metalness = 0.7;
               mat.roughness = 0.2;
@@ -60,8 +60,45 @@ function CybertruckModel({ artImage }: CybertruckModelProps) {
     });
   }, [artImage, scene]);
 
+  // Option C: Cinematic reveal — side profile → rotate to show tailgate art
+  // Model coords: X = front-to-rear, Z = width
+  // rotation={[0, -Math.PI/2, 0]} = side profile, front facing LEFT
+  // After 2s delay, rotate ~135° (2.36 rad) over 3s to show tailgate
+  useFrame((_, delta) => {
+    if (revealDone || !groupRef.current) return;
+
+    if (startTime.current === 0) {
+      startTime.current = performance.now();
+      return;
+    }
+
+    const elapsed = (performance.now() - startTime.current) / 1000;
+    const delay = 2.0;
+    const duration = 3.0;
+    const startAngle = -Math.PI / 2; // side profile
+    const endAngle = startAngle + Math.PI * 0.75; // ~135° to reveal tailgate
+
+    if (elapsed < delay) {
+      // Hold at side profile
+      groupRef.current.rotation.y = startAngle;
+    } else if (elapsed < delay + duration) {
+      // Smooth easeInOut rotation
+      const t = (elapsed - delay) / duration;
+      const ease = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+      groupRef.current.rotation.y = startAngle + (endAngle - startAngle) * ease;
+    } else {
+      // Done — lock final position
+      groupRef.current.rotation.y = endAngle;
+      setRevealDone(true);
+    }
+  });
+
   return (
-    <group ref={groupRef} rotation={[0, Math.PI * 0.5, 0]} position={[0, -0.5, 0]}>
+    <group
+      ref={groupRef}
+      rotation={[0, -Math.PI / 2, 0]}
+      position={[0, -0.5, 0]}
+    >
       <primitive object={scene} scale={1.8} />
     </group>
   );
@@ -85,8 +122,13 @@ export default function CybertruckThreeViewer({
       aria-label="3D Cybertruck model — drag to rotate"
     >
       <Canvas
-        camera={{ position: [0, 0.8, 6], fov: 30 }}
-        gl={{ antialias: true, alpha: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 2.0 }}
+        camera={{ position: [0, 0.8, 7], fov: 28 }}
+        gl={{
+          antialias: true,
+          alpha: true,
+          toneMapping: THREE.ACESFilmicToneMapping,
+          toneMappingExposure: 2.0,
+        }}
         style={{ background: "transparent" }}
       >
         <ambientLight intensity={2.0} />
@@ -114,5 +156,4 @@ export default function CybertruckThreeViewer({
   );
 }
 
-// Preload the model
 useGLTF.preload("/models/cybertruck.glb");
