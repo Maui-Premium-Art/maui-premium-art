@@ -71,14 +71,15 @@ export default function CybertruckThreeViewer({
       aria-label="3D Cybertruck model — drag to rotate"
     >
       <Canvas
-        camera={{ position: [3, 1.5, 3], fov: 35 }}
+        camera={{ position: [4.5, 0.6, 3], fov: 30 }}
         gl={{ antialias: true, alpha: true }}
         style={{ background: "transparent" }}
       >
-        <ambientLight intensity={0.4} />
-        <directionalLight position={[5, 5, 5]} intensity={0.8} color="#b8cfe8" />
-        <directionalLight position={[-3, 2, -3]} intensity={0.3} color="#4a6080" />
-        <pointLight position={[0, 3, 0]} intensity={0.2} color="#ffffff" />
+        <ambientLight intensity={1.2} />
+        <directionalLight position={[5, 3, 5]} intensity={1.5} color="#d0e0f0" />
+        <directionalLight position={[-4, 2, -2]} intensity={0.8} color="#80a0c0" />
+        <directionalLight position={[0, 5, 0]} intensity={0.6} color="#ffffff" />
+        <pointLight position={[-3, 1, 3]} intensity={0.4} color="#4a9eff" />
 
         <Suspense fallback={null}>
           <CybertruckModel artImage={artImage} />
@@ -87,8 +88,8 @@ export default function CybertruckThreeViewer({
         <OrbitControls
           enablePan={false}
           enableZoom={false}
-          minPolarAngle={Math.PI * 0.3}
-          maxPolarAngle={Math.PI * 0.6}
+          minPolarAngle={Math.PI * 0.35}
+          maxPolarAngle={Math.PI * 0.55}
           autoRotate={false}
           dampingFactor={0.1}
           enableDamping
