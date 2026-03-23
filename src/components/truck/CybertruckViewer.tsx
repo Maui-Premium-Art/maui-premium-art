@@ -115,8 +115,8 @@ export default function CybertruckViewer({ style }: CybertruckViewerProps) {
         style={{ background: "transparent" }}
       >
         {/* Dark CT-style environment */}
-        <color attach="background" args={["#0a0a0f"]} />
-        <fog attach="fog" args={["#0a0a0f", 20, 50]} />
+        <color attach="background" args={["#0a1628"]} />
+        <fog attach="fog" args={["#0a1628", 20, 50]} />
 
         {/* Lighting — moody, industrial */}
         <ambientLight intensity={0.25} />

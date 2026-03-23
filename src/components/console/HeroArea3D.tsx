@@ -31,7 +31,7 @@ function StaticHero({ artImage }: { artImage: string }) {
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(180deg, rgba(5,5,10,0.4) 0%, rgba(10,10,15,0.2) 40%, rgba(10,10,15,0.3) 70%, rgba(10,10,15,0.6) 100%)",
+            "linear-gradient(180deg, rgba(10,22,40,0.5) 0%, rgba(10,22,40,0.2) 40%, rgba(10,22,40,0.3) 70%, rgba(10,22,40,0.6) 100%)",
         }}
       />
 
@@ -57,7 +57,7 @@ function StaticHero({ artImage }: { artImage: string }) {
         </defs>
 
         {/* Far range — distant peaks, darkest */}
-        <g fill="#0c0c14" stroke="rgba(255,255,255,0.04)" strokeWidth="0.5">
+        <g fill="#0c1424" stroke="rgba(255,255,255,0.04)" strokeWidth="0.5">
           <polygon points="0,200 60,155 120,175 0,200" />
           <polygon points="60,155 120,175 180,140 60,155" />
           <polygon points="120,175 180,140 240,162 120,175" />
@@ -86,7 +86,7 @@ function StaticHero({ artImage }: { artImage: string }) {
         </g>
 
         {/* Mid range — closer ridgeline, slightly lighter */}
-        <g fill="#0e0e1a" stroke="rgba(255,255,255,0.06)" strokeWidth="0.5">
+        <g fill="#0e1a2e" stroke="rgba(255,255,255,0.06)" strokeWidth="0.5">
           <polygon points="0,260 80,225 160,248" />
           <polygon points="80,225 160,248 200,218" />
           <polygon points="160,248 200,218 280,240" />
@@ -127,25 +127,25 @@ function StaticHero({ artImage }: { artImage: string }) {
 
         {/* Near range — foreground terrain, lightest facets */}
         <g stroke="rgba(255,255,255,0.07)" strokeWidth="0.5">
-          <polygon points="0,310 80,290 160,305" fill="#10101e" />
-          <polygon points="80,290 160,305 240,285" fill="#0f0f1c" />
-          <polygon points="160,305 240,285 320,300" fill="#111120" />
-          <polygon points="240,285 320,300 400,280" fill="#0f0f1c" />
-          <polygon points="320,300 400,280 480,298" fill="#10101e" />
-          <polygon points="400,280 480,298 560,275" fill="#0e0e1a" />
-          <polygon points="480,298 560,275 640,295" fill="#111120" />
-          <polygon points="560,275 640,295 720,278" fill="#10101e" />
-          <polygon points="640,295 720,278 800,292" fill="#0f0f1c" />
-          <polygon points="720,278 800,292 880,275" fill="#10101e" />
-          <polygon points="800,292 880,275 960,290" fill="#111120" />
-          <polygon points="880,275 960,290 1040,278" fill="#0f0f1c" />
-          <polygon points="960,290 1040,278 1120,295" fill="#10101e" />
-          <polygon points="1040,278 1120,295 1200,282" fill="#0e0e1a" />
+          <polygon points="0,310 80,290 160,305" fill="#10182e" />
+          <polygon points="80,290 160,305 240,285" fill="#0f1a2c" />
+          <polygon points="160,305 240,285 320,300" fill="#111d30" />
+          <polygon points="240,285 320,300 400,280" fill="#0f1a2c" />
+          <polygon points="320,300 400,280 480,298" fill="#10182e" />
+          <polygon points="400,280 480,298 560,275" fill="#0e1a2e" />
+          <polygon points="480,298 560,275 640,295" fill="#111d30" />
+          <polygon points="560,275 640,295 720,278" fill="#10182e" />
+          <polygon points="640,295 720,278 800,292" fill="#0f1a2c" />
+          <polygon points="720,278 800,292 880,275" fill="#10182e" />
+          <polygon points="800,292 880,275 960,290" fill="#111d30" />
+          <polygon points="880,275 960,290 1040,278" fill="#0f1a2c" />
+          <polygon points="960,290 1040,278 1120,295" fill="#10182e" />
+          <polygon points="1040,278 1120,295 1200,282" fill="#0e1a2e" />
           {/* Bottom fill to viewport edge */}
-          <polygon points="0,310 160,305 0,400" fill="#111120" />
-          <polygon points="160,305 320,300 0,400" fill="#10101e" />
-          <polygon points="0,400 320,300 480,298" fill="#0f0f1c" />
-          <polygon points="0,400 480,298 720,278 1200,282 1200,400" fill="#10101e" />
+          <polygon points="0,310 160,305 0,400" fill="#111d30" />
+          <polygon points="160,305 320,300 0,400" fill="#10182e" />
+          <polygon points="0,400 320,300 480,298" fill="#0f1a2c" />
+          <polygon points="0,400 480,298 720,278 1200,282 1200,400" fill="#10182e" />
         </g>
 
         {/* Wireframe highlight overlay — subtle edge glow */}

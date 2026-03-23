@@ -99,9 +99,9 @@ export default function CybertruckScene() {
         toneMapping: THREE.ACESFilmicToneMapping,
         toneMappingExposure: 0.85,
       }}
-      style={{ background: "#0a0a0f" }}
+      style={{ background: "#0a1628" }}
     >
-      <color attach="background" args={["#0a0a0f"]} />
+      <color attach="background" args={["#0a1628"]} />
       <ambientLight intensity={0.3} />
       <directionalLight position={[6, 8, -4]} intensity={1.4} color="#e8e8f5" castShadow shadow-mapSize={[2048, 2048]} />
       <directionalLight position={[-4, 3, 4]} intensity={0.45} color="#4a6fa0" />

@@ -58,7 +58,7 @@ export default function CybertruckCSS3D({
     border: "1px solid rgba(255,255,255,0.08)",
   };
 
-  const metallic = "linear-gradient(135deg, #1a1a2e 0%, #2a2a3e 30%, #1a1a2e 50%, #2a2a3e 70%, #1a1a2e 100%)";
+  const metallic = "linear-gradient(135deg, #0f1d35 0%, #1a2d4a 30%, #0f1d35 50%, #1a2d4a 70%, #0f1d35 100%)";
 
   return (
     <div

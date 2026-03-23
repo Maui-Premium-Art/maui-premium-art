@@ -62,7 +62,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   viewportFit: "cover",
-  themeColor: "#0a0a0f",
+  themeColor: "#0a1628",
 };
 
 export default function RootLayout({
@@ -71,7 +71,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" style={{ background: "#0a0a0f" }}>
+    <html lang="en" style={{ background: "#0a1628" }}>
       <head>
         <link rel="preconnect" href="https://api.open-meteo.com" />
         <script
@@ -151,7 +151,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body style={{ background: "#0a0a0f", margin: 0, padding: 0, overflow: "hidden" }}>
+      <body style={{ background: "#0a1628", margin: 0, padding: 0, overflow: "hidden" }}>
         {children}
         <Analytics />
         <SpeedInsights />

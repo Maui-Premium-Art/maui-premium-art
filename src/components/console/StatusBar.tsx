@@ -101,137 +101,49 @@ export default function StatusBar({ onGalleryOpen }: StatusBarProps) {
         pointerEvents: "none",
       }}
     >
-      {/* LEFT: PRND + charge bar + range + Gallery */}
-      <div className="ct-status-left" style={{ display: "flex", flexDirection: "column", gap: 5, pointerEvents: "auto" }}>
-        {/* PRND gear selector + charge bar */}
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          {/* PRND */}
-          <div
-            role="radiogroup"
-            aria-label="Gear selector"
-            style={{ display: "flex", gap: 6, fontFamily: "-apple-system, 'SF Pro Display', system-ui, sans-serif" }}
-          >
-            {(["P", "R", "N", "D"] as Gear[]).map((g) => (
-              <button
-                key={g}
-                role="radio"
-                aria-checked={gear === g}
-                aria-label={`Gear ${g}`}
-                onClick={() => handleGearSelect(g)}
-                style={{
-                  fontSize: 14,
-                  fontWeight: gear === g ? 700 : 400,
-                  color: gear === g ? "#ffffff" : "rgba(255,255,255,0.25)",
-                  letterSpacing: "0.05em",
-                  lineHeight: 1,
-                  background: "none",
-                  border: "none",
-                  padding: "2px 1px",
-                  cursor: "pointer",
-                  transition: "color 0.2s ease, font-weight 0.2s ease",
-                }}
-              >
-                {g}
-              </button>
-            ))}
-          </div>
-
-          {/* Charge bar — animated gradient + percentage */}
-          <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-            <div
-              style={{
-                width: 40,
-                height: 10,
-                position: "relative" as const,
-                overflow: "hidden",
-                borderRadius: 2,
-                border: `1px solid ${chargeAnimated ? getChargeColor(charge) + "40" : "rgba(255,255,255,0.2)"}`,
-                transition: "border-color 0.8s ease",
-              }}
-              role="meter"
-              aria-label="Charge level"
-              aria-valuenow={charge}
-              aria-valuemin={0}
-              aria-valuemax={100}
-            >
-              <div
-                style={{
-                  width: `${charge}%`,
-                  height: "100%",
-                  background: getChargeGradient(charge),
-                  transition: chargeAnimated ? "width 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)" : "none",
-                  borderRadius: 1,
-                }}
-              />
-            </div>
-            <span
-              style={{
-                fontSize: 11,
-                color: chargeAnimated ? getChargeColor(charge) : "rgba(255,255,255,0.5)",
-                fontWeight: 500,
-                fontVariantNumeric: "tabular-nums" as const,
-                transition: "color 0.8s ease",
-                minWidth: 28,
-              }}
-            >
-              {charge}%
-            </span>
-          </div>
-
-          {/* Battery + range */}
-          <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 1 }}>
-              <div style={{ width: 20, height: 10, border: "1.5px solid rgba(255,255,255,0.6)", borderRadius: 2, padding: 1, display: "flex", gap: 0.5, alignItems: "stretch" }}>
-                {getBatterySegments(charge).map((filled, i) => (
-                  <div
-                    key={i}
-                    style={{
-                      flex: 1,
-                      borderRadius: 0.5,
-                      backgroundColor: filled ? getChargeColor(charge) : "rgba(255,255,255,0.1)",
-                      transition: "background-color 0.8s ease",
-                    }}
-                  />
-                ))}
-              </div>
-              <div style={{ width: 2, height: 4, borderRadius: "0 1px 1px 0", backgroundColor: "rgba(255,255,255,0.4)" }} />
-            </div>
-            <span style={{ fontSize: 14, fontWeight: 500, color: "#ffffff", fontVariantNumeric: "tabular-nums" as const, lineHeight: 1 }}>
-              {getRangeForCharge(charge)} mi
-            </span>
-          </div>
+      {/* LEFT: Battery hash + editions + Start Exploring (CT reference style) */}
+      <div className="ct-status-left" style={{ display: "flex", flexDirection: "column", gap: 6, pointerEvents: "auto" }}>
+        {/* Battery hash marks + range (CT style: /////// 224 mi) */}
+        <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
+          <span style={{ fontSize: 16, fontWeight: 700, color: "rgba(255,255,255,0.7)", letterSpacing: "-0.5px", fontFamily: "monospace" }}>
+            {"╱".repeat(getBatterySegments(charge).filter(Boolean).length)}
+            <span style={{ color: "rgba(255,255,255,0.15)" }}>{"╱".repeat(5 - getBatterySegments(charge).filter(Boolean).length)}</span>
+          </span>
+          <span style={{ fontSize: 16, fontWeight: 700, color: "#ffffff", fontVariantNumeric: "tabular-nums" as const, fontFamily: "-apple-system, 'SF Pro Display', system-ui, sans-serif" }}>
+            {getRangeForCharge(charge)} mi
+          </span>
         </div>
 
-        {/* Gear hint */}
-        <div style={{ fontSize: 9, color: "rgba(255,255,255,0.25)", letterSpacing: "0.04em", fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif" }}>
-          {gear === "P" ? "↑ Tap to activate drive" : gear === "D" ? "Drive mode active" : gear === "R" ? "Reverse mode active" : "Neutral — coasting"}
-        </div>
-
-        {/* Gallery button */}
+        {/* Start Exploring button (CT: "Start Self-Driving") */}
         <button
           onClick={onGalleryOpen}
-          aria-label="Open gallery"
+          aria-label="Start Exploring — open gallery"
           style={{
-            border: "1.5px solid rgba(255,255,255,0.25)",
+            border: "1.5px solid rgba(74,158,255,0.5)",
             background: "transparent",
-            color: "rgba(255,255,255,0.7)",
-            padding: "5px 14px",
-            borderRadius: 20,
-            fontSize: 11,
+            color: "rgba(255,255,255,0.85)",
+            padding: "6px 16px",
+            borderRadius: 4,
+            fontSize: 13,
             fontWeight: 500,
             letterSpacing: "0.02em",
             cursor: "pointer",
             whiteSpace: "nowrap",
-            fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
-            lineHeight: 1,
+            fontFamily: "-apple-system, 'SF Pro Display', system-ui, sans-serif",
+            lineHeight: 1.2,
             alignSelf: "flex-start",
             transition: "all 0.15s ease",
           }}
-          onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#3b82f6"; e.currentTarget.style.color = "#3b82f6"; }}
-          onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.25)"; e.currentTarget.style.color = "rgba(255,255,255,0.7)"; }}
+          onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#4a9eff"; e.currentTarget.style.background = "rgba(74,158,255,0.08)"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(74,158,255,0.5)"; e.currentTarget.style.background = "transparent"; }}
         >
-          Gallery
+          Start Exploring
         </button>
+
+        {/* Edition indicator (CT: "Press brake to select gears") */}
+        <div style={{ fontSize: 10, color: "rgba(255,255,255,0.3)", fontStyle: "italic", fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif" }}>
+          3 of 10 editions available
+        </div>
       </div>
 
       {/* CENTER: Status icons with login button */}
@@ -289,7 +201,7 @@ export default function StatusBar({ onGalleryOpen }: StatusBarProps) {
             borderRadius: 6,
             overflow: "hidden",
             border: "1px solid rgba(255,255,255,0.08)",
-            background: "#0a0a0f",
+            background: "#0a1628",
             flexShrink: 0,
             position: "relative" as const,
           }}
@@ -305,7 +217,7 @@ export default function StatusBar({ onGalleryOpen }: StatusBarProps) {
                 .kihei-pulse { animation: kiheiPulse 2s ease-in-out infinite; }
               `}</style>
             </defs>
-            <rect width="62" height="46" fill="#0a0a0f" />
+            <rect width="62" height="46" fill="#0a1628" />
             {/* Niihau */}
             <ellipse cx="5" cy="15" rx="1.8" ry="2.2" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.15)" strokeWidth="0.8" />
             {/* Kauai */}

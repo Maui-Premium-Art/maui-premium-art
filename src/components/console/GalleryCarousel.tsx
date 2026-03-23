@@ -77,7 +77,7 @@ export default function GalleryCarousel({ open, onClose, onArtSelect, onArtImage
           aspectRatio: "16/10",
           borderRadius: 10,
           overflow: "hidden",
-          background: "#0a0a0f",
+          background: "#0a1628",
           marginBottom: 14,
         }}
       >
