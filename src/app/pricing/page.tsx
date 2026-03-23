@@ -307,9 +307,7 @@ export default function PricingPage() {
                 </div>
 
                 <a
-                  href="https://x.com/Maui_PremiumArt"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="/art/mahalo-bird"
                   style={{
                     fontSize: 12,
                     fontWeight: 500,

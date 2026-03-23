@@ -1,14 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import Panel from "@/components/ui/Panel";
+import { loadStripe } from "@stripe/stripe-js";
+
+const stripePromise = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+  ? loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
+  : null;
 
 const EDITIONS = [
-  { name: "Cybertruck Tailgate Wrap", price: 895, available: 7 },
-  { name: "Original Art Piece", price: 4995, available: 2 },
-  { name: "Metallic Print", price: 1295, available: 5 },
-  { name: "Gallery Canvas", price: 895, available: 6 },
-  { name: "Fine Art Print", price: 395, available: 8 },
+  { name: "Cybertruck Tailgate Wrap", price: 895, available: 7, stripePriceId: "price_1TDvX5K94uWlASEifRAnTYpT" },
+  { name: "Original Art Piece", price: 4995, available: 2, stripePriceId: "price_1TDvZwK94uWlASEiQX41bZmg" },
+  { name: "Metallic Print", price: 1295, available: 5, stripePriceId: "price_1TDvaLK94uWlASEib1cL8APn" },
+  { name: "Gallery Canvas", price: 895, available: 6, stripePriceId: "price_1TDvbOK94uWlASEiQTid6cB9" },
+  { name: "Fine Art Print", price: 395, available: 8, stripePriceId: "price_1TDvazK94uWlASEiCwoGWRTY" },
 ];
 
 function fmt(price: number): string {
@@ -24,7 +29,34 @@ interface PricingPanelProps {
 
 export default function PricingPanel({ open, onClose }: PricingPanelProps) {
   const [selected, setSelected] = useState(0);
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
   const edition = EDITIONS[selected];
+
+  const handleCheckout = useCallback(async () => {
+    if (!stripePromise || !edition.stripePriceId) {
+      window.open("https://x.com/Maui_PremiumArt", "_blank", "noopener");
+      return;
+    }
+    setCheckoutLoading(true);
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          priceId: edition.stripePriceId,
+          artworkTitle: "Mahalo Bird",
+          formatName: edition.name,
+          slug: "mahalo-bird",
+        }),
+      });
+      const data = await res.json();
+      if (data.url) window.location.href = data.url;
+    } catch {
+      window.open("https://x.com/Maui_PremiumArt", "_blank", "noopener");
+    } finally {
+      setCheckoutLoading(false);
+    }
+  }, [edition]);
 
   return (
     <Panel open={open} onClose={onClose} direction="up" height="70vh" title="Pricing · Limited Editions">
@@ -121,30 +153,31 @@ export default function PricingPanel({ open, onClose }: PricingPanelProps) {
       </div>
 
       {/* Reserve CTA */}
-      <a
-        href="https://x.com/Maui_PremiumArt"
-        target="_blank"
-        rel="noopener noreferrer"
+      <button
+        onClick={handleCheckout}
+        disabled={checkoutLoading}
         style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           width: "100%",
           padding: "13px",
-          background: "rgba(74,158,255,0.12)",
+          background: checkoutLoading ? "rgba(74,158,255,0.06)" : "rgba(74,158,255,0.12)",
           border: "1px solid rgba(74,158,255,0.25)",
           borderRadius: 10,
           color: "#ffffff",
           fontSize: 14,
           fontWeight: 600,
-          textDecoration: "none",
+          cursor: checkoutLoading ? "wait" : "pointer",
           fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
           letterSpacing: "0.02em",
           marginBottom: 12,
+          opacity: checkoutLoading ? 0.6 : 1,
+          transition: "opacity 0.2s ease",
         }}
       >
-        Reserve Your Edition
-      </a>
+        {checkoutLoading ? "Opening checkout…" : "Reserve Your Edition"}
+      </button>
 
       <p
         style={{

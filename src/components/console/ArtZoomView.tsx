@@ -3,6 +3,11 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { artworks } from "@/data/artworks";
 import type { ArtFormat } from "@/data/artworks";
+import { loadStripe } from "@stripe/stripe-js";
+
+const stripePromise = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+  ? loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
+  : null;
 
 function fmt(price: number): string {
   return price >= 1000
@@ -21,6 +26,7 @@ export default function ArtZoomView({ slug, onClose }: ArtZoomViewProps) {
   const [selectedFormat, setSelectedFormat] = useState<ArtFormat | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [swipeDir, setSwipeDir] = useState<"left" | "right" | null>(null);
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
   const touchStartX = useRef(0);
 
   const artworkIndex = slug ? artworks.findIndex((a) => a.slug === slug) : -1;
@@ -55,6 +61,33 @@ export default function ArtZoomView({ slug, onClose }: ArtZoomViewProps) {
     },
     [goNextImage, goPrevImage]
   );
+
+  const handleCheckout = useCallback(async () => {
+    if (!selectedFormat || !artwork) return;
+    if (!stripePromise || !selectedFormat.stripePriceId) {
+      window.open("https://x.com/Maui_PremiumArt", "_blank", "noopener");
+      return;
+    }
+    setCheckoutLoading(true);
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          priceId: selectedFormat.stripePriceId,
+          artworkTitle: artwork.title,
+          formatName: selectedFormat.name,
+          slug: artwork.slug,
+        }),
+      });
+      const data = await res.json();
+      if (data.url) window.location.href = data.url;
+    } catch {
+      window.open("https://x.com/Maui_PremiumArt", "_blank", "noopener");
+    } finally {
+      setCheckoutLoading(false);
+    }
+  }, [selectedFormat, artwork]);
 
   useEffect(() => {
     if (slug && artwork) {
@@ -370,30 +403,31 @@ export default function ArtZoomView({ slug, onClose }: ArtZoomViewProps) {
           </div>
 
           {/* Reserve CTA */}
-          <a
-            href="https://x.com/Maui_PremiumArt"
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            onClick={handleCheckout}
+            disabled={checkoutLoading}
             style={{
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               width: "100%",
               padding: "14px",
-              background: "rgba(74,158,255,0.15)",
+              background: checkoutLoading ? "rgba(74,158,255,0.08)" : "rgba(74,158,255,0.15)",
               border: "1px solid rgba(74,158,255,0.3)",
               borderRadius: 10,
               color: "#ffffff",
               fontSize: 14,
               fontWeight: 600,
-              textDecoration: "none",
+              cursor: checkoutLoading ? "wait" : "pointer",
               fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
               letterSpacing: "0.02em",
               marginBottom: 8,
+              opacity: checkoutLoading ? 0.6 : 1,
+              transition: "opacity 0.2s ease",
             }}
           >
-            Reserve Your Edition
-          </a>
+            {checkoutLoading ? "Opening checkout…" : "Reserve Your Edition"}
+          </button>
           <p
             style={{
               fontSize: 11,
