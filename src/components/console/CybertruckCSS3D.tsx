@@ -47,10 +47,10 @@ export default function CybertruckCSS3D({
   }, []);
 
   // CT proportions (approximate): 5.7m long, 2m wide, 1.8m tall
-  // Scale to CSS: 280px long, 100px wide, 90px tall
-  const W = 100; // width (side to side)
-  const H = 90;  // height
-  const D = 280; // depth (front to back)
+  // Scaled up to fill ~60% of viewport width
+  const W = 160; // width (side to side)
+  const H = 140; // height
+  const D = 440; // depth (front to back)
 
   const faceBase: React.CSSProperties = {
     position: "absolute",
@@ -69,7 +69,7 @@ export default function CybertruckCSS3D({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        perspective: 800,
+        perspective: 1200,
         cursor: cursorStyle,
         userSelect: "none",
         touchAction: "none",

@@ -155,25 +155,26 @@ function StaticHero({ artImage }: { artImage: string }) {
         </g>
       </svg>
 
-      {/* Grid floor — perspective wireframe */}
+      {/* Grid floor — perspective wireframe (CT reference: visible under truck) */}
       <div
         style={{
           position: "absolute",
           bottom: 0,
           left: "-30%",
           right: "-30%",
-          height: "38%",
+          height: "45%",
+          zIndex: 1,
           backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)
+            linear-gradient(rgba(255,255,255,0.07) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.07) 1px, transparent 1px)
           `,
-          backgroundSize: "44px 44px",
-          transform: "perspective(280px) rotateX(62deg)",
+          backgroundSize: "48px 48px",
+          transform: "perspective(300px) rotateX(62deg)",
           transformOrigin: "bottom center",
           maskImage:
-            "linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%)",
+            "linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%)",
           WebkitMaskImage:
-            "linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%)",
+            "linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%)",
           pointerEvents: "none",
         }}
       />
@@ -187,6 +188,43 @@ function StaticHero({ artImage }: { artImage: string }) {
         }}
       >
         <CybertruckCSS3D artImage={artImage} />
+      </div>
+
+      {/* CT-style line connector labels (bold italic + vertical line) */}
+      <div style={{ position: "absolute", inset: 0, zIndex: 3, pointerEvents: "none" }}>
+        {/* Left: "Browse Gallery" — connects to front */}
+        <div style={{ position: "absolute", left: "22%", top: "18%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <span style={{ fontSize: 11, fontWeight: 700, fontStyle: "italic", color: "rgba(255,255,255,0.6)", fontFamily: "-apple-system, 'SF Pro Display', system-ui, sans-serif", letterSpacing: "0.01em", marginBottom: 4 }}>
+            <span style={{ fontSize: 9, fontWeight: 400, fontStyle: "italic", color: "rgba(255,255,255,0.35)", display: "block", marginBottom: 1 }}>Open</span>
+            Browse Gallery
+          </span>
+          <div style={{ width: 1, height: 50, background: "rgba(255,255,255,0.15)" }} />
+        </div>
+
+        {/* Center: "See Editions" — connects to tonneau */}
+        <div style={{ position: "absolute", left: "52%", top: "14%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <span style={{ fontSize: 11, fontWeight: 700, fontStyle: "italic", color: "rgba(255,255,255,0.6)", fontFamily: "-apple-system, 'SF Pro Display', system-ui, sans-serif", letterSpacing: "0.01em", marginBottom: 4 }}>
+            <span style={{ fontSize: 9, fontWeight: 400, fontStyle: "italic", color: "rgba(255,255,255,0.35)", display: "block", marginBottom: 1 }}>Open</span>
+            See Editions
+          </span>
+          <div style={{ width: 1, height: 60, background: "rgba(255,255,255,0.15)" }} />
+        </div>
+
+        {/* Right: "Tailgate Art" — connects to rear */}
+        <div style={{ position: "absolute", right: "18%", top: "16%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <span style={{ fontSize: 11, fontWeight: 700, fontStyle: "italic", color: "rgba(255,255,255,0.6)", fontFamily: "-apple-system, 'SF Pro Display', system-ui, sans-serif", letterSpacing: "0.01em", marginBottom: 4 }}>
+            <span style={{ fontSize: 9, fontWeight: 400, fontStyle: "italic", color: "rgba(255,255,255,0.35)", display: "block", marginBottom: 1 }}>Open</span>
+            Tailgate Art
+          </span>
+          <div style={{ width: 1, height: 55, background: "rgba(255,255,255,0.15)" }} />
+        </div>
+
+        {/* Bottom-left: "Art Scale" (CT: "Ride Height") */}
+        <div style={{ position: "absolute", left: "30%", bottom: "18%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <div style={{ width: 1, height: 30, background: "rgba(255,255,255,0.12)" }} />
+          <span style={{ fontSize: 9, fontWeight: 400, fontStyle: "italic", color: "rgba(255,255,255,0.35)", fontFamily: "-apple-system, 'SF Pro Display', system-ui, sans-serif", marginTop: 3 }}>Medium</span>
+          <span style={{ fontSize: 11, fontWeight: 700, fontStyle: "italic", color: "rgba(255,255,255,0.55)", fontFamily: "-apple-system, 'SF Pro Display', system-ui, sans-serif" }}>Art Scale</span>
+        </div>
       </div>
     </div>
   );
