@@ -26,9 +26,9 @@ function CybertruckModel({ artImage }: CybertruckModelProps) {
           if (mat instanceof THREE.MeshStandardMaterial) {
             // Make the stainless steel body brighter
             if (mat.name !== "SolarTextureWIP" && mat.name !== "SolarTexture") {
-              mat.metalness = 0.9;
-              mat.roughness = 0.3;
-              mat.color.setHex(0xc0c8d0);
+              mat.metalness = 0.7;
+              mat.roughness = 0.2;
+              mat.color.setHex(0xd8dfe8);
               mat.needsUpdate = true;
             }
           }
@@ -61,8 +61,8 @@ function CybertruckModel({ artImage }: CybertruckModelProps) {
   }, [artImage, scene]);
 
   return (
-    <group ref={groupRef} rotation={[0, -Math.PI * 0.5, 0]} position={[0, -0.5, 0]}>
-      <primitive object={scene} scale={1.4} />
+    <group ref={groupRef} rotation={[0, Math.PI * 0.75, 0]} position={[0, -0.5, 0]}>
+      <primitive object={scene} scale={1.8} />
     </group>
   );
 }
@@ -85,8 +85,8 @@ export default function CybertruckThreeViewer({
       aria-label="3D Cybertruck model — drag to rotate"
     >
       <Canvas
-        camera={{ position: [0, 1.8, 7], fov: 32 }}
-        gl={{ antialias: true, alpha: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.5 }}
+        camera={{ position: [6, 1.0, 3], fov: 30 }}
+        gl={{ antialias: true, alpha: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 2.0 }}
         style={{ background: "transparent" }}
       >
         <ambientLight intensity={2.0} />
