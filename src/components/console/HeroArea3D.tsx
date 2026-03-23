@@ -1,12 +1,25 @@
 "use client";
 
-import CybertruckCSS3D from "@/components/console/CybertruckCSS3D";
+import dynamic from "next/dynamic";
+
+const CybertruckThreeViewer = dynamic(
+  () => import("@/components/console/CybertruckThreeViewer"),
+  {
+    ssr: false,
+    loading: () => (
+      <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div style={{ width: 32, height: 32, border: "1px solid rgba(255,255,255,0.1)", borderTopColor: "rgba(74,158,255,0.5)", borderRadius: "50%", animation: "spin 1s linear infinite" }} />
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+      </div>
+    ),
+  }
+);
 
 /**
- * HeroArea3D — CT-style hero with CSS 3D model + terrain backdrop
+ * HeroArea3D — Three.js CT model + terrain backdrop
  *
- * Strategy: Show the 3D CT model with art on the tailgate.
- * Terrain background visible behind. User drag-rotates.
+ * Strategy: Show real 3D CT model with art texture on tailgate.
+ * Terrain background visible behind. OrbitControls for drag-rotate.
  */
 
 // ── Static hero — always visible ───────────────────────────────────────────
@@ -179,7 +192,7 @@ function StaticHero({ artImage }: { artImage: string }) {
         }}
       />
 
-      {/* CSS 3D Cybertruck model — art on tailgate */}
+      {/* Three.js Cybertruck model — art on tailgate */}
       <div
         style={{
           position: "absolute",
@@ -187,7 +200,7 @@ function StaticHero({ artImage }: { artImage: string }) {
           zIndex: 2,
         }}
       >
-        <CybertruckCSS3D artImage={artImage} />
+        <CybertruckThreeViewer artImage={artImage} />
       </div>
 
       {/* CT-style line connector labels (bold italic + vertical line) */}
