@@ -28,7 +28,7 @@ const TONNEAU_MESSAGES = [
 ];
 
 export default function Home() {
-  const [splashDone, setSplashDone] = useState(true);
+  const [splashDone, setSplashDone] = useState(false);
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [connectOpen, setConnectOpen] = useState(false);
   const [pricingOpen, setPricingOpen] = useState(false);
@@ -75,7 +75,7 @@ export default function Home() {
       style={{
         width: "100vw",
         height: "100dvh",
-        background: "#0a0a0f",
+        background: "#0a1628",
         display: "flex",
         flexDirection: "column",
         overflow: "hidden",
@@ -103,7 +103,7 @@ export default function Home() {
             flexShrink: 0,
             position: "relative",
             zIndex: 25,
-            background: "#0a0a0f",
+            background: "#0a1628",
             borderBottom: "1px solid rgba(255,255,255,0.04)",
           }}
         >
@@ -147,7 +147,8 @@ export default function Home() {
               <circle cx="8" cy="8" r="6.5" stroke={tonneauMsg ? "rgba(74,158,255,0.5)" : "rgba(255,255,255,0.2)"} strokeWidth="1" style={{ transition: "stroke 0.3s ease" }} />
               <text x="8" y="11" fill={tonneauMsg ? "rgba(74,158,255,0.7)" : "rgba(255,255,255,0.3)"} fontSize="8" textAnchor="middle" fontWeight="700" fontFamily="sans-serif" style={{ transition: "fill 0.3s ease" }}>!</text>
             </svg>
-            <span style={{ fontSize: 8, color: tonneauMsg ? "rgba(74,158,255,0.6)" : "rgba(255,255,255,0.2)", letterSpacing: "0.02em", fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif", transition: "color 0.3s ease" }}>Closed / Tonneau</span>
+            <div style={{ width: 1, height: 24, background: "rgba(255,255,255,0.15)", marginBottom: 2 }} />
+            <span style={{ fontSize: 11, color: tonneauMsg ? "rgba(74,158,255,0.7)" : "rgba(255,255,255,0.5)", letterSpacing: "0.01em", fontFamily: "-apple-system, 'SF Pro Display', system-ui, sans-serif", fontWeight: 700, fontStyle: "italic", transition: "color 0.3s ease" }}>Tailgate Art</span>
 
             {/* Easter egg tooltip */}
             {tonneauMsg && (

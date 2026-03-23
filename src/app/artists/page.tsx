@@ -27,7 +27,7 @@ export default function ArtistsPage() {
     <main
       style={{
         minHeight: "100dvh",
-        background: "#0a0a0f",
+        background: "#0a1628",
         color: "#ffffff",
         fontFamily: "-apple-system, 'SF Pro Display', system-ui, sans-serif",
         WebkitFontSmoothing: "antialiased",

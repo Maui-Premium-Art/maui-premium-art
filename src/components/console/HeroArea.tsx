@@ -15,7 +15,7 @@ const CybertruckViewer = dynamic(
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#0a0a0f",
+          background: "#0a1628",
         }}
       >
         {/* Simple loading indicator */}

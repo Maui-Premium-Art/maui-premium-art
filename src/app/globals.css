@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --bg-primary: #0a0a0f;
+  --bg-primary: #0a1628;
   --bg-surface: #14141e;
   --bg-widget: #14141e;
   --border-subtle: #1e1e2e;
@@ -58,10 +58,10 @@ body {
 /* CT terrain mountains - CSS silhouette */
 .ct-terrain {
   background: 
-    radial-gradient(ellipse 120% 60% at 50% 100%, #0a0a0f 40%, transparent 70%),
+    radial-gradient(ellipse 120% 60% at 50% 100%, #0a1628 40%, transparent 70%),
     linear-gradient(180deg, 
       transparent 0%, 
-      #0a0a0f 85%
+      #0a1628 85%
     );
 }
 
@@ -131,7 +131,7 @@ body {
 
 /* Three.js canvas — must be dark, never white */
 canvas {
-  background: #0a0a0f !important;
+  background: #0a1628 !important;
   display: block;
 }
 

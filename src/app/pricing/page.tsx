@@ -61,7 +61,7 @@ export default function PricingPage() {
     <main
       style={{
         minHeight: "100dvh",
-        background: "#0a0a0f",
+        background: "#0a1628",
         color: "#ffffff",
         fontFamily: "-apple-system, 'SF Pro Display', system-ui, sans-serif",
         WebkitFontSmoothing: "antialiased",
@@ -195,7 +195,7 @@ export default function PricingPage() {
                     left: "50%",
                     transform: "translateX(-50%)",
                     background: "#4a9eff",
-                    color: "#0a0a0f",
+                    color: "#0a1628",
                     fontSize: 9,
                     fontWeight: 700,
                     letterSpacing: "0.12em",

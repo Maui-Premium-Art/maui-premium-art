@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl*localhost:3002*)",
+      "Bash(python3*)",
+      "Bash(pnpm*)",
+      "Bash(git*)",
+      "Bash(grep*)",
+      "Bash(cat*)",
+      "Bash(ls*)",
+      "Bash(head*)",
+      "Bash(tail*)",
+      "Bash(wc*)",
+      "Bash(find*)",
+      "Bash(ps*)",
+      "Bash(tmux*)",
+      "Bash(launchctl*)",
+      "Bash(nohup*)",
+      "Bash(pkill*)",
+      "Bash(chmod*)",
+      "Read(//Users/Shared/MauiOps/**)",
+      "Read(//Users/Shared/Ohana/**)",
+      "Read(//Users/Shared/NaluOps/**)",
+      "Read(//Users/wizardclaw/Projects/maui-premium-art/**)"
+    ]
+  }
+}
