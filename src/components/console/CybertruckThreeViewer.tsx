@@ -26,9 +26,9 @@ function CybertruckModel({ artImage }: CybertruckModelProps) {
         materials.forEach((mat) => {
           if (mat instanceof THREE.MeshStandardMaterial) {
             if (mat.name !== "SolarTextureWIP" && mat.name !== "SolarTexture") {
-              mat.metalness = 0.7;
-              mat.roughness = 0.2;
-              mat.color.setHex(0xd8dfe8);
+              mat.metalness = 0.9;
+              mat.roughness = 0.3;
+              mat.color.setHex(0xc0c8d0);
               mat.needsUpdate = true;
             }
           }
@@ -75,7 +75,7 @@ function CybertruckModel({ artImage }: CybertruckModelProps) {
     const elapsed = (performance.now() - startTime.current) / 1000;
     const delay = 2.0;
     const duration = 3.0;
-    const startAngle = -Math.PI / 2; // side profile
+    const startAngle = Math.PI / 2; // side profile, front facing LEFT
     const endAngle = startAngle + Math.PI * 0.75; // ~135° to reveal tailgate
 
     if (elapsed < delay) {
@@ -96,7 +96,7 @@ function CybertruckModel({ artImage }: CybertruckModelProps) {
   return (
     <group
       ref={groupRef}
-      rotation={[0, -Math.PI / 2, 0]}
+      rotation={[0, Math.PI / 2, 0]}
       position={[0, -0.5, 0]}
     >
       <primitive object={scene} scale={1.8} />
