@@ -61,7 +61,7 @@ function CybertruckModel({ artImage }: CybertruckModelProps) {
   }, [artImage, scene]);
 
   return (
-    <group ref={groupRef} rotation={[0, Math.PI, 0]} position={[0.3, -0.5, 0]}>
+    <group ref={groupRef} rotation={[0, Math.PI * 0.5, 0]} position={[0, -0.5, 0]}>
       <primitive object={scene} scale={1.8} />
     </group>
   );
