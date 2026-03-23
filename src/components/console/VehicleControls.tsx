@@ -102,57 +102,6 @@ export default function VehicleControls({ onGalleryOpen, onArtistOpen }: Vehicle
         />
       </div>
 
-      {/* Tire pressure + Frunk label — EASTER EGG */}
-      <button
-        onClick={handleFrunkClick}
-        aria-label="Frunk easter egg"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: 3,
-          marginTop: 4,
-          background: "none",
-          border: "none",
-          cursor: "pointer",
-          padding: 0,
-          position: "relative",
-          transform: frunkShake ? "translateX(3px)" : "translateX(0)",
-          transition: "transform 0.1s ease",
-          animation: frunkShake ? "shake 0.4s ease" : "none",
-        }}
-      >
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <circle cx="8" cy="8" r="6.5" stroke={frunkMsg ? "rgba(74,158,255,0.5)" : "rgba(255,255,255,0.2)"} strokeWidth="1" style={{ transition: "stroke 0.3s ease" }} />
-          <text x="8" y="11" fill={frunkMsg ? "rgba(74,158,255,0.7)" : "rgba(255,255,255,0.3)"} fontSize="8" textAnchor="middle" fontWeight="700" fontFamily="sans-serif" style={{ transition: "fill 0.3s ease" }}>!</text>
-        </svg>
-        <span style={{ fontSize: 8, color: frunkMsg ? "rgba(74,158,255,0.6)" : "rgba(255,255,255,0.2)", letterSpacing: "0.02em", fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif", transition: "color 0.3s ease" }}>Closed / Frunk</span>
-
-        {/* Easter egg tooltip */}
-        {frunkMsg && (
-          <div
-            style={{
-              position: "absolute",
-              left: 28,
-              top: "50%",
-              transform: "translateY(-50%)",
-              background: "rgba(10,10,15,0.9)",
-              border: "1px solid rgba(74,158,255,0.2)",
-              borderRadius: 8,
-              padding: "6px 10px",
-              fontSize: 10,
-              color: "rgba(255,255,255,0.7)",
-              whiteSpace: "nowrap",
-              pointerEvents: "none",
-              fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
-              animation: "fadeIn 0.2s ease",
-            }}
-          >
-            {frunkMsg}
-          </div>
-        )}
-      </button>
-
       {/* SWIPE TO CHARGE — vertical text */}
       <div
         style={{
