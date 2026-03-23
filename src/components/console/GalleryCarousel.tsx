@@ -2,37 +2,16 @@
 
 import { useState, useCallback } from "react";
 import Panel from "@/components/ui/Panel";
+import { artworks } from "@/data/artworks";
 
-const GALLERY_ITEMS = [
-  {
-    src: "/images/mahalo-bird/electric-prr-hummingbird.jpg",
-    title: "Electric Prr & Hummingbird",
-    edition: "Edition I",
-    available: "3 of 10",
-    slug: "mahalo-bird",
-  },
-  {
-    src: "/images/mahalo-bird/wrap-2.jpg",
-    title: "Mahalo Bird — Tailgate",
-    edition: "Edition I",
-    available: "5 of 10",
-    slug: "mahalo-bird",
-  },
-  {
-    src: "/images/mahalo-bird/wrap-5.jpg",
-    title: "Mahalo Bird — Side Panel",
-    edition: "Edition I",
-    available: "7 of 10",
-    slug: "mahalo-bird",
-  },
-  {
-    src: "/images/mahalo-bird/wrap-tailgate.jpg",
-    title: "Mahalo Bird — Full Wrap",
-    edition: "Edition I",
-    available: "4 of 10",
-    slug: "mahalo-bird",
-  },
-];
+// Build gallery items from artworks data
+const GALLERY_ITEMS = artworks.map((art) => ({
+  src: art.tailgateImage,
+  title: art.title,
+  edition: "Edition I",
+  available: `${Math.floor(Math.random() * 7) + 2} of 10`,
+  slug: art.slug,
+}));
 
 interface GalleryCarouselProps {
   open: boolean;
