@@ -175,7 +175,7 @@ export default function Home() {
           </button>
         </div>
 
-        {/* BOTTOM CARDS — compact 155px zone */}
+        {/* BOTTOM CARDS — fit under truck body width */}
         <div
           className="ct-widgets-row"
           style={{
@@ -185,6 +185,9 @@ export default function Home() {
             flexShrink: 0,
             position: "relative",
             zIndex: 22,
+            maxWidth: "65%",
+            marginLeft: "auto",
+            marginRight: "auto",
           }}
         >
           <MediaPlayer />

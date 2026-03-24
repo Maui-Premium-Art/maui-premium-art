@@ -75,8 +75,8 @@ function CybertruckModel({ artImage }: CybertruckModelProps) {
     const elapsed = (performance.now() - startTime.current) / 1000;
     const delay = 2.0;
     const duration = 3.0;
-    const startAngle = Math.PI / 2; // side profile, front facing LEFT
-    const endAngle = startAngle + Math.PI * 0.75; // ~135° to reveal tailgate
+    const startAngle = -Math.PI / 2; // side profile, front facing LEFT
+    const endAngle = startAngle - Math.PI * 0.75; // rotate RIGHT: front moves away, tailgate emerges
 
     if (elapsed < delay) {
       // Hold at side profile
@@ -96,7 +96,7 @@ function CybertruckModel({ artImage }: CybertruckModelProps) {
   return (
     <group
       ref={groupRef}
-      rotation={[0, Math.PI / 2, 0]}
+      rotation={[0, -Math.PI / 2, 0]}
       position={[0, -0.5, 0]}
     >
       <primitive object={scene} scale={1.8} />

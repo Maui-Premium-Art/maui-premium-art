@@ -157,8 +157,8 @@ export default function BottomDock({ onGalleryOpen, onConnectOpen, onPricingOpen
       }}
     >
       {/* Home */}
-      <DockItem label="Home" ariaLabel="Home" active>
-        <svg width="20" height="18" viewBox="0 0 20 18" fill="none">
+      <DockItem label="Home" ariaLabel="Home" active onClick={() => { router.push("/"); }}>
+        <svg width="18" height="16" viewBox="0 0 20 18" fill="none">
           <path
             d="M2 7L10 1l8 6v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7z"
             stroke="currentColor"
