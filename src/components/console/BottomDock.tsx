@@ -149,6 +149,7 @@ export default function BottomDock({ onGalleryOpen, onConnectOpen, onPricingOpen
         height: 56,
         display: "flex",
         alignItems: "center",
+        justifyContent: "center",
         padding: "0 8px",
         gap: 2,
         overflowX: "auto",
@@ -438,9 +439,6 @@ export default function BottomDock({ onGalleryOpen, onConnectOpen, onPricingOpen
           />
         </svg>
       </DockItem>
-
-      {/* Spacer */}
-      <div style={{ flex: 1 }} />
 
       {/* Right nav arrow → Social Proof */}
       <DockItem ariaLabel="Reviews" onClick={() => onSocialOpen?.()}>

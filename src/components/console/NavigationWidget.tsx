@@ -2,10 +2,10 @@ export default function NavigationWidget() {
   return (
     <div
       style={{
-        background: "#14141e",
+        background: "#0c1a2e",
         border: "1px solid rgba(255,255,255,0.06)",
         borderRadius: 14,
-        padding: "10px 12px 10px",
+        padding: "12px 14px 10px",
         flex: 1,
         minWidth: 0,
         fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",

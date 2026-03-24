@@ -216,20 +216,20 @@ export default function MediaPlayer() {
         background: "#0c1a2e",
         border: "1px solid rgba(255,255,255,0.06)",
         borderRadius: 14,
-        padding: "10px 12px 10px",
+        padding: "12px 14px 10px",
         flex: 1,
         minWidth: 0,
         fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
       }}
     >
       {/* Album art + track info (CT reference: large art left, text right) */}
-      <div style={{ display: "flex", gap: 10, marginBottom: 6 }}>
-        {/* Album art placeholder */}
+      <div style={{ display: "flex", gap: 12, marginBottom: 8 }}>
+        {/* Album art — CT Display size */}
         <div
           style={{
-            width: 56,
-            height: 56,
-            borderRadius: 6,
+            width: 110,
+            height: 110,
+            borderRadius: 8,
             background: "linear-gradient(135deg, #1a2d4a 0%, #0f1d35 50%, #1a3050 100%)",
             flexShrink: 0,
             display: "flex",
@@ -242,9 +242,9 @@ export default function MediaPlayer() {
           🌺
         </div>
         <div style={{ minWidth: 0 }} aria-live="polite">
-          <div style={{ fontSize: 12, fontWeight: 600, color: "#ffffff", letterSpacing: "0.01em", lineHeight: 1.3, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{track.title}</div>
-          <div style={{ fontSize: 10, color: "rgba(255,255,255,0.4)", marginTop: 2, lineHeight: 1.3 }}>{track.artist}</div>
-          <div style={{ fontSize: 9, color: "rgba(74,158,255,0.5)", marginTop: 2, display: "flex", alignItems: "center", gap: 4 }}>
+          <div style={{ fontSize: 14, fontWeight: 600, color: "#ffffff", letterSpacing: "0.01em", lineHeight: 1.3, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{track.title}</div>
+          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", marginTop: 3, lineHeight: 1.3 }}>{track.artist}</div>
+          <div style={{ fontSize: 10, color: "rgba(74,158,255,0.5)", marginTop: 4, display: "flex", alignItems: "center", gap: 4 }}>
             <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#4a9eff", display: "inline-block" }} />
             HAWAIIAN RADIO
           </div>
