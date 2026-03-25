@@ -14,8 +14,8 @@ import NewsletterPopup from "@/components/NewsletterPopup";
 import { dockSounds } from "@/lib/dockSounds";
 import VehicleControls from "@/components/console/VehicleControls";
 import HeroArea from "@/components/console/HeroArea3D";
-import MediaPlayer from "@/components/console/MediaPlayer";
-import NavigationWidget from "@/components/console/NavigationWidget";
+import CTMediaPlayer from "@/components/console/CTMediaPlayer";
+import CTNavigateWidget from "@/components/console/CTNavigateWidget";
 import BottomDock from "@/components/console/BottomDock";
 import SocialProofPanel from "@/components/console/SocialProofPanel";
 
@@ -180,18 +180,19 @@ export default function Home() {
           className="ct-widgets-row"
           style={{
             display: "flex",
-            gap: 6,
+            alignItems: "stretch",
+            gap: 8,
             padding: "0 10px 4px",
             flexShrink: 0,
             position: "relative",
             zIndex: 22,
-            maxWidth: "92%",
+            maxWidth: "88%",
             marginLeft: "auto",
             marginRight: "auto",
           }}
         >
-          <MediaPlayer />
-          <NavigationWidget />
+          <CTMediaPlayer />
+          <CTNavigateWidget />
         </div>
 
         {/* DOCK — 52px fixed */}
