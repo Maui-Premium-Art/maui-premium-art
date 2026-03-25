@@ -32,7 +32,6 @@ export default function MediaPlayer() {
   const [trackIdx, setTrackIdx] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioCtxRef = useRef<AudioContext | null>(null);
-  const analyserRef = useRef<AnalyserNode | null>(null);
   const gainRef = useRef<GainNode | null>(null);
   const sourceRef = useRef<MediaElementAudioSourceNode | null>(null);
   const track = tracks[trackIdx];
@@ -41,9 +40,6 @@ export default function MediaPlayer() {
     if (audioCtxRef.current) return;
     const ctx = new AudioContext();
     audioCtxRef.current = ctx;
-    const analyser = ctx.createAnalyser();
-    analyser.fftSize = 256;
-    analyserRef.current = analyser;
     const gain = ctx.createGain();
     gain.gain.value = 1.0;
     gainRef.current = gain;
@@ -51,28 +47,24 @@ export default function MediaPlayer() {
 
   const connectSource = useCallback((audio: HTMLAudioElement) => {
     const ctx = audioCtxRef.current;
-    const analyser = analyserRef.current;
     const gain = gainRef.current;
-    if (!ctx || !analyser || !gain) return;
+    if (!ctx || !gain) return;
     if (sourceRef.current) { try { sourceRef.current.disconnect(); } catch {} }
     const source = ctx.createMediaElementSource(audio);
-    source.connect(analyser);
-    analyser.connect(gain);
+    source.connect(gain);
     gain.connect(ctx.destination);
     sourceRef.current = source;
   }, []);
 
   const playTrack = useCallback((idx: number) => {
     ensureAudioContext();
-    const t = tracks[idx];
     if (audioRef.current) { audioRef.current.pause(); audioRef.current.removeAttribute("src"); }
-    const audio = new Audio(t.src);
+    const audio = new Audio(tracks[idx].src);
     audio.crossOrigin = "anonymous";
     audioRef.current = audio;
     audio.addEventListener("ended", () => {
-      const nextIdx = (idx + 1) % tracks.length;
-      setTrackIdx(nextIdx);
-      playTrack(nextIdx);
+      const n = (idx + 1) % tracks.length;
+      setTrackIdx(n); playTrack(n);
     });
     connectSource(audio);
     audio.play().catch(() => {});
@@ -86,23 +78,19 @@ export default function MediaPlayer() {
   }, [playing, trackIdx, playTrack]);
 
   const nextTrack = useCallback(() => {
-    const next = (trackIdx + 1) % tracks.length;
-    setTrackIdx(next);
-    if (playing) playTrack(next);
+    const n = (trackIdx + 1) % tracks.length;
+    setTrackIdx(n); if (playing) playTrack(n);
   }, [trackIdx, tracks.length, playing, playTrack]);
 
   const prevTrack = useCallback(() => {
-    const prev = (trackIdx - 1 + tracks.length) % tracks.length;
-    setTrackIdx(prev);
-    if (playing) playTrack(prev);
+    const p = (trackIdx - 1 + tracks.length) % tracks.length;
+    setTrackIdx(p); if (playing) playTrack(p);
   }, [trackIdx, tracks.length, playing, playTrack]);
 
-  useEffect(() => {
-    return () => {
-      audioRef.current?.pause();
-      if (sourceRef.current) try { sourceRef.current.disconnect(); } catch {}
-      if (audioCtxRef.current) audioCtxRef.current.close();
-    };
+  useEffect(() => () => {
+    audioRef.current?.pause();
+    if (sourceRef.current) try { sourceRef.current.disconnect(); } catch {}
+    if (audioCtxRef.current) audioCtxRef.current.close();
   }, []);
 
   return (
@@ -111,99 +99,101 @@ export default function MediaPlayer() {
       aria-label="Hawaiian Radio music player"
       style={{
         background: "#0c1a2e",
-        border: "1px solid rgba(255,255,255,0.1)",
+        border: "1px solid rgba(255,255,255,0.12)",
         borderRadius: 6,
         flex: 1,
         minWidth: 0,
         fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
         display: "flex",
-        flexDirection: "column",
+        flexDirection: "row",
+        overflow: "hidden",
       }}
     >
-      {/* TOP: Album art (left, full height) + title/artist (right) */}
-      <div style={{ display: "flex", flex: 1 }}>
-        {/* Album art — tall rectangle matching real CT */}
-        <div
-          style={{
-            width: 80,
-            alignSelf: "stretch",
-            background: "linear-gradient(135deg, #1a2d4a 0%, #0f1d35 50%, #1a3050 100%)",
-            flexShrink: 0,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: 24,
-            borderRight: "1px solid rgba(255,255,255,0.08)",
-            borderRadius: "6px 0 0 0",
-          }}
-        >
-          🌺
-        </div>
-        <div style={{ minWidth: 0, display: "flex", flexDirection: "column", justifyContent: "center", padding: "10px 12px" }} aria-live="polite">
-          <div style={{ fontSize: 14, fontWeight: 700, color: "#ffffff", letterSpacing: "0.01em", lineHeight: 1.2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-            {track.title}
-          </div>
-          <div style={{ fontSize: 11, color: "rgba(255,255,255,0.45)", marginTop: 3, lineHeight: 1.2, display: "flex", alignItems: "center", gap: 4 }}>
-            <span style={{ fontSize: 11 }}>🎵</span> HAWAIIAN RADIO
-          </div>
-        </div>
-      </div>
-
-      {/* CONTROLS — separated by line, flat icons like real CT */}
+      {/* ALBUM ART — full left column, top to bottom */}
       <div
-        role="toolbar"
-        aria-label="Playback controls"
         style={{
+          width: 90,
+          flexShrink: 0,
+          background: "linear-gradient(135deg, #1a2d4a 0%, #0f1d35 50%, #1a3050 100%)",
           display: "flex",
           alignItems: "center",
-          justifyContent: "space-around",
-          borderTop: "1px solid rgba(255,255,255,0.08)",
-          padding: "6px 16px",
+          justifyContent: "center",
+          fontSize: 28,
+          borderRight: "1px solid rgba(255,255,255,0.08)",
         }}
       >
-        <button style={btnStyle} aria-label="Previous track" onClick={prevTrack}>
-          <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
-            <rect x="1" y="2" width="2" height="10" rx="0.8" fill="currentColor" />
-            <path d="M14 2L5 7L14 12V2Z" fill="currentColor" />
-          </svg>
-        </button>
-        <button style={btnStyle} aria-label={playing ? "Pause" : "Play"} onClick={togglePlay}>
-          {playing ? (
-            <svg width="14" height="14" viewBox="0 0 12 14" fill="none">
-              <rect x="1" y="1" width="3.5" height="12" rx="0.8" fill="currentColor" />
-              <rect x="7.5" y="1" width="3.5" height="12" rx="0.8" fill="currentColor" />
+        🌺
+      </div>
+
+      {/* RIGHT SIDE — title on top, controls on bottom */}
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
+
+        {/* Title + source */}
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", padding: "8px 12px" }} aria-live="polite">
+          <div style={{ fontSize: 14, fontWeight: 700, color: "#ffffff", lineHeight: 1.2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+            {track.title}
+          </div>
+          <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", marginTop: 3, display: "flex", alignItems: "center", gap: 4 }}>
+            🎵 HAWAIIAN RADIO
+          </div>
+        </div>
+
+        {/* Controls row — separated by line */}
+        <div
+          role="toolbar"
+          aria-label="Playback controls"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-around",
+            borderTop: "1px solid rgba(255,255,255,0.08)",
+            padding: "6px 12px",
+          }}
+        >
+          <button style={btn} aria-label="Previous track" onClick={prevTrack}>
+            <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
+              <rect x="1" y="2" width="2" height="10" rx="0.8" fill="currentColor" />
+              <path d="M14 2L5 7L14 12V2Z" fill="currentColor" />
             </svg>
-          ) : (
-            <svg width="14" height="16" viewBox="0 0 14 16" fill="none">
-              <path d="M2 1L13 8L2 15V1Z" fill="currentColor" />
+          </button>
+          <button style={btn} aria-label={playing ? "Pause" : "Play"} onClick={togglePlay}>
+            {playing ? (
+              <svg width="14" height="14" viewBox="0 0 12 14" fill="none">
+                <rect x="1" y="1" width="3.5" height="12" rx="0.8" fill="currentColor" />
+                <rect x="7.5" y="1" width="3.5" height="12" rx="0.8" fill="currentColor" />
+              </svg>
+            ) : (
+              <svg width="14" height="16" viewBox="0 0 14 16" fill="none">
+                <path d="M2 1L13 8L2 15V1Z" fill="currentColor" />
+              </svg>
+            )}
+          </button>
+          <button style={btn} aria-label="Next track" onClick={nextTrack}>
+            <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
+              <rect x="13" y="2" width="2" height="10" rx="0.8" fill="currentColor" />
+              <path d="M2 2L11 7L2 12V2Z" fill="currentColor" />
             </svg>
-          )}
-        </button>
-        <button style={btnStyle} aria-label="Next track" onClick={nextTrack}>
-          <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
-            <rect x="13" y="2" width="2" height="10" rx="0.8" fill="currentColor" />
-            <path d="M2 2L11 7L2 12V2Z" fill="currentColor" />
-          </svg>
-        </button>
-        <button style={btnStyle} aria-label="Equalizer">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <line x1="3" y1="2" x2="3" y2="14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-            <line x1="8" y1="5" x2="8" y2="11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-            <line x1="13" y1="1" x2="13" y2="15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-          </svg>
-        </button>
-        <button style={btnStyle} aria-label="Search">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <circle cx="6" cy="6" r="4" stroke="currentColor" strokeWidth="1.5" />
-            <line x1="9.5" y1="9.5" x2="13" y2="13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-          </svg>
-        </button>
+          </button>
+          <button style={btn} aria-label="Equalizer">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <line x1="3" y1="2" x2="3" y2="14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              <line x1="8" y1="5" x2="8" y2="11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              <line x1="13" y1="1" x2="13" y2="15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            </svg>
+          </button>
+          <button style={btn} aria-label="Search">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <circle cx="6" cy="6" r="4" stroke="currentColor" strokeWidth="1.5" />
+              <line x1="9.5" y1="9.5" x2="13" y2="13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   );
 }
 
-const btnStyle: React.CSSProperties = {
+const btn: React.CSSProperties = {
   background: "none",
   border: "none",
   color: "rgba(255,255,255,0.6)",
