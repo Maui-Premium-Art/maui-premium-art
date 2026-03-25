@@ -34,7 +34,7 @@ function DockItem({
         background: "none",
         border: "1px solid transparent",
         borderRadius: 6,
-        padding: "2px 4px 1px",
+        padding: "1px 2px 0px",
         cursor: "pointer",
         display: "flex",
         flexDirection: "column",
@@ -46,7 +46,7 @@ function DockItem({
           : "rgba(255,255,255,0.45)",
         flexShrink: 1,
         minWidth: 0,
-        minHeight: 36,
+        minHeight: 32,
       }}
       onClick={onClick}
       onPointerDown={onPointerDown}
@@ -144,11 +144,11 @@ export default function BottomDock({ onGalleryOpen, onConnectOpen, onPricingOpen
       style={{
         background: "#081220",
         borderTop: "1px solid rgba(255,255,255,0.06)",
-        height: 56,
+        height: 44,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        padding: "0 4px",
+        padding: "0 2px",
         gap: 0,
         overflow: "hidden",
         flexWrap: "nowrap",
@@ -192,12 +192,12 @@ export default function BottomDock({ onGalleryOpen, onConnectOpen, onPricingOpen
       {/* Temperature */}
       <div
         style={{
-          fontSize: 17,
+          fontSize: 14,
           fontWeight: 400,
           color: "rgba(255,255,255,0.6)",
-          padding: "0 6px",
+          padding: "0 2px",
           letterSpacing: "-0.01em",
-          flexShrink: 0,
+          flexShrink: 1,
           fontVariantNumeric: "tabular-nums",
           fontFamily:
             "-apple-system, 'SF Pro Display', system-ui, sans-serif",
