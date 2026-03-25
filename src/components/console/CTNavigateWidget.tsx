@@ -15,8 +15,8 @@ export default function CTNavigateWidget() {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        padding: 10,
-        gap: 10,
+        padding: 8,
+        gap: 8,
         fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
       }}
     >
@@ -31,14 +31,14 @@ export default function CTNavigateWidget() {
           background: "rgba(255, 255, 255, 0.06)",
           border: "1px solid rgba(255, 255, 255, 0.1)",
           borderRadius: 8,
-          padding: "8px 12px",
+          padding: "6px 10px",
         }}
       >
         <svg width="16" height="16" viewBox="0 0 14 14" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5">
           <circle cx="6" cy="6" r="4" />
           <line x1="9.5" y1="9.5" x2="13" y2="13" strokeLinecap="round" />
         </svg>
-        <span style={{ fontSize: 14, color: "rgba(255, 255, 255, 0.35)" }}>Navigate</span>
+        <span style={{ fontSize: 12, color: "rgba(255, 255, 255, 0.35)" }}>Navigate</span>
       </div>
 
       {/* Home / Work buttons */}
@@ -88,13 +88,13 @@ function NavBtn({ children, label, side }: { children: React.ReactNode; label: s
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        gap: 8,
-        padding: "10px 0",
+        gap: 6,
+        padding: "7px 0",
         background: "rgba(255, 255, 255, 0.05)",
         border: "1px solid rgba(255, 255, 255, 0.08)",
         borderRadius: side === "left" ? "8px 0 0 8px" : "0 8px 8px 0",
         color: "rgba(255, 255, 255, 0.6)",
-        fontSize: 13,
+        fontSize: 12,
         cursor: "pointer",
         fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
         transition: "color 150ms ease, background 150ms ease, transform 100ms ease-out",

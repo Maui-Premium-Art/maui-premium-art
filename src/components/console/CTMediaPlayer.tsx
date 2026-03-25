@@ -30,8 +30,8 @@ export default function CTMediaPlayer() {
         display: "flex",
         flexDirection: "row",
         overflow: "hidden",
-        padding: 8,
-        gap: 10,
+        padding: "6px 8px",
+        gap: 8,
         fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
       }}
     >
@@ -39,13 +39,13 @@ export default function CTMediaPlayer() {
       <img
         src={currentTrack.artworkImage}
         alt={`Album art for ${currentTrack.title}`}
-        width={85}
-        height={85}
+        width={65}
+        height={65}
         loading="eager"
         style={{
-          width: 85,
-          minWidth: 85,
-          height: 85,
+          width: 65,
+          minWidth: 65,
+          height: 65,
           objectFit: "cover",
           borderRadius: 8,
           flexShrink: 0,
@@ -59,11 +59,11 @@ export default function CTMediaPlayer() {
       <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", minWidth: 0, gap: 2 }}>
         {/* Track info */}
         <div aria-live="polite">
-          <div style={{ fontSize: 15, fontWeight: 600, color: "#ffffff", lineHeight: 1.3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+          <div style={{ fontSize: 13, fontWeight: 600, color: "#ffffff", lineHeight: 1.2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
             {currentTrack.title}
           </div>
-          <div style={{ fontSize: 12, color: "rgba(255, 255, 255, 0.45)", display: "flex", alignItems: "center", gap: 6, marginTop: 2 }}>
-            <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#3b82f6", flexShrink: 0 }} />
+          <div style={{ fontSize: 11, color: "rgba(255, 255, 255, 0.45)", display: "flex", alignItems: "center", gap: 5, marginTop: 1 }}>
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#3b82f6", flexShrink: 0 }} />
             HAWAIIAN RADIO
           </div>
         </div>
@@ -71,38 +71,38 @@ export default function CTMediaPlayer() {
         {/* Controls row */}
         <div role="toolbar" aria-label="Playback controls" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "auto" }}>
           <CtrlBtn aria-label="Previous track" onClick={prevTrack}>
-            <svg width="18" height="16" viewBox="0 0 16 14" fill="currentColor">
+            <svg width="14" height="12" viewBox="0 0 16 14" fill="currentColor">
               <rect x="1" y="2" width="2" height="10" rx="0.8" />
               <path d="M14 2L5 7L14 12V2Z" />
             </svg>
           </CtrlBtn>
           <CtrlBtn aria-label={isPlaying ? "Pause" : "Play"} onClick={togglePlay}>
             {isPlaying ? (
-              <svg width="14" height="16" viewBox="0 0 12 14" fill="currentColor">
+              <svg width="11" height="12" viewBox="0 0 12 14" fill="currentColor">
                 <rect x="1" y="1" width="3.5" height="12" rx="0.8" />
                 <rect x="7.5" y="1" width="3.5" height="12" rx="0.8" />
               </svg>
             ) : (
-              <svg width="16" height="18" viewBox="0 0 14 16" fill="currentColor">
+              <svg width="12" height="14" viewBox="0 0 14 16" fill="currentColor">
                 <path d="M2 1L13 8L2 15V1Z" />
               </svg>
             )}
           </CtrlBtn>
           <CtrlBtn aria-label="Next track" onClick={nextTrack}>
-            <svg width="18" height="16" viewBox="0 0 16 14" fill="currentColor">
+            <svg width="14" height="12" viewBox="0 0 16 14" fill="currentColor">
               <rect x="13" y="2" width="2" height="10" rx="0.8" />
               <path d="M2 2L11 7L2 12V2Z" />
             </svg>
           </CtrlBtn>
           <CtrlBtn aria-label="Equalizer">
-            <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-              <line x1="3" y1="2" x2="3" y2="14" />
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <line x1="3" y1="3" x2="3" y2="13" />
               <line x1="8" y1="5" x2="8" y2="11" />
-              <line x1="13" y1="1" x2="13" y2="15" />
+              <line x1="13" y1="2" x2="13" y2="14" />
             </svg>
           </CtrlBtn>
           <CtrlBtn aria-label="Search music">
-            <svg width="16" height="16" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5">
               <circle cx="6" cy="6" r="4" />
               <line x1="9.5" y1="9.5" x2="13" y2="13" strokeLinecap="round" />
             </svg>
@@ -110,9 +110,9 @@ export default function CTMediaPlayer() {
         </div>
 
         {/* Dot pagination (decorative) */}
-        <div aria-hidden="true" style={{ display: "flex", justifyContent: "center", gap: 5, marginTop: 3 }}>
+        <div aria-hidden="true" style={{ display: "flex", justifyContent: "center", gap: 4, marginTop: 1 }}>
           {[0, 1, 2, 3, 4].map((i) => (
-            <span key={i} style={{ width: 4, height: 4, borderRadius: "50%", background: i === 2 ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.25)" }} />
+            <span key={i} style={{ width: 3, height: 3, borderRadius: "50%", background: i === 2 ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.25)" }} />
           ))}
         </div>
       </div>
@@ -121,12 +121,12 @@ export default function CTMediaPlayer() {
       <style>{`
         @media (max-width: 400px) {
           [aria-label="Hawaiian Radio music player"] img {
-            width: 65px !important;
-            min-width: 65px !important;
-            height: 65px !important;
+            width: 50px !important;
+            min-width: 50px !important;
+            height: 50px !important;
           }
           [aria-label="Hawaiian Radio music player"] {
-            padding: 6px !important;
+            padding: 4px 6px !important;
             gap: 6px !important;
           }
           [aria-label="Hawaiian Radio music player"] [aria-live="polite"] > div:first-child {
@@ -147,7 +147,7 @@ function CtrlBtn({ children, onClick, ...props }: { children: React.ReactNode; o
         border: "none",
         color: "rgba(255, 255, 255, 0.6)",
         cursor: "pointer",
-        padding: 6,
+        padding: 3,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
