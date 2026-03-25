@@ -30,8 +30,8 @@ export default function CTMediaPlayer() {
         display: "flex",
         flexDirection: "row",
         overflow: "hidden",
-        padding: 12,
-        gap: 12,
+        padding: 8,
+        gap: 10,
         fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
       }}
     >
@@ -39,13 +39,13 @@ export default function CTMediaPlayer() {
       <img
         src={currentTrack.artworkImage}
         alt={`Album art for ${currentTrack.title}`}
-        width={110}
-        height={110}
+        width={85}
+        height={85}
         loading="eager"
         style={{
-          width: 110,
-          minWidth: 110,
-          height: 110,
+          width: 85,
+          minWidth: 85,
+          height: 85,
           objectFit: "cover",
           borderRadius: 8,
           flexShrink: 0,
@@ -56,7 +56,7 @@ export default function CTMediaPlayer() {
       />
 
       {/* Right column */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", minWidth: 0, gap: 4 }}>
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", minWidth: 0, gap: 2 }}>
         {/* Track info */}
         <div aria-live="polite">
           <div style={{ fontSize: 15, fontWeight: 600, color: "#ffffff", lineHeight: 1.3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
@@ -110,7 +110,7 @@ export default function CTMediaPlayer() {
         </div>
 
         {/* Dot pagination (decorative) */}
-        <div aria-hidden="true" style={{ display: "flex", justifyContent: "center", gap: 5, marginTop: 6 }}>
+        <div aria-hidden="true" style={{ display: "flex", justifyContent: "center", gap: 5, marginTop: 3 }}>
           {[0, 1, 2, 3, 4].map((i) => (
             <span key={i} style={{ width: 4, height: 4, borderRadius: "50%", background: i === 2 ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.25)" }} />
           ))}
@@ -121,13 +121,13 @@ export default function CTMediaPlayer() {
       <style>{`
         @media (max-width: 400px) {
           [aria-label="Hawaiian Radio music player"] img {
-            width: 80px !important;
-            min-width: 80px !important;
-            height: 80px !important;
+            width: 65px !important;
+            min-width: 65px !important;
+            height: 65px !important;
           }
           [aria-label="Hawaiian Radio music player"] {
-            padding: 10px !important;
-            gap: 8px !important;
+            padding: 6px !important;
+            gap: 6px !important;
           }
           [aria-label="Hawaiian Radio music player"] [aria-live="polite"] > div:first-child {
             font-size: 14px !important;

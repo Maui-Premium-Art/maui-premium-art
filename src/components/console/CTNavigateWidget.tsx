@@ -15,8 +15,8 @@ export default function CTNavigateWidget() {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        padding: 16,
-        gap: 14,
+        padding: 10,
+        gap: 10,
         fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
       }}
     >
@@ -31,7 +31,7 @@ export default function CTNavigateWidget() {
           background: "rgba(255, 255, 255, 0.06)",
           border: "1px solid rgba(255, 255, 255, 0.1)",
           borderRadius: 8,
-          padding: "10px 14px",
+          padding: "8px 12px",
         }}
       >
         <svg width="16" height="16" viewBox="0 0 14 14" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5">
