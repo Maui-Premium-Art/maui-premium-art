@@ -33,8 +33,8 @@ function DockItem({
       style={{
         background: "none",
         border: "1px solid transparent",
-        borderRadius: 8,
-        padding: "4px 6px 2px",
+        borderRadius: 6,
+        padding: "2px 4px 1px",
         cursor: "pointer",
         display: "flex",
         flexDirection: "column",
@@ -44,9 +44,9 @@ function DockItem({
         color: active
           ? "rgba(255,255,255,0.9)"
           : "rgba(255,255,255,0.45)",
-        flexShrink: 0,
-        minWidth: 36,
-        minHeight: 40,
+        flexShrink: 1,
+        minWidth: 0,
+        minHeight: 36,
       }}
       onClick={onClick}
       onPointerDown={onPointerDown}
@@ -148,9 +148,9 @@ export default function BottomDock({ onGalleryOpen, onConnectOpen, onPricingOpen
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        padding: "0 8px",
-        gap: 2,
-        overflowX: "auto",
+        padding: "0 4px",
+        gap: 0,
+        overflow: "hidden",
         flexWrap: "nowrap",
         flexShrink: 0,
       }}
@@ -219,17 +219,6 @@ export default function BottomDock({ onGalleryOpen, onConnectOpen, onPricingOpen
         </svg>
       </DockItem>
 
-      {/* Divider */}
-      <div
-        role="separator"
-        style={{
-          width: 1,
-          height: 24,
-          background: "rgba(255,255,255,0.06)",
-          margin: "0 4px",
-          flexShrink: 0,
-        }}
-      />
 
       {/* Phone — Call Us */}
       <DockItem
