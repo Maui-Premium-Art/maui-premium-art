@@ -3,17 +3,17 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 
 const ALL_TRACKS = [
-  { title: "Hawaiian Ska", artist: "Hetyati", genre: "Hawaiian Ska", src: "/music/hawaiian-ska.mp3" },
-  { title: "Hawaiian Peaceful", artist: "James Franco Jr", genre: "Hawaiian", src: "/music/hawaiian-peaceful.mp3" },
-  { title: "Blue Island", artist: "Matthew Mike Music", genre: "Hawaiian", src: "/music/blue-island.mp3" },
-  { title: "Trouble in the Tiki Bar", artist: "AI Picture This", genre: "Hawaiian", src: "/music/trouble-in-the-tiki-bar.mp3" },
-  { title: "Hawaiian Sea", artist: "Alana Jordan", genre: "Hawaiian", src: "/music/hawaiian-sea.mp3" },
-  { title: "Happy Ukulele", artist: "Emmraan", genre: "Hawaiian", src: "/music/happy-ukulele.mp3" },
-  { title: "Luau", artist: "Matthew Mike Music", genre: "Hawaiian", src: "/music/luau.mp3" },
-  { title: "Having Fun", artist: "Nerdworld", genre: "Hawaiian", src: "/music/having-fun.mp3" },
-  { title: "A Cheerful World", artist: "Red Productions", genre: "Hawaiian", src: "/music/cheerful-world.mp3" },
-  { title: "Wave", artist: "Tooone", genre: "Hawaiian", src: "/music/wave.mp3" },
-  { title: "Honohono", artist: "Yasuko", genre: "Hawaiian", src: "/music/honohono.mp3" },
+  { title: "Hawaiian Ska", artist: "Hetyati", src: "/music/hawaiian-ska.mp3" },
+  { title: "Hawaiian Peaceful", artist: "James Franco Jr", src: "/music/hawaiian-peaceful.mp3" },
+  { title: "Blue Island", artist: "Matthew Mike Music", src: "/music/blue-island.mp3" },
+  { title: "Trouble in the Tiki Bar", artist: "AI Picture This", src: "/music/trouble-in-the-tiki-bar.mp3" },
+  { title: "Hawaiian Sea", artist: "Alana Jordan", src: "/music/hawaiian-sea.mp3" },
+  { title: "Happy Ukulele", artist: "Emmraan", src: "/music/happy-ukulele.mp3" },
+  { title: "Luau", artist: "Matthew Mike Music", src: "/music/luau.mp3" },
+  { title: "Having Fun", artist: "Nerdworld", src: "/music/having-fun.mp3" },
+  { title: "A Cheerful World", artist: "Red Productions", src: "/music/cheerful-world.mp3" },
+  { title: "Wave", artist: "Tooone", src: "/music/wave.mp3" },
+  { title: "Honohono", artist: "Yasuko", src: "/music/honohono.mp3" },
 ];
 
 function shuffleArray<T>(arr: T[]): T[] {
@@ -27,74 +27,15 @@ function shuffleArray<T>(arr: T[]): T[] {
 
 export default function MediaPlayer() {
   const [tracks, setTracks] = useState(ALL_TRACKS);
-
-  // Shuffle on client only to avoid hydration mismatch (BUG-005)
-  useEffect(() => {
-    setTracks(shuffleArray(ALL_TRACKS));
-  }, []);
+  useEffect(() => { setTracks(shuffleArray(ALL_TRACKS)); }, []);
   const [playing, setPlaying] = useState(false);
   const [trackIdx, setTrackIdx] = useState(0);
-  const [progress, setProgress] = useState(0);
-  const [elapsed, setElapsed] = useState("0:00");
-  const [totalDuration, setTotalDuration] = useState("0:00");
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioCtxRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
   const gainRef = useRef<GainNode | null>(null);
   const sourceRef = useRef<MediaElementAudioSourceNode | null>(null);
-  const rafRef = useRef<number>(0);
-
   const track = tracks[trackIdx];
-
-  const formatTime = (sec: number) => {
-    const m = Math.floor(sec / 60);
-    const s = Math.floor(sec % 60).toString().padStart(2, "0");
-    return `${m}:${s}`;
-  };
-
-  const drawWaveform = useCallback(() => {
-    const canvas = canvasRef.current;
-    const analyser = analyserRef.current;
-    if (!canvas || !analyser) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    const bufferLength = analyser.frequencyBinCount;
-    const dataArray = new Uint8Array(bufferLength);
-    analyser.getByteTimeDomainData(dataArray);
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.lineWidth = 1.5;
-    ctx.strokeStyle = "rgba(255,255,255,0.4)";
-    ctx.beginPath();
-    const sliceWidth = canvas.width / bufferLength;
-    let x = 0;
-    for (let i = 0; i < bufferLength; i++) {
-      const v = dataArray[i] / 128.0;
-      const y = (v * canvas.height) / 2;
-      if (i === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
-      x += sliceWidth;
-    }
-    ctx.lineTo(canvas.width, canvas.height / 2);
-    ctx.stroke();
-    if (playing) rafRef.current = requestAnimationFrame(drawWaveform);
-  }, [playing]);
-
-  const drawFlatLine = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.lineWidth = 1;
-    ctx.strokeStyle = "rgba(255,255,255,0.15)";
-    ctx.beginPath();
-    ctx.moveTo(0, canvas.height / 2);
-    ctx.lineTo(canvas.width, canvas.height / 2);
-    ctx.stroke();
-  }, []);
 
   const ensureAudioContext = useCallback(() => {
     if (audioCtxRef.current) return;
@@ -113,12 +54,8 @@ export default function MediaPlayer() {
     const analyser = analyserRef.current;
     const gain = gainRef.current;
     if (!ctx || !analyser || !gain) return;
-    // Disconnect old source if exists
-    if (sourceRef.current) {
-      try { sourceRef.current.disconnect(); } catch {}
-    }
+    if (sourceRef.current) { try { sourceRef.current.disconnect(); } catch {} }
     const source = ctx.createMediaElementSource(audio);
-    // Chain: source → analyser → gain → destination (BUG-004 fix)
     source.connect(analyser);
     analyser.connect(gain);
     gain.connect(ctx.destination);
@@ -128,80 +65,40 @@ export default function MediaPlayer() {
   const playTrack = useCallback((idx: number) => {
     ensureAudioContext();
     const t = tracks[idx];
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current.removeAttribute("src");
-    }
+    if (audioRef.current) { audioRef.current.pause(); audioRef.current.removeAttribute("src"); }
     const audio = new Audio(t.src);
     audio.crossOrigin = "anonymous";
     audioRef.current = audio;
-
-    audio.addEventListener("loadedmetadata", () => {
-      setTotalDuration(formatTime(audio.duration));
-    });
     audio.addEventListener("ended", () => {
-      // Auto-advance to next track
       const nextIdx = (idx + 1) % tracks.length;
       setTrackIdx(nextIdx);
       playTrack(nextIdx);
     });
-
     connectSource(audio);
     audio.play().catch(() => {});
     setPlaying(true);
   }, [tracks, ensureAudioContext, connectSource]);
 
   const togglePlay = useCallback(() => {
-    if (playing) {
-      audioRef.current?.pause();
-      setPlaying(false);
-      cancelAnimationFrame(rafRef.current);
-      drawFlatLine();
-    } else {
-      if (audioRef.current?.src) {
-        audioRef.current.play().catch(() => {});
-        setPlaying(true);
-      } else {
-        playTrack(trackIdx);
-      }
-    }
-  }, [playing, trackIdx, playTrack, drawFlatLine]);
+    if (playing) { audioRef.current?.pause(); setPlaying(false); }
+    else if (audioRef.current?.src) { audioRef.current.play().catch(() => {}); setPlaying(true); }
+    else { playTrack(trackIdx); }
+  }, [playing, trackIdx, playTrack]);
 
   const nextTrack = useCallback(() => {
     const next = (trackIdx + 1) % tracks.length;
     setTrackIdx(next);
-    setProgress(0);
-    setElapsed("0:00");
     if (playing) playTrack(next);
   }, [trackIdx, tracks.length, playing, playTrack]);
 
   const prevTrack = useCallback(() => {
     const prev = (trackIdx - 1 + tracks.length) % tracks.length;
     setTrackIdx(prev);
-    setProgress(0);
-    setElapsed("0:00");
     if (playing) playTrack(prev);
   }, [trackIdx, tracks.length, playing, playTrack]);
 
-  // Update progress bar and elapsed time
-  useEffect(() => {
-    if (!playing) return;
-    drawWaveform();
-    const interval = setInterval(() => {
-      const audio = audioRef.current;
-      if (!audio || !audio.duration) return;
-      setElapsed(formatTime(audio.currentTime));
-      setProgress((audio.currentTime / audio.duration) * 100);
-    }, 500);
-    return () => clearInterval(interval);
-  }, [playing, drawWaveform]);
-
-  useEffect(() => { drawFlatLine(); }, [drawFlatLine]);
-
-  // Cleanup on unmount
   useEffect(() => {
     return () => {
-      cancelAnimationFrame(rafRef.current);
       audioRef.current?.pause();
       if (sourceRef.current) try { sourceRef.current.disconnect(); } catch {}
       if (audioCtxRef.current) audioCtxRef.current.close();
@@ -214,64 +111,63 @@ export default function MediaPlayer() {
       aria-label="Hawaiian Radio music player"
       style={{
         background: "#0c1a2e",
-        border: "1px solid rgba(255,255,255,0.06)",
-        borderRadius: 10,
-        padding: "8px 10px",
+        border: "1px solid rgba(255,255,255,0.1)",
+        borderRadius: 6,
         flex: 1,
         minWidth: 0,
         fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
-      {/* Row 1: Album art left + title/artist right — matches CT layout */}
-      <div style={{ display: "flex", gap: 10, paddingBottom: 6, borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
-        {/* Album art — compact like real CT */}
+      {/* TOP: Album art (left, full height) + title/artist (right) */}
+      <div style={{ display: "flex", flex: 1 }}>
+        {/* Album art — tall rectangle matching real CT */}
         <div
           style={{
-            width: 64,
-            height: 64,
-            borderRadius: 4,
+            width: 80,
+            alignSelf: "stretch",
             background: "linear-gradient(135deg, #1a2d4a 0%, #0f1d35 50%, #1a3050 100%)",
             flexShrink: 0,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            fontSize: 18,
-            border: "1px solid rgba(255,255,255,0.06)",
+            fontSize: 24,
+            borderRight: "1px solid rgba(255,255,255,0.08)",
+            borderRadius: "6px 0 0 0",
           }}
         >
           🌺
         </div>
-        <div style={{ minWidth: 0, display: "flex", flexDirection: "column", justifyContent: "center" }} aria-live="polite">
-          <div style={{ fontSize: 13, fontWeight: 600, color: "#ffffff", letterSpacing: "0.01em", lineHeight: 1.2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{track.title}</div>
-          <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", marginTop: 2, lineHeight: 1.2 }}>
-            {track.artist} · <span style={{ color: "rgba(74,158,255,0.5)" }}>HAWAIIAN RADIO</span>
+        <div style={{ minWidth: 0, display: "flex", flexDirection: "column", justifyContent: "center", padding: "10px 12px" }} aria-live="polite">
+          <div style={{ fontSize: 14, fontWeight: 700, color: "#ffffff", letterSpacing: "0.01em", lineHeight: 1.2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+            {track.title}
+          </div>
+          <div style={{ fontSize: 11, color: "rgba(255,255,255,0.45)", marginTop: 3, lineHeight: 1.2, display: "flex", alignItems: "center", gap: 4 }}>
+            <span style={{ fontSize: 11 }}>🎵</span> HAWAIIAN RADIO
           </div>
         </div>
       </div>
 
-      {/* Hidden canvas for audio visualization — kept for functionality */}
-      <canvas
-        ref={canvasRef}
-        width={300}
-        height={20}
-        role="img"
-        aria-label="Audio waveform visualization"
-        style={{ width: "100%", height: 0, overflow: "hidden", marginBottom: 0 }}
-      />
-
-      {/* Row 2: Controls — flat row like real CT (prev, pause, next, eq, search) */}
-      <div role="toolbar" aria-label="Playback controls" style={{ display: "flex", alignItems: "center", justifyContent: "space-around", paddingTop: 6 }}>
+      {/* CONTROLS — separated by line, flat icons like real CT */}
+      <div
+        role="toolbar"
+        aria-label="Playback controls"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-around",
+          borderTop: "1px solid rgba(255,255,255,0.08)",
+          padding: "6px 16px",
+        }}
+      >
         <button style={btnStyle} aria-label="Previous track" onClick={prevTrack}>
           <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
             <rect x="1" y="2" width="2" height="10" rx="0.8" fill="currentColor" />
             <path d="M14 2L5 7L14 12V2Z" fill="currentColor" />
           </svg>
         </button>
-        <button
-          style={btnStyle}
-          aria-label={playing ? "Pause" : "Play"}
-          onClick={togglePlay}
-        >
+        <button style={btnStyle} aria-label={playing ? "Pause" : "Play"} onClick={togglePlay}>
           {playing ? (
             <svg width="14" height="14" viewBox="0 0 12 14" fill="none">
               <rect x="1" y="1" width="3.5" height="12" rx="0.8" fill="currentColor" />
@@ -290,16 +186,16 @@ export default function MediaPlayer() {
           </svg>
         </button>
         <button style={btnStyle} aria-label="Equalizer">
-          <svg width="16" height="14" viewBox="0 0 16 16" fill="none">
-            <line x1="3" y1="2" x2="3" y2="14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-            <line x1="8" y1="4" x2="8" y2="12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-            <line x1="13" y1="1" x2="13" y2="15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <line x1="3" y1="2" x2="3" y2="14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            <line x1="8" y1="5" x2="8" y2="11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            <line x1="13" y1="1" x2="13" y2="15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
           </svg>
         </button>
         <button style={btnStyle} aria-label="Search">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <circle cx="6" cy="6" r="4" stroke="currentColor" strokeWidth="1.2" />
-            <line x1="9" y1="9" x2="13" y2="13" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+            <circle cx="6" cy="6" r="4" stroke="currentColor" strokeWidth="1.5" />
+            <line x1="9.5" y1="9.5" x2="13" y2="13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
           </svg>
         </button>
       </div>
@@ -310,11 +206,10 @@ export default function MediaPlayer() {
 const btnStyle: React.CSSProperties = {
   background: "none",
   border: "none",
-  color: "rgba(255,255,255,0.5)",
+  color: "rgba(255,255,255,0.6)",
   cursor: "pointer",
-  padding: 4,
+  padding: 6,
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  transition: "opacity 0.15s ease",
 };
