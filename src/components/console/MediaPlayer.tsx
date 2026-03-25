@@ -222,14 +222,14 @@ export default function MediaPlayer() {
         fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
       }}
     >
-      {/* Row 1: Album art left + title/artist right — matches CT compact layout */}
-      <div style={{ display: "flex", gap: 10, marginBottom: 6 }}>
+      {/* Row 1: Album art left + title/artist right — matches CT layout */}
+      <div style={{ display: "flex", gap: 10, paddingBottom: 6, borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
         {/* Album art — compact like real CT */}
         <div
           style={{
             width: 64,
             height: 64,
-            borderRadius: 6,
+            borderRadius: 4,
             background: "linear-gradient(135deg, #1a2d4a 0%, #0f1d35 50%, #1a3050 100%)",
             flexShrink: 0,
             display: "flex",
@@ -243,10 +243,8 @@ export default function MediaPlayer() {
         </div>
         <div style={{ minWidth: 0, display: "flex", flexDirection: "column", justifyContent: "center" }} aria-live="polite">
           <div style={{ fontSize: 13, fontWeight: 600, color: "#ffffff", letterSpacing: "0.01em", lineHeight: 1.2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{track.title}</div>
-          <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", marginTop: 2, lineHeight: 1.2 }}>{track.artist}</div>
-          <div style={{ fontSize: 9, color: "rgba(74,158,255,0.5)", marginTop: 3, display: "flex", alignItems: "center", gap: 4 }}>
-            <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#4a9eff", display: "inline-block" }} />
-            HAWAIIAN RADIO
+          <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", marginTop: 2, lineHeight: 1.2 }}>
+            {track.artist} · <span style={{ color: "rgba(74,158,255,0.5)" }}>HAWAIIAN RADIO</span>
           </div>
         </div>
       </div>
@@ -261,47 +259,41 @@ export default function MediaPlayer() {
         style={{ width: "100%", height: 0, overflow: "hidden", marginBottom: 0 }}
       />
 
-      {/* Row 2: Controls — single compact row like real CT */}
-      <div role="toolbar" aria-label="Playback controls" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+      {/* Row 2: Controls — flat row like real CT (prev, pause, next, eq, search) */}
+      <div role="toolbar" aria-label="Playback controls" style={{ display: "flex", alignItems: "center", justifyContent: "space-around", paddingTop: 6 }}>
         <button style={btnStyle} aria-label="Previous track" onClick={prevTrack}>
-          <svg width="14" height="12" viewBox="0 0 16 14" fill="none">
+          <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
             <rect x="1" y="2" width="2" height="10" rx="0.8" fill="currentColor" />
             <path d="M14 2L5 7L14 12V2Z" fill="currentColor" />
           </svg>
         </button>
         <button
-          style={{
-            ...btnStyle,
-            background: playing ? "rgba(255,255,255,0.15)" : "rgba(255,255,255,0.1)",
-            border: "1px solid rgba(255,255,255,0.15)",
-            borderRadius: "50%",
-            width: 30,
-            height: 30,
-          }}
+          style={btnStyle}
           aria-label={playing ? "Pause" : "Play"}
           onClick={togglePlay}
         >
           {playing ? (
-            <svg width="10" height="12" viewBox="0 0 12 14" fill="none">
-              <rect x="1" y="1" width="3.5" height="12" rx="0.8" fill="white" />
-              <rect x="7.5" y="1" width="3.5" height="12" rx="0.8" fill="white" />
+            <svg width="14" height="14" viewBox="0 0 12 14" fill="none">
+              <rect x="1" y="1" width="3.5" height="12" rx="0.8" fill="currentColor" />
+              <rect x="7.5" y="1" width="3.5" height="12" rx="0.8" fill="currentColor" />
             </svg>
           ) : (
-            <svg width="12" height="14" viewBox="0 0 14 16" fill="none">
-              <path d="M2 1L13 8L2 15V1Z" fill="white" />
+            <svg width="14" height="16" viewBox="0 0 14 16" fill="none">
+              <path d="M2 1L13 8L2 15V1Z" fill="currentColor" />
             </svg>
           )}
         </button>
         <button style={btnStyle} aria-label="Next track" onClick={nextTrack}>
-          <svg width="14" height="12" viewBox="0 0 16 14" fill="none">
+          <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
             <rect x="13" y="2" width="2" height="10" rx="0.8" fill="currentColor" />
             <path d="M2 2L11 7L2 12V2Z" fill="currentColor" />
           </svg>
         </button>
-        <button style={btnStyle} aria-label="Shuffle">
-          <svg width="14" height="12" viewBox="0 0 16 14" fill="none">
-            <path d="M1 10h2l3-3M1 4h2l8 6h4M11 4h4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M13 2l2 2-2 2M13 8l2 2-2 2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+        <button style={btnStyle} aria-label="Equalizer">
+          <svg width="16" height="14" viewBox="0 0 16 16" fill="none">
+            <line x1="3" y1="2" x2="3" y2="14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            <line x1="8" y1="4" x2="8" y2="12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            <line x1="13" y1="1" x2="13" y2="15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
           </svg>
         </button>
         <button style={btnStyle} aria-label="Search">
