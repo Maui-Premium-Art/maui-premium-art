@@ -101,7 +101,7 @@ export default function MediaPlayer() {
         background: "#0c1a2e",
         border: "1px solid rgba(255,255,255,0.12)",
         borderRadius: 6,
-        flex: 1,
+        flex: 2.5,
         minWidth: 0,
         fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
         display: "flex",
@@ -133,8 +133,8 @@ export default function MediaPlayer() {
           <div style={{ fontSize: 14, fontWeight: 700, color: "#ffffff", lineHeight: 1.2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
             {track.title}
           </div>
-          <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", marginTop: 3, display: "flex", alignItems: "center", gap: 4 }}>
-            🎵 HAWAIIAN RADIO
+          <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", marginTop: 3, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+            {track.artist}
           </div>
         </div>
 
