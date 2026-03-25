@@ -180,8 +180,8 @@ export default function Home() {
           className="ct-widgets-row"
           style={{
             display: "flex",
-            gap: 8,
-            padding: "0 10px 6px",
+            gap: 6,
+            padding: "0 10px 4px",
             flexShrink: 0,
             position: "relative",
             zIndex: 22,
