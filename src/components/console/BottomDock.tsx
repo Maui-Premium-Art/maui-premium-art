@@ -31,10 +31,8 @@ function DockItem({
       aria-label={ariaLabel || label}
       className="ct-dock-icon"
       style={{
-        background: active ? "rgba(255,255,255,0.08)" : "none",
-        border: active
-          ? "1px solid rgba(255,255,255,0.12)"
-          : "1px solid transparent",
+        background: "none",
+        border: "1px solid transparent",
         borderRadius: 8,
         padding: "4px 6px 2px",
         cursor: "pointer",
@@ -47,8 +45,8 @@ function DockItem({
           ? "rgba(255,255,255,0.9)"
           : "rgba(255,255,255,0.45)",
         flexShrink: 0,
-        minWidth: 40,
-        minHeight: 44,
+        minWidth: 36,
+        minHeight: 40,
       }}
       onClick={onClick}
       onPointerDown={onPointerDown}
@@ -153,6 +151,7 @@ export default function BottomDock({ onGalleryOpen, onConnectOpen, onPricingOpen
         padding: "0 8px",
         gap: 2,
         overflowX: "auto",
+        flexWrap: "nowrap",
         flexShrink: 0,
       }}
     >
