@@ -48,11 +48,6 @@ export default function NavigationWidget() {
           Commission
         </button>
       </div>
-      {/* Step 1: Location fix + Step 4: ETA → edition counter */}
-      <div style={{ paddingTop: 4, borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-        <div style={{ fontSize: 11, color: "rgba(255,255,255,0.65)", letterSpacing: "0.01em" }}>Kihei, Maui · Hawaii</div>
-        <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)", marginTop: 2 }}>10 editions · Maui</div>
-      </div>
     </div>
   );
 }
