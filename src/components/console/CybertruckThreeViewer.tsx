@@ -19,8 +19,8 @@ function CybertruckModel({ artImage, startReveal = false }: CybertruckModelProps
   // Side profile: front facing LEFT with camera on +Z
   // Model front is +X. rotation PI = front points -X = screen LEFT
   const SIDE_PROFILE = Math.PI;
-  // Rotate ~135deg to reveal tailgate (rotate toward camera)
-  const TAILGATE_REVEAL = SIDE_PROFILE + Math.PI * 0.75;
+  // Rotate -90deg to show tailgate facing camera (+Z)
+  const TAILGATE_REVEAL = SIDE_PROFILE - Math.PI * 0.5;
 
   // Boost material brightness + load tailgate art texture
   useEffect(() => {
@@ -80,7 +80,7 @@ function CybertruckModel({ artImage, startReveal = false }: CybertruckModelProps
     }
 
     const elapsed = (performance.now() - revealStartTime.current) / 1000;
-    const delay = 2.0;
+    const delay = 1.0;
     const duration = 3.0;
 
     if (elapsed < delay) {
