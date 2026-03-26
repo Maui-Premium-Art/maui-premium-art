@@ -3,7 +3,6 @@
 // Force Vercel rebuild — stale cache detected 2026-03-16
 import { useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import MilesToMaui from "@/components/console/MilesToMaui";
 import { dockSounds } from "@/lib/dockSounds";
 
 interface DockItemProps {
@@ -181,8 +180,6 @@ export default function BottomDock({ onGalleryOpen, onConnectOpen, onPricingOpen
         </svg>
       </DockItem>
 
-      {/* Miles to Maui — replaces temperature cluster */}
-      <MilesToMaui />
 
 
       {/* Phone — Call Us */}

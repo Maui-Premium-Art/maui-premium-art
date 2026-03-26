@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import MilesToMaui from "@/components/console/MilesToMaui";
 
 type Gear = "P" | "R" | "N" | "D";
 
@@ -101,18 +102,10 @@ export default function StatusBar({ onGalleryOpen }: StatusBarProps) {
         pointerEvents: "none",
       }}
     >
-      {/* LEFT: Battery hash + editions + Start Exploring (CT reference style) */}
+      {/* LEFT: Miles to Maui + Start Exploring (CT reference style) */}
       <div className="ct-status-left" style={{ display: "flex", flexDirection: "column", gap: 6, pointerEvents: "auto" }}>
-        {/* Battery hash marks + range (CT style: /////// 224 mi) */}
-        <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
-          <span style={{ fontSize: 16, fontWeight: 700, color: "rgba(255,255,255,0.7)", letterSpacing: "-0.5px", fontFamily: "monospace" }}>
-            {"╱".repeat(getBatterySegments(charge).filter(Boolean).length)}
-            <span style={{ color: "rgba(255,255,255,0.15)" }}>{"╱".repeat(5 - getBatterySegments(charge).filter(Boolean).length)}</span>
-          </span>
-          <span style={{ fontSize: 16, fontWeight: 700, color: "#ffffff", fontVariantNumeric: "tabular-nums" as const, fontFamily: "-apple-system, 'SF Pro Display', system-ui, sans-serif" }}>
-            {getRangeForCharge(charge)} mi
-          </span>
-        </div>
+        {/* Miles to Maui — replaces fake battery bar */}
+        <MilesToMaui />
 
         {/* Start Exploring button (CT: "Start Self-Driving") */}
         <button
