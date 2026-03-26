@@ -40,7 +40,6 @@ function DockItem({
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        gap: 2,
         color: active
           ? "rgba(255,255,255,0.9)"
           : "rgba(255,255,255,0.45)",
@@ -53,8 +52,10 @@ function DockItem({
       onPointerUp={onPointerUp}
       onPointerLeave={onPointerLeave}
     >
-      {children}
-      {label && <span className="dock-label">{label}</span>}
+      <div style={{ height: 20, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+        {children}
+      </div>
+      {label && <span className="dock-label" style={{ marginTop: 1, lineHeight: 1 }}>{label}</span>}
     </button>
   );
 }
@@ -101,9 +102,12 @@ interface BottomDockProps {
   onEventsOpen?: () => void;
   onStoryOpen?: () => void;
   onSocialOpen?: () => void;
+  volume?: number;
+  onVolumeUp?: () => void;
+  onVolumeDown?: () => void;
 }
 
-export default function BottomDock({ onGalleryOpen, onConnectOpen, onPricingOpen, onEventsOpen, onStoryOpen, onSocialOpen }: BottomDockProps) {
+export default function BottomDock({ onGalleryOpen, onConnectOpen, onPricingOpen, onEventsOpen, onStoryOpen, onSocialOpen, volume = 1.0, onVolumeUp, onVolumeDown }: BottomDockProps) {
   const router = useRouter();
   const cameraClickCount = useRef(0);
   const cameraTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -427,6 +431,40 @@ export default function BottomDock({ onGalleryOpen, onConnectOpen, onPricingOpen
           />
         </svg>
       </DockItem>
+
+      {/* Volume cluster */}
+      <div role="group" aria-label="Volume control" style={{ display: "flex", alignItems: "center", gap: 0, marginLeft: "auto" }}>
+        <DockItem ariaLabel="Volume down" onClick={() => onVolumeDown?.()}>
+          <svg width="8" height="12" viewBox="0 0 8 12" fill="none">
+            <path d="M6 1L2 6L6 11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </DockItem>
+        <div role="img" aria-label={`Volume level: ${Math.round(volume * 100)}%`} style={{ height: 20, display: "flex", alignItems: "center", justifyContent: "center", padding: "0 1px", color: "rgba(255,255,255,0.45)" }}>
+          {volume === 0 ? (
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M3 5.5h2l3-3v11l-3-3H3a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1z" stroke="currentColor" strokeWidth="1.2" fill="none"/>
+              <line x1="12" y1="4" x2="9" y2="12" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+            </svg>
+          ) : volume <= 0.5 ? (
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M3 5.5h2l3-3v11l-3-3H3a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1z" stroke="currentColor" strokeWidth="1.2" fill="none"/>
+              <path d="M10.5 6c.8.8.8 4 0 4.8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" fill="none"/>
+            </svg>
+          ) : (
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M3 5.5h2l3-3v11l-3-3H3a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1z" stroke="currentColor" strokeWidth="1.2" fill="none"/>
+              <path d="M10.5 6c.8.8.8 4 0 4.8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" fill="none"/>
+              <path d="M12.5 4c1.3 1.3 1.3 7 0 8.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" fill="none"/>
+            </svg>
+          )}
+        </div>
+        <DockItem ariaLabel="Volume up" onClick={() => onVolumeUp?.()}>
+          <svg width="8" height="12" viewBox="0 0 8 12" fill="none">
+            <path d="M2 1L6 6L2 11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </DockItem>
+        <span aria-live="polite" style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0,0,0,0)" }}>Volume: {Math.round(volume * 100)}%</span>
+      </div>
 
       {/* Right nav arrow → Social Proof */}
       <DockItem ariaLabel="Reviews" onClick={() => onSocialOpen?.()}>

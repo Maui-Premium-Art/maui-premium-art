@@ -54,12 +54,16 @@ export interface UseHawaiianRadioReturn {
   togglePlay: () => void;
   nextTrack: () => void;
   prevTrack: () => void;
+  volume: number;
+  volumeUp: () => void;
+  volumeDown: () => void;
 }
 
 export function useHawaiianRadio(): UseHawaiianRadioReturn {
   const [tracks, setTracks] = useState(ALL_TRACKS);
   const [trackIndex, setTrackIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [volume, setVolumeState] = useState(1.0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioCtxRef = useRef<AudioContext | null>(null);
   const gainRef = useRef<GainNode | null>(null);
@@ -137,6 +141,22 @@ export function useHawaiianRadio(): UseHawaiianRadioReturn {
     if (isPlaying) playTrack(prev);
   }, [trackIndex, tracks.length, isPlaying, playTrack]);
 
+  const volumeUp = useCallback(() => {
+    setVolumeState((prev) => {
+      const next = Math.min(1.0, Math.round((prev + 0.1) * 10) / 10);
+      if (gainRef.current) gainRef.current.gain.value = next;
+      return next;
+    });
+  }, []);
+
+  const volumeDown = useCallback(() => {
+    setVolumeState((prev) => {
+      const next = Math.max(0.0, Math.round((prev - 0.1) * 10) / 10);
+      if (gainRef.current) gainRef.current.gain.value = next;
+      return next;
+    });
+  }, []);
+
   // Cleanup on unmount
   useEffect(() => {
     return () => {
@@ -154,5 +174,8 @@ export function useHawaiianRadio(): UseHawaiianRadioReturn {
     togglePlay,
     nextTrack,
     prevTrack,
+    volume,
+    volumeUp,
+    volumeDown,
   };
 }
