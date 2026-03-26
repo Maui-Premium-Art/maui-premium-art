@@ -3,6 +3,7 @@
 // Force Vercel rebuild — stale cache detected 2026-03-16
 import { useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import MilesToMaui from "@/components/console/MilesToMaui";
 import { dockSounds } from "@/lib/dockSounds";
 
 interface DockItemProps {
@@ -180,48 +181,8 @@ export default function BottomDock({ onGalleryOpen, onConnectOpen, onPricingOpen
         </svg>
       </DockItem>
 
-      {/* Left nav arrow */}
-      <DockItem ariaLabel="Previous">
-        <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
-          <path
-            d="M8 2L3 7L8 12"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </DockItem>
-
-      {/* Temperature */}
-      <div
-        style={{
-          fontSize: 14,
-          fontWeight: 400,
-          color: "rgba(255,255,255,0.6)",
-          padding: "0 2px",
-          letterSpacing: "-0.01em",
-          flexShrink: 1,
-          fontVariantNumeric: "tabular-nums",
-          fontFamily:
-            "-apple-system, 'SF Pro Display', system-ui, sans-serif",
-        }}
-      >
-        72°
-      </div>
-
-      {/* Right nav arrow */}
-      <DockItem ariaLabel="Next">
-        <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
-          <path
-            d="M4 2L9 7L4 12"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </DockItem>
+      {/* Miles to Maui — replaces temperature cluster */}
+      <MilesToMaui />
 
 
       {/* Phone — Call Us */}
