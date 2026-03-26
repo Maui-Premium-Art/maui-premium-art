@@ -11,7 +11,7 @@ export default function CTNavigateWidget() {
         border: "1px solid rgba(255, 255, 255, 0.1)",
         borderRadius: 12,
         flex: 1,
-        minWidth: 0,
+        minWidth: 180,
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
