@@ -42,7 +42,7 @@ export default function CTNavigateWidget() {
       </div>
 
       {/* Home / Work buttons */}
-      <div role="group" aria-label="Quick destinations" style={{ display: "flex", alignItems: "center", gap: 0 }}>
+      <div role="group" aria-label="Quick destinations" style={{ display: "flex", alignItems: "center", gap: 0, background: "rgba(255, 255, 255, 0.05)", borderRadius: 8, border: "1px solid rgba(255, 255, 255, 0.08)", overflow: "hidden" }}>
         <NavBtn side="left" label="Home">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.2">
             <path d="M2 6.5L8 2l6 4.5V13a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6.5z" />
@@ -91,8 +91,8 @@ function NavBtn({ children, label, side }: { children: React.ReactNode; label: s
         gap: 6,
         padding: "7px 12px",
         background: "rgba(255, 255, 255, 0.05)",
-        border: "1px solid rgba(255, 255, 255, 0.08)",
-        borderRadius: side === "left" ? "8px 0 0 8px" : "0 8px 8px 0",
+        border: "none",
+        borderRadius: 0,
         color: "rgba(255, 255, 255, 0.6)",
         fontSize: 12,
         cursor: "pointer",
@@ -103,13 +103,11 @@ function NavBtn({ children, label, side }: { children: React.ReactNode; label: s
         const el = e.currentTarget;
         el.style.color = "rgba(255,255,255,0.9)";
         el.style.background = "rgba(255,255,255,0.10)";
-        el.style.borderColor = "rgba(255,255,255,0.15)";
       }}
       onMouseLeave={(e) => {
         const el = e.currentTarget;
         el.style.color = "rgba(255,255,255,0.6)";
         el.style.background = "rgba(255,255,255,0.05)";
-        el.style.borderColor = "rgba(255,255,255,0.08)";
       }}
       onPointerDown={(e) => { (e.currentTarget as HTMLElement).style.transform = "scale(0.97)"; }}
       onPointerUp={(e) => { (e.currentTarget as HTMLElement).style.transform = "scale(1)"; }}
