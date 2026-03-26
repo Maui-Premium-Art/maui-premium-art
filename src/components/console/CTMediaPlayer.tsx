@@ -1,10 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { useHawaiianRadio } from "@/hooks/useHawaiianRadio";
+import type { Track } from "@/hooks/useHawaiianRadio";
 
-export default function CTMediaPlayer() {
-  const { currentTrack, isPlaying, togglePlay, nextTrack, prevTrack } = useHawaiianRadio();
+interface CTMediaPlayerProps {
+  currentTrack: Track;
+  isPlaying: boolean;
+  togglePlay: () => void;
+  nextTrack: () => void;
+  prevTrack: () => void;
+}
+
+export default function CTMediaPlayer({ currentTrack, isPlaying, togglePlay, nextTrack, prevTrack }: CTMediaPlayerProps) {
   const [artOpacity, setArtOpacity] = useState(1);
   const [prevArt, setPrevArt] = useState(currentTrack.artworkImage);
 
@@ -56,7 +63,7 @@ export default function CTMediaPlayer() {
       />
 
       {/* Right column */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", minWidth: 0, gap: 2 }}>
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", minWidth: 0, overflow: "hidden", gap: 2 }}>
         {/* Track info */}
         <div aria-live="polite">
           <div style={{ fontSize: 13, fontWeight: 600, color: "#ffffff", lineHeight: 1.2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>

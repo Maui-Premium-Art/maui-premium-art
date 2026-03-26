@@ -12,6 +12,7 @@ import ArtistBioPanel from "@/components/console/ArtistBioPanel";
 import ArtZoomView from "@/components/console/ArtZoomView";
 import NewsletterPopup from "@/components/NewsletterPopup";
 import { dockSounds } from "@/lib/dockSounds";
+import { useHawaiianRadio } from "@/hooks/useHawaiianRadio";
 import VehicleControls from "@/components/console/VehicleControls";
 import HeroArea from "@/components/console/HeroArea3D";
 import CTMediaPlayer from "@/components/console/CTMediaPlayer";
@@ -28,6 +29,7 @@ const TONNEAU_MESSAGES = [
 ];
 
 export default function Home() {
+  const radio = useHawaiianRadio();
   const [splashDone, setSplashDone] = useState(false);
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [connectOpen, setConnectOpen] = useState(false);
@@ -191,12 +193,12 @@ export default function Home() {
             marginRight: "auto",
           }}
         >
-          <CTMediaPlayer />
+          <CTMediaPlayer currentTrack={radio.currentTrack} isPlaying={radio.isPlaying} togglePlay={radio.togglePlay} nextTrack={radio.nextTrack} prevTrack={radio.prevTrack} />
           <CTNavigateWidget />
         </div>
 
         {/* DOCK — 52px fixed */}
-        <BottomDock onGalleryOpen={openGallery} onConnectOpen={openConnect} onPricingOpen={openPricing} onEventsOpen={openEvents} onStoryOpen={openStory} onSocialOpen={openSocial} />
+        <BottomDock onGalleryOpen={openGallery} onConnectOpen={openConnect} onPricingOpen={openPricing} onEventsOpen={openEvents} onStoryOpen={openStory} onSocialOpen={openSocial} volume={radio.volume} onVolumeUp={radio.volumeUp} onVolumeDown={radio.volumeDown} />
       </div>
 
       <NewsletterPopup />

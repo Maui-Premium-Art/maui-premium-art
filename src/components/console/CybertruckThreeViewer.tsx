@@ -1,7 +1,7 @@
 "use client";
 
-import { Suspense, useRef, useEffect, useState } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Suspense, useEffect } from "react";
+import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
@@ -11,11 +11,8 @@ interface CybertruckModelProps {
 
 function CybertruckModel({ artImage }: CybertruckModelProps) {
   const { scene } = useGLTF("/models/cybertruck.glb");
-  const groupRef = useRef<THREE.Group>(null);
-  const [revealDone, setRevealDone] = useState(false);
-  const startTime = useRef(0);
 
-  // Boost material brightness for stainless steel body
+  // Boost material brightness + load tailgate art texture
   useEffect(() => {
     scene.traverse((child) => {
       if (child instanceof THREE.Mesh) {
@@ -60,45 +57,9 @@ function CybertruckModel({ artImage }: CybertruckModelProps) {
     });
   }, [artImage, scene]);
 
-  // Option C: Cinematic reveal — side profile → rotate to show tailgate art
-  // Model coords: X = front-to-rear, Z = width
-  // rotation={[0, -Math.PI/2, 0]} = side profile, front facing LEFT
-  // After 2s delay, rotate ~135° (2.36 rad) over 3s to show tailgate
-  useFrame((_, delta) => {
-    if (revealDone || !groupRef.current) return;
-
-    if (startTime.current === 0) {
-      startTime.current = performance.now();
-      return;
-    }
-
-    const elapsed = (performance.now() - startTime.current) / 1000;
-    const delay = 2.0;
-    const duration = 3.0;
-    const startAngle = -Math.PI / 2; // side profile, front facing LEFT
-    const endAngle = startAngle - Math.PI * 0.75; // rotate RIGHT: front moves away, tailgate emerges
-
-    if (elapsed < delay) {
-      // Hold at side profile
-      groupRef.current.rotation.y = startAngle;
-    } else if (elapsed < delay + duration) {
-      // Smooth easeInOut rotation
-      const t = (elapsed - delay) / duration;
-      const ease = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-      groupRef.current.rotation.y = startAngle + (endAngle - startAngle) * ease;
-    } else {
-      // Done — lock final position
-      groupRef.current.rotation.y = endAngle;
-      setRevealDone(true);
-    }
-  });
-
+  // Static side profile — no cinematic reveal (BUG-016)
   return (
-    <group
-      ref={groupRef}
-      rotation={[0, -Math.PI / 2, 0]}
-      position={[0, -0.5, 0]}
-    >
+    <group rotation={[0, -Math.PI / 2, 0]} position={[0, -0.5, 0]}>
       <primitive object={scene} scale={1.8} />
     </group>
   );
