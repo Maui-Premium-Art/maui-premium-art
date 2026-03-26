@@ -33,6 +33,8 @@ const ALL_TRACKS: Track[] = [
   { title: "A Cheerful World", artist: "Red Productions", src: "/music/cheerful-world.mp3", artworkImage: ART_IMAGES[8] },
   { title: "Wave", artist: "Tooone", src: "/music/wave.mp3", artworkImage: ART_IMAGES[0] },
   { title: "Honohono", artist: "Yasuko", src: "/music/honohono.mp3", artworkImage: ART_IMAGES[1] },
+  { title: "Hawaiian Shuffle", artist: "Kaazoom", src: "/music/hawaiian-shuffle.mp3", artworkImage: ART_IMAGES[2] },
+  { title: "Hawaiian Cocktail Nights", artist: "Geoff Harvey", src: "/music/hawaiian-cocktail-nights.mp3", artworkImage: ART_IMAGES[3] },
 ];
 
 function shuffleArray<T>(arr: T[]): T[] {

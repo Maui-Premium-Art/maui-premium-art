@@ -186,7 +186,7 @@ export default function Home() {
             flexShrink: 0,
             position: "relative",
             zIndex: 22,
-            maxWidth: "88%",
+            maxWidth: "100%",
             marginLeft: "auto",
             marginRight: "auto",
           }}

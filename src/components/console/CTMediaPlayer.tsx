@@ -64,7 +64,7 @@ export default function CTMediaPlayer() {
           </div>
           <div style={{ fontSize: 11, color: "rgba(255, 255, 255, 0.45)", display: "flex", alignItems: "center", gap: 5, marginTop: 1 }}>
             <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#3b82f6", flexShrink: 0 }} />
-            HAWAIIAN RADIO
+            {currentTrack.artist}
           </div>
         </div>
 

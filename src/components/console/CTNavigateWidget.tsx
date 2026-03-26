@@ -89,7 +89,7 @@ function NavBtn({ children, label, side }: { children: React.ReactNode; label: s
         alignItems: "center",
         justifyContent: "center",
         gap: 6,
-        padding: "7px 0",
+        padding: "7px 12px",
         background: "rgba(255, 255, 255, 0.05)",
         border: "1px solid rgba(255, 255, 255, 0.08)",
         borderRadius: side === "left" ? "8px 0 0 8px" : "0 8px 8px 0",
