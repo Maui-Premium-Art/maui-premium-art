@@ -24,7 +24,7 @@ const CybertruckThreeViewer = dynamic(
 
 // ── Static hero — always visible ───────────────────────────────────────────
 
-function StaticHero({ artImage }: { artImage: string }) {
+function StaticHero({ artImage, startReveal }: { artImage: string; startReveal: boolean }) {
   return (
     <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
       {/* Background — CT wireframe terrain */}
@@ -200,7 +200,7 @@ function StaticHero({ artImage }: { artImage: string }) {
           zIndex: 2,
         }}
       >
-        <CybertruckThreeViewer artImage={artImage} />
+        <CybertruckThreeViewer artImage={artImage} startReveal={startReveal} />
       </div>
 
       {/* CT-style line connector labels (bold italic + vertical line) */}
@@ -247,12 +247,13 @@ function StaticHero({ artImage }: { artImage: string }) {
 
 interface HeroArea3DProps {
   artImage?: string;
+  startReveal?: boolean;
 }
 
-export default function HeroArea3D({ artImage = "/images/mahalo-bird/electric-prr-hummingbird.jpg" }: HeroArea3DProps) {
+export default function HeroArea3D({ artImage = "/images/mahalo-bird/electric-prr-hummingbird.jpg", startReveal = false }: HeroArea3DProps) {
   return (
     <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
-      <StaticHero artImage={artImage} />
+      <StaticHero artImage={artImage} startReveal={startReveal} />
 
       {/* FIX #5: Caption more prominent + FIX #6: larger dots */}
       <div

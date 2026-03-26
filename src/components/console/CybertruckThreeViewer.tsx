@@ -1,16 +1,26 @@
 "use client";
 
-import { Suspense, useEffect } from "react";
-import { Canvas } from "@react-three/fiber";
+import { Suspense, useEffect, useRef, useState } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
 interface CybertruckModelProps {
   artImage?: string;
+  startReveal?: boolean;
 }
 
-function CybertruckModel({ artImage }: CybertruckModelProps) {
+function CybertruckModel({ artImage, startReveal = false }: CybertruckModelProps) {
   const { scene } = useGLTF("/models/cybertruck.glb");
+  const groupRef = useRef<THREE.Group>(null);
+  const [revealDone, setRevealDone] = useState(false);
+  const revealStartTime = useRef<number | null>(null);
+
+  // Side profile: front facing LEFT with camera on +Z
+  // Model front is +X. rotation PI = front points -X = screen LEFT
+  const SIDE_PROFILE = Math.PI;
+  // Rotate ~135deg to reveal tailgate (rotate toward camera)
+  const TAILGATE_REVEAL = SIDE_PROFILE + Math.PI * 0.75;
 
   // Boost material brightness + load tailgate art texture
   useEffect(() => {
@@ -19,7 +29,6 @@ function CybertruckModel({ artImage }: CybertruckModelProps) {
         const materials = Array.isArray(child.material)
           ? child.material
           : [child.material];
-
         materials.forEach((mat) => {
           if (mat instanceof THREE.MeshStandardMaterial) {
             if (mat.name !== "SolarTextureWIP" && mat.name !== "SolarTexture") {
@@ -34,18 +43,15 @@ function CybertruckModel({ artImage }: CybertruckModelProps) {
     });
 
     if (!artImage) return;
-
     const loader = new THREE.TextureLoader();
     loader.load(artImage, (texture) => {
       texture.flipY = false;
       texture.colorSpace = THREE.SRGBColorSpace;
-
       scene.traverse((child) => {
         if (child instanceof THREE.Mesh) {
           const materials = Array.isArray(child.material)
             ? child.material
             : [child.material];
-
           materials.forEach((mat) => {
             if (mat.name === "SolarTextureWIP" || mat.name === "SolarTexture") {
               mat.map = texture;
@@ -57,9 +63,40 @@ function CybertruckModel({ artImage }: CybertruckModelProps) {
     });
   }, [artImage, scene]);
 
-  // Static side profile — no cinematic reveal (BUG-016)
+  // Cinematic reveal: side profile → rotate to show tailgate
+  // Starts when startReveal becomes true (after splash screen)
+  useFrame(() => {
+    if (revealDone || !groupRef.current) return;
+
+    if (!startReveal) {
+      // Hold at side profile until splash is done
+      groupRef.current.rotation.y = SIDE_PROFILE;
+      return;
+    }
+
+    // Record when reveal started
+    if (revealStartTime.current === null) {
+      revealStartTime.current = performance.now();
+    }
+
+    const elapsed = (performance.now() - revealStartTime.current) / 1000;
+    const delay = 2.0;
+    const duration = 3.0;
+
+    if (elapsed < delay) {
+      groupRef.current.rotation.y = SIDE_PROFILE;
+    } else if (elapsed < delay + duration) {
+      const t = (elapsed - delay) / duration;
+      const ease = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+      groupRef.current.rotation.y = SIDE_PROFILE + (TAILGATE_REVEAL - SIDE_PROFILE) * ease;
+    } else {
+      groupRef.current.rotation.y = TAILGATE_REVEAL;
+      setRevealDone(true);
+    }
+  });
+
   return (
-    <group rotation={[0, -Math.PI / 2, 0]} position={[0, -0.5, 0]}>
+    <group ref={groupRef} rotation={[0, SIDE_PROFILE, 0]} position={[0, -0.5, 0]}>
       <primitive object={scene} scale={1.8} />
     </group>
   );
@@ -67,10 +104,12 @@ function CybertruckModel({ artImage }: CybertruckModelProps) {
 
 interface CybertruckThreeViewerProps {
   artImage?: string;
+  startReveal?: boolean;
 }
 
 export default function CybertruckThreeViewer({
   artImage = "/images/mahalo-bird/electric-prr-hummingbird.jpg",
+  startReveal = false,
 }: CybertruckThreeViewerProps) {
   return (
     <div
@@ -100,7 +139,7 @@ export default function CybertruckThreeViewer({
         <pointLight position={[-3, 1, 3]} intensity={0.8} color="#4a9eff" />
 
         <Suspense fallback={null}>
-          <CybertruckModel artImage={artImage} />
+          <CybertruckModel artImage={artImage} startReveal={startReveal} />
         </Suspense>
 
         <OrbitControls

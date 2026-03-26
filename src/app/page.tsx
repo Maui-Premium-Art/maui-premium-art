@@ -114,7 +114,7 @@ export default function Home() {
 
         {/* CONTENT ZONE — image + sidebar, fills remaining space */}
         <div style={{ flex: 1, position: "relative", minHeight: 0 }}>
-          <HeroArea artImage={heroArtImage} />
+          <HeroArea artImage={heroArtImage} startReveal={splashDone} />
           <GalleryCarousel open={galleryOpen} onClose={closeGallery} onArtSelect={handleArtSelect} onArtImageChange={setHeroArtImage} />
           {connectOpen && <ConnectOverlay onClose={closeConnect} />}
           <PricingPanel open={pricingOpen} onClose={closePricing} />
