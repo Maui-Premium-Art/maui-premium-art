@@ -225,7 +225,7 @@ function StaticHero({
 
         {/* Center: "See Editions" — connects to tonneau */}
         <div style={{ position: "absolute", left: "52%", top: "14%" }}>
-          <CTLineLabel label="See Editions" lineHeight={60} position="top" onClick={onSeeEditions} />
+          <CTLineLabel label="Artist Sign-Up" lineHeight={60} position="top" onClick={onSeeEditions} />
         </div>
 
         {/* Right: "Tailgate Art" — connects to rear */}

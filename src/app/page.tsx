@@ -120,7 +120,7 @@ export default function Home() {
             onPrevArt={prevArt}
             onNextArt={nextArt}
             onBrowseGallery={openGallery}
-            onSeeEditions={openPricing}
+            onSeeEditions={() => { window.location.href = "/artists"; }}
             onTailgateArt={handleTailgateArtClick}
           />
           <GalleryCarousel open={galleryOpen} onClose={closeGallery} onArtSelect={handleArtSelect} onArtIndexChange={setHeroArtIndex} />
