@@ -97,7 +97,7 @@ export default function MilesToMaui() {
             style={{
               fontSize: 8,
               fontWeight: 500,
-              color: "rgba(255,255,255,0.30)",
+              color: "rgba(255,255,255,0.55)",
               letterSpacing: "0.06em",
               textTransform: "uppercase",
               lineHeight: 1.2,

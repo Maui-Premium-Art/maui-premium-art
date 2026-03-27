@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback } from "react";
 import SplashScreen from "@/components/splash/SplashScreen";
 import StatusBar from "@/components/console/StatusBar";
 import GalleryCarousel from "@/components/console/GalleryCarousel";
@@ -10,8 +10,7 @@ import EventsPanel from "@/components/console/EventsPanel";
 import StoryPanel from "@/components/console/StoryPanel";
 import ArtistBioPanel from "@/components/console/ArtistBioPanel";
 import ArtZoomView from "@/components/console/ArtZoomView";
-import NewsletterPopup from "@/components/NewsletterPopup";
-import { dockSounds } from "@/lib/dockSounds";
+import NewsletterSignup from "@/components/NewsletterSignup";
 import { useHawaiianRadio } from "@/hooks/useHawaiianRadio";
 import VehicleControls from "@/components/console/VehicleControls";
 import HeroArea from "@/components/console/HeroArea3D";
@@ -19,14 +18,6 @@ import CTMediaPlayer from "@/components/console/CTMediaPlayer";
 import CTNavigateWidget from "@/components/console/CTNavigateWidget";
 import BottomDock from "@/components/console/BottomDock";
 import SocialProofPanel from "@/components/console/SocialProofPanel";
-
-const TONNEAU_MESSAGES = [
-  "Tonneau sealed — art inside.",
-  "Access denied. Limited edition only.",
-  "10 wraps per design. No peeking.",
-  "Opening tonneau… just kidding.",
-  "Art is stored in the tonneau of the mind.",
-];
 
 export default function Home() {
   const radio = useHawaiianRadio();
@@ -40,8 +31,7 @@ export default function Home() {
   const [socialOpen, setSocialOpen] = useState(false);
   const [zoomArtSlug, setZoomArtSlug] = useState<string | null>(null);
   const [heroArtImage, setHeroArtImage] = useState("/images/mahalo-bird/electric-prr-hummingbird.jpg");
-  const [tonneauMsg, setTonneauMsg] = useState<string | null>(null);
-  const tonneauTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [newsletterOpen, setNewsletterOpen] = useState(false);
 
   const closeAllPanels = useCallback(() => { setGalleryOpen(false); setConnectOpen(false); setPricingOpen(false); setEventsOpen(false); setStoryOpen(false); setArtistBioOpen(false); setSocialOpen(false); }, []);
   const openGallery = useCallback(() => { closeAllPanels(); setGalleryOpen(true); }, [closeAllPanels]);
@@ -65,11 +55,8 @@ export default function Home() {
     setSplashDone(true);
   }, []);
 
-  const handleTonneauClick = useCallback(() => {
-    dockSounds.tonneauSlide();
-    setTonneauMsg(TONNEAU_MESSAGES[Math.floor(Math.random() * TONNEAU_MESSAGES.length)]);
-    if (tonneauTimer.current) clearTimeout(tonneauTimer.current);
-    tonneauTimer.current = setTimeout(() => setTonneauMsg(null), 2500);
+  const handleTailgateArtClick = useCallback(() => {
+    setNewsletterOpen((prev) => !prev);
   }, []);
 
   return (
@@ -124,11 +111,8 @@ export default function Home() {
           <ArtZoomView slug={zoomArtSlug} onClose={closeArtZoom} />
           <SocialProofPanel open={socialOpen} onClose={closeSocial} />
           <VehicleControls onGalleryOpen={openGallery} onArtistOpen={openArtistBio} />
-          {/* Closed / Tonneau — right side — EASTER EGG */}
-          <button
-            className="ct-tonneau-label"
-            onClick={handleTonneauClick}
-            aria-label="Tonneau easter egg"
+          {/* Tailgate Art label — opens newsletter signup */}
+          <div
             style={{
               position: "absolute",
               right: 14,
@@ -139,42 +123,80 @@ export default function Home() {
               flexDirection: "column",
               alignItems: "center",
               gap: 3,
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              padding: 0,
             }}
           >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <circle cx="8" cy="8" r="6.5" stroke={tonneauMsg ? "rgba(74,158,255,0.5)" : "rgba(255,255,255,0.2)"} strokeWidth="1" style={{ transition: "stroke 0.3s ease" }} />
-              <text x="8" y="11" fill={tonneauMsg ? "rgba(74,158,255,0.7)" : "rgba(255,255,255,0.3)"} fontSize="8" textAnchor="middle" fontWeight="700" fontFamily="sans-serif" style={{ transition: "fill 0.3s ease" }}>!</text>
-            </svg>
-            <div style={{ width: 1, height: 24, background: "rgba(255,255,255,0.15)", marginBottom: 2 }} />
-            <span style={{ fontSize: 11, color: tonneauMsg ? "rgba(74,158,255,0.7)" : "rgba(255,255,255,0.5)", letterSpacing: "0.01em", fontFamily: "-apple-system, 'SF Pro Display', system-ui, sans-serif", fontWeight: 700, fontStyle: "italic", transition: "color 0.3s ease" }}>Tailgate Art</span>
+            <button
+              className="ct-tonneau-label"
+              onClick={handleTailgateArtClick}
+              aria-label="Open newsletter signup"
+              aria-expanded={newsletterOpen}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 3,
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                padding: 0,
+              }}
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <circle cx="8" cy="8" r="6.5" stroke={newsletterOpen ? "rgba(74,158,255,0.5)" : "rgba(255,255,255,0.2)"} strokeWidth="1" style={{ transition: "stroke 0.3s ease" }} />
+                <text x="8" y="11" fill={newsletterOpen ? "rgba(74,158,255,0.7)" : "rgba(255,255,255,0.3)"} fontSize="8" textAnchor="middle" fontWeight="700" fontFamily="sans-serif" style={{ transition: "fill 0.3s ease" }}>!</text>
+              </svg>
+              <div style={{ width: 1, height: 24, background: "rgba(255,255,255,0.15)", marginBottom: 2 }} />
+              <span style={{ fontSize: 11, color: newsletterOpen ? "rgba(74,158,255,0.7)" : "rgba(255,255,255,0.5)", letterSpacing: "0.01em", fontFamily: "-apple-system, 'SF Pro Display', system-ui, sans-serif", fontWeight: 700, fontStyle: "italic", transition: "color 0.3s ease" }}>Tailgate Art</span>
+            </button>
 
-            {/* Easter egg tooltip */}
-            {tonneauMsg && (
+            {/* Newsletter signup card */}
+            {newsletterOpen && (
               <div
+                role="dialog"
+                aria-label="Newsletter signup"
                 style={{
                   position: "absolute",
                   right: 28,
                   top: "50%",
                   transform: "translateY(-50%)",
-                  background: "rgba(10,10,15,0.9)",
-                  border: "1px solid rgba(74,158,255,0.2)",
-                  borderRadius: 8,
-                  padding: "6px 10px",
-                  fontSize: 10,
-                  color: "rgba(255,255,255,0.7)",
-                  whiteSpace: "nowrap",
-                  pointerEvents: "none",
-                  fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
+                  width: 280,
+                  background: "rgba(12,12,20,0.95)",
+                  backdropFilter: "blur(16px)",
+                  WebkitBackdropFilter: "blur(16px)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  borderRadius: 14,
+                  padding: "20px 16px 16px",
+                  boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
                 }}
               >
-                {tonneauMsg}
+                <button
+                  onClick={() => setNewsletterOpen(false)}
+                  aria-label="Close"
+                  style={{
+                    position: "absolute",
+                    top: 8,
+                    right: 8,
+                    background: "none",
+                    border: "none",
+                    color: "rgba(255,255,255,0.3)",
+                    fontSize: 16,
+                    cursor: "pointer",
+                    padding: "2px 6px",
+                    lineHeight: 1,
+                  }}
+                >
+                  ×
+                </button>
+                <div style={{ fontSize: 14, fontWeight: 500, color: "#ffffff", marginBottom: 4, fontFamily: "-apple-system, 'SF Pro Display', system-ui, sans-serif" }}>
+                  Stay in the loop
+                </div>
+                <div style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", marginBottom: 14, lineHeight: 1.5, fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif" }}>
+                  New editions, wrap reveals, and studio drops. No spam.
+                </div>
+                <NewsletterSignup source="tailgate-art-label" compact />
               </div>
             )}
-          </button>
+          </div>
         </div>
 
         {/* BOTTOM CARDS — fit under truck body width */}
@@ -201,7 +223,6 @@ export default function Home() {
         <BottomDock onGalleryOpen={openGallery} onConnectOpen={openConnect} onPricingOpen={openPricing} onEventsOpen={openEvents} onStoryOpen={openStory} onSocialOpen={openSocial} volume={radio.volume} onVolumeUp={radio.volumeUp} onVolumeDown={radio.volumeDown} />
       </div>
 
-      <NewsletterPopup />
     </main>
   );
 }
