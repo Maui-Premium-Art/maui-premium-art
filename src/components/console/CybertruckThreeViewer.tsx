@@ -13,6 +13,7 @@ interface CybertruckModelProps {
 function CybertruckModel({ artImage, startReveal = false }: CybertruckModelProps) {
   const { scene } = useGLTF("/models/cybertruck.glb");
   const groupRef = useRef<THREE.Group>(null);
+  const artPlaneRef = useRef<THREE.Mesh>(null);
   const [revealDone, setRevealDone] = useState(false);
   const revealStartTime = useRef<number | null>(null);
 
@@ -22,7 +23,7 @@ function CybertruckModel({ artImage, startReveal = false }: CybertruckModelProps
   // Rotate -90deg to show tailgate facing camera (+Z)
   const TAILGATE_REVEAL = SIDE_PROFILE - Math.PI * 0.5;
 
-  // Boost material brightness + load tailgate art texture
+  // Boost material brightness for stainless steel body
   useEffect(() => {
     scene.traverse((child) => {
       if (child instanceof THREE.Mesh) {
@@ -31,37 +32,29 @@ function CybertruckModel({ artImage, startReveal = false }: CybertruckModelProps
           : [child.material];
         materials.forEach((mat) => {
           if (mat instanceof THREE.MeshStandardMaterial) {
-            if (mat.name !== "SolarTextureWIP" && mat.name !== "SolarTexture") {
-              mat.metalness = 0.9;
-              mat.roughness = 0.3;
-              mat.color.setHex(0xc0c8d0);
-              mat.needsUpdate = true;
-            }
+            mat.metalness = 0.9;
+            mat.roughness = 0.3;
+            mat.color.setHex(0xc0c8d0);
+            mat.needsUpdate = true;
           }
         });
       }
     });
+  }, [scene]);
 
-    if (!artImage) return;
+  // Load art texture onto tailgate plane
+  useEffect(() => {
+    if (!artImage || !artPlaneRef.current) return;
     const loader = new THREE.TextureLoader();
     loader.load(artImage, (texture) => {
-      texture.flipY = false;
       texture.colorSpace = THREE.SRGBColorSpace;
-      scene.traverse((child) => {
-        if (child instanceof THREE.Mesh) {
-          const materials = Array.isArray(child.material)
-            ? child.material
-            : [child.material];
-          materials.forEach((mat) => {
-            if (mat.name === "SolarTextureWIP" || mat.name === "SolarTexture") {
-              mat.map = texture;
-              mat.needsUpdate = true;
-            }
-          });
-        }
-      });
+      if (artPlaneRef.current) {
+        const mat = artPlaneRef.current.material as THREE.MeshStandardMaterial;
+        mat.map = texture;
+        mat.needsUpdate = true;
+      }
     });
-  }, [artImage, scene]);
+  }, [artImage]);
 
   // Cinematic reveal: side profile → rotate to show tailgate
   // Starts when startReveal becomes true (after splash screen)
@@ -98,6 +91,21 @@ function CybertruckModel({ artImage, startReveal = false }: CybertruckModelProps
   return (
     <group ref={groupRef} rotation={[0, SIDE_PROFILE, 0]} position={[0, -0.5, 0]}>
       <primitive object={scene} scale={1.8} />
+      {/* Art plane positioned at the tailgate — faces -X (rear of truck) */}
+      <mesh
+        ref={artPlaneRef}
+        position={[-1.85, 0.35, 0]}
+        rotation={[0, -Math.PI / 2, 0]}
+      >
+        <planeGeometry args={[1.6, 0.9]} />
+        <meshStandardMaterial
+          color="#ffffff"
+          metalness={0.1}
+          roughness={0.8}
+          transparent
+          opacity={artImage ? 1 : 0}
+        />
+      </mesh>
     </group>
   );
 }

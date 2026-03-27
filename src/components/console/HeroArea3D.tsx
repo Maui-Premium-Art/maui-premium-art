@@ -230,7 +230,7 @@ function StaticHero({
 
         {/* Right: "Tailgate Art" — connects to rear */}
         <div style={{ position: "absolute", right: "18%", top: "16%" }}>
-          <CTLineLabel label="Tailgate Art" lineHeight={55} position="top" onClick={onTailgateArt} />
+          <CTLineLabel label="Stay in the Loop" lineHeight={55} position="top" onClick={onTailgateArt} />
         </div>
 
         {/* Bottom-left: "Art Scale" */}

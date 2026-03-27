@@ -78,7 +78,7 @@ export default function NewsletterSignup({
         </div>
       )}
 
-      <div style={{ display: "flex", gap: 8 }}>
+      <div style={{ display: "flex", gap: 8, width: "100%" }}>
         <input
           type="text"
           name="first_name"
@@ -88,6 +88,8 @@ export default function NewsletterSignup({
           aria-label="First name"
           style={{
             flex: 1,
+            minWidth: 0,
+            boxSizing: "border-box",
             padding: compact ? "8px 10px" : "9px 12px",
             background: "rgba(255,255,255,0.04)",
             border: "1px solid rgba(255,255,255,0.1)",
@@ -108,6 +110,8 @@ export default function NewsletterSignup({
           aria-label="Email address"
           style={{
             flex: 2,
+            minWidth: 0,
+            boxSizing: "border-box",
             padding: compact ? "8px 10px" : "9px 12px",
             background: "rgba(255,255,255,0.04)",
             border: "1px solid rgba(255,255,255,0.1)",
