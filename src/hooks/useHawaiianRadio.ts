@@ -3,15 +3,15 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 
 const ART_IMAGES = [
-  "/images/tailgate-art/mahalo-bird_tailgate.jpg",
-  "/images/tailgate-art/aloha_tailgate.webp",
-  "/images/tailgate-art/eyes-of-the-world_tailgate.jpg",
-  "/images/tailgate-art/heart_tailgate.jpg",
-  "/images/tailgate-art/humming-bird_tailgate.jpg",
-  "/images/tailgate-art/lovers_tailgate.jpg",
-  "/images/tailgate-art/music_tailgate.jpg",
-  "/images/tailgate-art/pono_tailgate.jpg",
-  "/images/tailgate-art/sunset_tailgate.jpg",
+  "/images/album-art/mahalo-bird.webp",
+  "/images/album-art/aloha.webp",
+  "/images/album-art/eyes-of-the-world.webp",
+  "/images/album-art/heart.webp",
+  "/images/album-art/humming-bird.webp",
+  "/images/album-art/lovers.webp",
+  "/images/album-art/music.webp",
+  "/images/album-art/pono.webp",
+  "/images/album-art/sunset.webp",
 ];
 
 export interface Track {
