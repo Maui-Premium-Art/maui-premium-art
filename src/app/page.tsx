@@ -74,7 +74,7 @@ export default function Home() {
       style={{
         width: "100vw",
         height: "100dvh",
-        background: "#0a1628",
+        background: "var(--bg-primary)",
         display: "flex",
         flexDirection: "column",
         overflow: "hidden",
@@ -102,7 +102,7 @@ export default function Home() {
             flexShrink: 0,
             position: "relative",
             zIndex: 25,
-            background: "#0a1628",
+            background: "var(--bg-primary)",
             borderBottom: "1px solid rgba(255,255,255,0.04)",
           }}
         >
@@ -119,6 +119,9 @@ export default function Home() {
             artworkCount={artworks.length}
             onPrevArt={prevArt}
             onNextArt={nextArt}
+            onBrowseGallery={openGallery}
+            onSeeEditions={openPricing}
+            onTailgateArt={handleTailgateArtClick}
           />
           <GalleryCarousel open={galleryOpen} onClose={closeGallery} onArtSelect={handleArtSelect} onArtIndexChange={setHeroArtIndex} />
           {connectOpen && <ConnectOverlay onClose={closeConnect} />}
@@ -129,92 +132,54 @@ export default function Home() {
           <ArtZoomView slug={zoomArtSlug} onClose={closeArtZoom} />
           <SocialProofPanel open={socialOpen} onClose={closeSocial} />
           <VehicleControls onGalleryOpen={openGallery} onArtistOpen={openArtistBio} />
-          {/* Tailgate Art label — opens newsletter signup */}
-          <div
-            style={{
-              position: "absolute",
-              right: 14,
-              top: "50%",
-              transform: "translateY(-50%)",
-              zIndex: 20,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: 3,
-            }}
-          >
-            <button
-              className="ct-tonneau-label"
-              onClick={handleTailgateArtClick}
-              aria-label="Open newsletter signup"
-              aria-expanded={newsletterOpen}
+
+          {/* Newsletter signup modal — triggered by Tailgate Art label */}
+          {newsletterOpen && (
+            <div
+              role="dialog"
+              aria-label="Newsletter signup"
               style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                gap: 3,
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-                padding: 0,
+                position: "absolute",
+                right: 40,
+                top: "20%",
+                zIndex: 30,
+                width: 280,
+                background: "var(--ct-glass)",
+                backdropFilter: "var(--ct-glass-blur)",
+                WebkitBackdropFilter: "var(--ct-glass-blur)",
+                border: "1px solid var(--ct-glass-border)",
+                borderRadius: 14,
+                padding: "20px 16px 16px",
+                boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
               }}
             >
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <circle cx="8" cy="8" r="6.5" stroke={newsletterOpen ? "rgba(74,158,255,0.5)" : "rgba(255,255,255,0.2)"} strokeWidth="1" style={{ transition: "stroke 0.3s ease" }} />
-                <text x="8" y="11" fill={newsletterOpen ? "rgba(74,158,255,0.7)" : "rgba(255,255,255,0.3)"} fontSize="8" textAnchor="middle" fontWeight="700" fontFamily="sans-serif" style={{ transition: "fill 0.3s ease" }}>!</text>
-              </svg>
-              <div style={{ width: 1, height: 24, background: "rgba(255,255,255,0.15)", marginBottom: 2 }} />
-              <span style={{ fontSize: 11, color: newsletterOpen ? "rgba(74,158,255,0.7)" : "rgba(255,255,255,0.5)", letterSpacing: "0.01em", fontFamily: "-apple-system, 'SF Pro Display', system-ui, sans-serif", fontWeight: 700, fontStyle: "italic", transition: "color 0.3s ease" }}>Tailgate Art</span>
-            </button>
-
-            {/* Newsletter signup card */}
-            {newsletterOpen && (
-              <div
-                role="dialog"
-                aria-label="Newsletter signup"
+              <button
+                onClick={() => setNewsletterOpen(false)}
+                aria-label="Close"
                 style={{
                   position: "absolute",
-                  right: 28,
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  width: 280,
-                  background: "rgba(12,12,20,0.95)",
-                  backdropFilter: "blur(16px)",
-                  WebkitBackdropFilter: "blur(16px)",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  borderRadius: 14,
-                  padding: "20px 16px 16px",
-                  boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
+                  top: 8,
+                  right: 8,
+                  background: "none",
+                  border: "none",
+                  color: "rgba(255,255,255,0.3)",
+                  fontSize: 16,
+                  cursor: "pointer",
+                  padding: "2px 6px",
+                  lineHeight: 1,
                 }}
               >
-                <button
-                  onClick={() => setNewsletterOpen(false)}
-                  aria-label="Close"
-                  style={{
-                    position: "absolute",
-                    top: 8,
-                    right: 8,
-                    background: "none",
-                    border: "none",
-                    color: "rgba(255,255,255,0.3)",
-                    fontSize: 16,
-                    cursor: "pointer",
-                    padding: "2px 6px",
-                    lineHeight: 1,
-                  }}
-                >
-                  ×
-                </button>
-                <div style={{ fontSize: 14, fontWeight: 500, color: "#ffffff", marginBottom: 4, fontFamily: "-apple-system, 'SF Pro Display', system-ui, sans-serif" }}>
-                  Stay in the loop
-                </div>
-                <div style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", marginBottom: 14, lineHeight: 1.5, fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif" }}>
-                  New editions, wrap reveals, and studio drops. No spam.
-                </div>
-                <NewsletterSignup source="tailgate-art-label" compact />
+                ×
+              </button>
+              <div style={{ fontSize: 14, fontWeight: 500, color: "#ffffff", marginBottom: 4, fontFamily: "var(--ct-font-display)" }}>
+                Stay in the loop
               </div>
-            )}
-          </div>
+              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", marginBottom: 14, lineHeight: 1.5, fontFamily: "var(--ct-font-text)" }}>
+                New editions, wrap reveals, and studio drops. No spam.
+              </div>
+              <NewsletterSignup source="tailgate-art-label" compact />
+            </div>
+          )}
         </div>
 
         {/* BOTTOM CARDS — fit under truck body width */}

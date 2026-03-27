@@ -1,17 +1,27 @@
 @import "tailwindcss";
 
 :root {
-  --bg-primary: #0a1628;
-  --bg-surface: #14141e;
-  --bg-widget: #14141e;
-  --border-subtle: #1e1e2e;
-  --text-primary: #ffffff;
-  --text-secondary: #888899;
-  --text-dim: #505068;
-  --accent-blue: #3b82f6;
-  --accent-blue-bg: rgba(59, 130, 246, 0.10);
-  --grid-dark: #0d0d14;
-  --dock-bg: #0c0c12;
+  /* CT-authentic colors (Phase 1 — Feature #40) */
+  --bg-primary: #0a0a0f;
+  --bg-surface: #0c0c14;
+  --bg-widget: #0c0c14;
+  --border-subtle: rgba(255,255,255,0.08);
+  --text-primary: rgba(255,255,255,0.85);
+  --text-secondary: rgba(255,255,255,0.55);
+  --text-dim: rgba(255,255,255,0.30);
+  --accent-blue: rgba(74,158,255,0.7);
+  --accent-blue-bg: rgba(74,158,255,0.10);
+  --grid-dark: #080810;
+  --dock-bg: #08080e;
+
+  /* CT glass panel */
+  --ct-glass: rgba(10,10,18,0.85);
+  --ct-glass-border: rgba(255,255,255,0.08);
+  --ct-glass-blur: blur(16px);
+
+  /* CT typography */
+  --ct-font-display: -apple-system, 'SF Pro Display', system-ui, sans-serif;
+  --ct-font-text: -apple-system, 'SF Pro Text', system-ui, sans-serif;
 }
 
 * {

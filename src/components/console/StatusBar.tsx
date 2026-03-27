@@ -194,7 +194,7 @@ export default function StatusBar({ onGalleryOpen }: StatusBarProps) {
             borderRadius: 6,
             overflow: "hidden",
             border: "1px solid rgba(255,255,255,0.08)",
-            background: "#0a1628",
+            background: "var(--bg-primary)",
             flexShrink: 0,
             position: "relative" as const,
           }}
@@ -210,7 +210,7 @@ export default function StatusBar({ onGalleryOpen }: StatusBarProps) {
                 .kihei-pulse { animation: kiheiPulse 2s ease-in-out infinite; }
               `}</style>
             </defs>
-            <rect width="62" height="46" fill="#0a1628" />
+            <rect width="62" height="46" fill="var(--bg-primary)" />
             {/* Niihau */}
             <ellipse cx="5" cy="15" rx="1.8" ry="2.2" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.15)" strokeWidth="0.8" />
             {/* Kauai */}

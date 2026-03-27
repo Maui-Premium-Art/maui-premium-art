@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import CTLineLabel from "@/components/console/CTLineLabel";
 
 const CybertruckThreeViewer = dynamic(
   () => import("@/components/console/CybertruckThreeViewer"),
@@ -24,7 +25,19 @@ const CybertruckThreeViewer = dynamic(
 
 // ── Static hero — always visible ───────────────────────────────────────────
 
-function StaticHero({ artImage, startReveal }: { artImage: string; startReveal: boolean }) {
+function StaticHero({
+  artImage,
+  startReveal,
+  onBrowseGallery,
+  onSeeEditions,
+  onTailgateArt,
+}: {
+  artImage: string;
+  startReveal: boolean;
+  onBrowseGallery?: () => void;
+  onSeeEditions?: () => void;
+  onTailgateArt?: () => void;
+}) {
   return (
     <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
       {/* Background — CT wireframe terrain */}
@@ -168,7 +181,7 @@ function StaticHero({ artImage, startReveal }: { artImage: string; startReveal: 
         </g>
       </svg>
 
-      {/* Grid floor — perspective wireframe (CT reference: visible under truck) */}
+      {/* Grid floor — CT-authentic reflective ground plane */}
       <div
         style={{
           position: "absolute",
@@ -178,16 +191,16 @@ function StaticHero({ artImage, startReveal }: { artImage: string; startReveal: 
           height: "45%",
           zIndex: 1,
           backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.07) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.07) 1px, transparent 1px)
+            linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)
           `,
-          backgroundSize: "48px 48px",
-          transform: "perspective(300px) rotateX(62deg)",
+          backgroundSize: "36px 36px",
+          transform: "perspective(400px) rotateX(65deg)",
           transformOrigin: "bottom center",
           maskImage:
-            "linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%)",
+            "linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 40%, transparent 100%)",
           WebkitMaskImage:
-            "linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%)",
+            "linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 40%, transparent 100%)",
           pointerEvents: "none",
         }}
       />
@@ -203,40 +216,26 @@ function StaticHero({ artImage, startReveal }: { artImage: string; startReveal: 
         <CybertruckThreeViewer artImage={artImage} startReveal={startReveal} />
       </div>
 
-      {/* CT-style line connector labels (bold italic + vertical line) */}
+      {/* CT-style line connector labels */}
       <div style={{ position: "absolute", inset: 0, zIndex: 3, pointerEvents: "none" }}>
         {/* Left: "Browse Gallery" — connects to front */}
-        <div style={{ position: "absolute", left: "22%", top: "18%", display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <span style={{ fontSize: 11, fontWeight: 700, fontStyle: "italic", color: "rgba(255,255,255,0.6)", fontFamily: "-apple-system, 'SF Pro Display', system-ui, sans-serif", letterSpacing: "0.01em", marginBottom: 4 }}>
-            <span style={{ fontSize: 9, fontWeight: 400, fontStyle: "italic", color: "rgba(255,255,255,0.35)", display: "block", marginBottom: 1 }}>Open</span>
-            Browse Gallery
-          </span>
-          <div style={{ width: 1, height: 50, background: "rgba(255,255,255,0.15)" }} />
+        <div style={{ position: "absolute", left: "22%", top: "18%" }}>
+          <CTLineLabel label="Browse Gallery" lineHeight={50} position="top" onClick={onBrowseGallery} />
         </div>
 
         {/* Center: "See Editions" — connects to tonneau */}
-        <div style={{ position: "absolute", left: "52%", top: "14%", display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <span style={{ fontSize: 11, fontWeight: 700, fontStyle: "italic", color: "rgba(255,255,255,0.6)", fontFamily: "-apple-system, 'SF Pro Display', system-ui, sans-serif", letterSpacing: "0.01em", marginBottom: 4 }}>
-            <span style={{ fontSize: 9, fontWeight: 400, fontStyle: "italic", color: "rgba(255,255,255,0.35)", display: "block", marginBottom: 1 }}>Open</span>
-            See Editions
-          </span>
-          <div style={{ width: 1, height: 60, background: "rgba(255,255,255,0.15)" }} />
+        <div style={{ position: "absolute", left: "52%", top: "14%" }}>
+          <CTLineLabel label="See Editions" lineHeight={60} position="top" onClick={onSeeEditions} />
         </div>
 
         {/* Right: "Tailgate Art" — connects to rear */}
-        <div style={{ position: "absolute", right: "18%", top: "16%", display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <span style={{ fontSize: 11, fontWeight: 700, fontStyle: "italic", color: "rgba(255,255,255,0.6)", fontFamily: "-apple-system, 'SF Pro Display', system-ui, sans-serif", letterSpacing: "0.01em", marginBottom: 4 }}>
-            <span style={{ fontSize: 9, fontWeight: 400, fontStyle: "italic", color: "rgba(255,255,255,0.35)", display: "block", marginBottom: 1 }}>Open</span>
-            Tailgate Art
-          </span>
-          <div style={{ width: 1, height: 55, background: "rgba(255,255,255,0.15)" }} />
+        <div style={{ position: "absolute", right: "18%", top: "16%" }}>
+          <CTLineLabel label="Tailgate Art" lineHeight={55} position="top" onClick={onTailgateArt} />
         </div>
 
-        {/* Bottom-left: "Art Scale" (CT: "Ride Height") */}
-        <div style={{ position: "absolute", left: "30%", bottom: "18%", display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <div style={{ width: 1, height: 30, background: "rgba(255,255,255,0.12)" }} />
-          <span style={{ fontSize: 9, fontWeight: 400, fontStyle: "italic", color: "rgba(255,255,255,0.35)", fontFamily: "-apple-system, 'SF Pro Display', system-ui, sans-serif", marginTop: 3 }}>Medium</span>
-          <span style={{ fontSize: 11, fontWeight: 700, fontStyle: "italic", color: "rgba(255,255,255,0.55)", fontFamily: "-apple-system, 'SF Pro Display', system-ui, sans-serif" }}>Art Scale</span>
+        {/* Bottom-left: "Art Scale" */}
+        <div style={{ position: "absolute", left: "30%", bottom: "18%" }}>
+          <CTLineLabel label="Art Scale" sublabel="Medium" lineHeight={30} position="bottom" />
         </div>
       </div>
     </div>
@@ -253,6 +252,9 @@ interface HeroArea3DProps {
   artworkCount?: number;
   onPrevArt?: () => void;
   onNextArt?: () => void;
+  onBrowseGallery?: () => void;
+  onSeeEditions?: () => void;
+  onTailgateArt?: () => void;
 }
 
 export default function HeroArea3D({
@@ -263,10 +265,13 @@ export default function HeroArea3D({
   artworkCount = 1,
   onPrevArt,
   onNextArt,
+  onBrowseGallery,
+  onSeeEditions,
+  onTailgateArt,
 }: HeroArea3DProps) {
   return (
     <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
-      <StaticHero artImage={artImage} startReveal={startReveal} />
+      <StaticHero artImage={artImage} startReveal={startReveal} onBrowseGallery={onBrowseGallery} onSeeEditions={onSeeEditions} onTailgateArt={onTailgateArt} />
 
       {/* Art navigation arrows */}
       {onPrevArt && onNextArt && (

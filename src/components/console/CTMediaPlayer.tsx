@@ -27,10 +27,10 @@ export default function CTMediaPlayer({ currentTrack, isPlaying, togglePlay, nex
       role="region"
       aria-label="Hawaiian Radio music player"
       style={{
-        background: "rgba(12, 26, 46, 0.85)",
-        backdropFilter: "blur(12px)",
-        WebkitBackdropFilter: "blur(12px)",
-        border: "1px solid rgba(255, 255, 255, 0.1)",
+        background: "var(--ct-glass)",
+        backdropFilter: "var(--ct-glass-blur)",
+        WebkitBackdropFilter: "var(--ct-glass-blur)",
+        border: "1px solid var(--ct-glass-border)",
         borderRadius: 12,
         flex: 1.8,
         minWidth: 0,
@@ -39,20 +39,20 @@ export default function CTMediaPlayer({ currentTrack, isPlaying, togglePlay, nex
         overflow: "hidden",
         padding: "6px 8px",
         gap: 8,
-        fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
+        fontFamily: "var(--ct-font-text)",
       }}
     >
       {/* Album Art */}
       <img
         src={currentTrack.artworkImage}
         alt={`Album art for ${currentTrack.title}`}
-        width={65}
-        height={65}
+        width={72}
+        height={72}
         loading="eager"
         style={{
-          width: 65,
-          minWidth: 65,
-          height: 65,
+          width: 72,
+          minWidth: 72,
+          height: 72,
           objectFit: "cover",
           borderRadius: 8,
           flexShrink: 0,

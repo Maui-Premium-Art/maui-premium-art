@@ -146,7 +146,7 @@ export default function BottomDock({ onGalleryOpen, onConnectOpen, onPricingOpen
       role="toolbar"
       aria-label="App dock"
       style={{
-        background: "#081220",
+        background: "var(--dock-bg)",
         borderTop: "1px solid rgba(255,255,255,0.06)",
         height: 44,
         display: "flex",
