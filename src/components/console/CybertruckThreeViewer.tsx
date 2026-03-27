@@ -94,10 +94,10 @@ function CybertruckModel({ artImage, startReveal = false }: CybertruckModelProps
       {/* Art plane positioned at the tailgate — faces -X (rear of truck) */}
       <mesh
         ref={artPlaneRef}
-        position={[-1.85, 0.35, 0]}
+        position={[-1.88, 0.1, 0]}
         rotation={[0, -Math.PI / 2, 0]}
       >
-        <planeGeometry args={[1.6, 0.9]} />
+        <planeGeometry args={[1.9, 1.3]} />
         <meshStandardMaterial
           color="#ffffff"
           metalness={0.1}
