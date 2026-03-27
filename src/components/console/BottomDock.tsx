@@ -379,9 +379,9 @@ export default function BottomDock({ onGalleryOpen, onConnectOpen, onPricingOpen
 
       {/* Palette — Artists */}
       <DockItem
-        label="Artists"
+        label="Artist Sign-Up"
         ariaLabel="Artist Sign-Up"
-        onClick={() => { router.push("/artists"); }}
+        onClick={() => { router.push("/artists#signup"); }}
       >
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
           <circle cx="9" cy="7" r="3" stroke="currentColor" strokeWidth="1.2" />

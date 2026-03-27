@@ -336,7 +336,7 @@ export default function ArtistsPage() {
         </div>
 
         {/* ── ARTIST SUBMISSION ──────────────────────────────── */}
-        <div style={{ marginTop: 48 }}>
+        <div id="signup" style={{ marginTop: 48, scrollMarginTop: 24 }}>
           <ArtistSubmissionForm />
         </div>
       </div>
