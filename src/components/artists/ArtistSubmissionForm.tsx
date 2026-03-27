@@ -2,17 +2,15 @@
 
 import { useState, useCallback } from "react";
 
-// When Boss creates Tally form, replace with:
-// <iframe data-tally-src="https://tally.so/embed/FORM_ID?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
-//   loading="lazy" width="100%" height="600" frameBorder="0" title="Artist Submission" />
-
 interface FormData {
   name: string;
   email: string;
   xHandle: string;
+  instagramHandle: string;
   portfolioUrl: string;
   statement: string;
-  source: string;
+  consentPublicDisplay: boolean;
+  website: string; // honeypot
 }
 
 const inputStyle: React.CSSProperties = {
@@ -44,11 +42,14 @@ export default function ArtistSubmissionForm() {
     name: "",
     email: "",
     xHandle: "",
+    instagramHandle: "",
     portfolioUrl: "",
     statement: "",
-    source: "website",
+    consentPublicDisplay: false,
+    website: "",
   });
   const [status, setStatus] = useState<"idle" | "submitting" | "success">("idle");
+  const [error, setError] = useState<string | null>(null);
 
   const update = useCallback((field: keyof FormData, value: string) => {
     setForm((f) => ({ ...f, [field]: value }));
@@ -60,10 +61,37 @@ export default function ArtistSubmissionForm() {
       if (!form.name || !form.email) return;
 
       setStatus("submitting");
-      // Placeholder: log to console
-      console.log("[Artist Submission]", form);
-      await new Promise((r) => setTimeout(r, 800));
-      setStatus("success");
+      setError(null);
+
+      try {
+        const res = await fetch("/api/artists/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: form.name,
+            email: form.email,
+            xHandle: form.xHandle,
+            instagramHandle: form.instagramHandle,
+            portfolioUrl: form.portfolioUrl,
+            bio: form.statement,
+            consentPublicDisplay: form.consentPublicDisplay,
+            website: form.website,
+          }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          setError(data.error || "Something went wrong.");
+          setStatus("idle");
+          return;
+        }
+
+        setStatus("success");
+      } catch {
+        setError("Network error. Please try again.");
+        setStatus("idle");
+      }
     },
     [form]
   );
@@ -102,6 +130,7 @@ export default function ArtistSubmissionForm() {
         display: "flex",
         flexDirection: "column",
         gap: 16,
+        position: "relative",
       }}
     >
       <div>
@@ -180,6 +209,21 @@ export default function ArtistSubmissionForm() {
         </div>
       </div>
 
+      {/* Instagram */}
+      <div className="artist-form-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+        <div>
+          <label style={labelStyle}>Instagram</label>
+          <input
+            type="text"
+            value={form.instagramHandle}
+            onChange={(e) => update("instagramHandle", e.target.value)}
+            placeholder="@yourhandle"
+            style={inputStyle}
+          />
+        </div>
+        <div />
+      </div>
+
       {/* Statement */}
       <div>
         <label style={labelStyle}>Artist Statement</label>
@@ -215,9 +259,38 @@ export default function ArtistSubmissionForm() {
           }}
         >
           Include your portfolio URL above — we&apos;ll review your work there.
-          File uploads coming soon via Tally integration.
+          Art uploads coming in a future update.
         </p>
       </div>
+
+      {/* Consent checkbox */}
+      <label style={{ display: "flex", alignItems: "flex-start", gap: 10, cursor: "pointer" }}>
+        <input
+          type="checkbox"
+          checked={form.consentPublicDisplay}
+          onChange={(e) => setForm((f) => ({ ...f, consentPublicDisplay: e.target.checked }))}
+          required
+          style={{ marginTop: 2, accentColor: "#4a9eff" }}
+        />
+        <span style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", lineHeight: 1.5, fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif" }}>
+          I consent to my name, bio, and portfolio being displayed publicly on mauipremiumart.com if approved. I confirm I own the rights to all submitted artwork.
+        </span>
+      </label>
+
+      {/* Error message */}
+      {error && (
+        <div style={{
+          padding: "10px 14px",
+          background: "rgba(255,59,48,0.08)",
+          border: "1px solid rgba(255,59,48,0.2)",
+          borderRadius: 8,
+          fontSize: 12,
+          color: "rgba(255,59,48,0.8)",
+          fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
+        }}>
+          {error}
+        </div>
+      )}
 
       {/* Submit */}
       <button
@@ -240,6 +313,18 @@ export default function ArtistSubmissionForm() {
       >
         {status === "submitting" ? "Submitting…" : "Submit Your Work"}
       </button>
+
+      {/* Honeypot — hidden from real users */}
+      <input
+        type="text"
+        name="website"
+        value={form.website}
+        onChange={(e) => update("website", e.target.value)}
+        style={{ position: "absolute", left: "-9999px" }}
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+      />
 
       <style>{`
         @media (max-width: 480px) {
