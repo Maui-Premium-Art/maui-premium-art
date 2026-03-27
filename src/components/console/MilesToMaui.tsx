@@ -90,9 +90,11 @@ export default function MilesToMaui() {
             ? "Aloha"
             : loading
               ? "... mi"
-              : `${formatDistance(distance!)} mi`}
+              : distance! < 20
+                ? "On Maui"
+                : `${formatDistance(distance!)} mi`}
         </span>
-        {!error && (
+        {!error && distance !== null && distance >= 20 && (
           <span
             style={{
               fontSize: 8,
