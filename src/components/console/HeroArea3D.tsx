@@ -248,14 +248,84 @@ function StaticHero({ artImage, startReveal }: { artImage: string; startReveal: 
 interface HeroArea3DProps {
   artImage?: string;
   startReveal?: boolean;
+  artworkTitle?: string;
+  artworkIndex?: number;
+  artworkCount?: number;
+  onPrevArt?: () => void;
+  onNextArt?: () => void;
 }
 
-export default function HeroArea3D({ artImage = "/images/mahalo-bird/electric-prr-hummingbird.jpg", startReveal = false }: HeroArea3DProps) {
+export default function HeroArea3D({
+  artImage = "/images/mahalo-bird/electric-prr-hummingbird.jpg",
+  startReveal = false,
+  artworkTitle = "Mahalo Bird",
+  artworkIndex = 0,
+  artworkCount = 1,
+  onPrevArt,
+  onNextArt,
+}: HeroArea3DProps) {
   return (
     <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
       <StaticHero artImage={artImage} startReveal={startReveal} />
 
-      {/* FIX #5: Caption more prominent + FIX #6: larger dots */}
+      {/* Art navigation arrows */}
+      {onPrevArt && onNextArt && (
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            zIndex: 4,
+            pointerEvents: "none",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "0 16px",
+          }}
+        >
+          <button
+            onClick={onPrevArt}
+            aria-label="Previous artwork"
+            style={{
+              pointerEvents: "auto",
+              width: 44,
+              height: 44,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              padding: 0,
+            }}
+          >
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M12 4L6 10L12 16" stroke="rgba(255,255,255,0.35)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+          <button
+            onClick={onNextArt}
+            aria-label="Next artwork"
+            style={{
+              pointerEvents: "auto",
+              width: 44,
+              height: 44,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              padding: 0,
+            }}
+          >
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M8 4L14 10L8 16" stroke="rgba(255,255,255,0.35)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        </div>
+      )}
+
+      {/* Dynamic artwork caption */}
       <div
         style={{
           position: "absolute",
@@ -271,7 +341,6 @@ export default function HeroArea3D({ artImage = "/images/mahalo-bird/electric-pr
           whiteSpace: "nowrap",
         }}
       >
-        {/* FIX #5: More prominent caption */}
         <span
           style={{
             fontSize: 13,
@@ -281,15 +350,28 @@ export default function HeroArea3D({ artImage = "/images/mahalo-bird/electric-pr
             fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
             fontWeight: 600,
           }}
+          aria-live="polite"
         >
-          Mahalo Bird · Edition I
+          {artworkTitle} · Edition I
         </span>
 
-        {/* FIX #6: Larger dot pagination */}
-        <div style={{ display: "flex", gap: 7, alignItems: "center" }}>
-          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "rgba(255,255,255,0.8)" }} />
-          <div style={{ width: 7, height: 7, borderRadius: "50%", background: "rgba(255,255,255,0.25)" }} />
-          <div style={{ width: 7, height: 7, borderRadius: "50%", background: "rgba(255,255,255,0.25)" }} />
+        {/* Dynamic pagination dots */}
+        <div style={{ display: "flex", gap: 5, alignItems: "center" }} role="tablist">
+          {Array.from({ length: artworkCount }, (_, i) => (
+            <div
+              key={i}
+              role="tab"
+              aria-selected={i === artworkIndex}
+              aria-label={`Artwork ${i + 1}`}
+              style={{
+                width: i === artworkIndex ? 8 : 6,
+                height: i === artworkIndex ? 8 : 6,
+                borderRadius: "50%",
+                background: i === artworkIndex ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.2)",
+                transition: "all 0.2s ease",
+              }}
+            />
+          ))}
         </div>
 
         <span
@@ -300,9 +382,21 @@ export default function HeroArea3D({ artImage = "/images/mahalo-bird/electric-pr
             fontFamily: "-apple-system, 'SF Pro Text', system-ui, sans-serif",
           }}
         >
-          3 of 10 · @Maui_PremiumArt
+          {artworkIndex + 1} of {artworkCount} · @Maui_PremiumArt
         </span>
       </div>
+
+      {/* Arrow hover styles */}
+      <style>{`
+        [aria-label="Previous artwork"]:hover svg path,
+        [aria-label="Next artwork"]:hover svg path {
+          stroke: rgba(255,255,255,0.6);
+        }
+        [aria-label="Previous artwork"] svg path,
+        [aria-label="Next artwork"] svg path {
+          transition: stroke 0.2s ease;
+        }
+      `}</style>
 
       {/* Attribution */}
       <div

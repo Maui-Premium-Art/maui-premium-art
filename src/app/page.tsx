@@ -11,6 +11,7 @@ import StoryPanel from "@/components/console/StoryPanel";
 import ArtistBioPanel from "@/components/console/ArtistBioPanel";
 import ArtZoomView from "@/components/console/ArtZoomView";
 import NewsletterSignup from "@/components/NewsletterSignup";
+import { artworks } from "@/data/artworks";
 import { useHawaiianRadio } from "@/hooks/useHawaiianRadio";
 import VehicleControls from "@/components/console/VehicleControls";
 import HeroArea from "@/components/console/HeroArea3D";
@@ -30,7 +31,8 @@ export default function Home() {
   const [artistBioOpen, setArtistBioOpen] = useState(false);
   const [socialOpen, setSocialOpen] = useState(false);
   const [zoomArtSlug, setZoomArtSlug] = useState<string | null>(null);
-  const [heroArtImage, setHeroArtImage] = useState("/images/mahalo-bird/electric-prr-hummingbird.jpg");
+  const [heroArtIndex, setHeroArtIndex] = useState(0);
+  const heroArtImage = artworks[heroArtIndex].tailgateImage;
   const [newsletterOpen, setNewsletterOpen] = useState(false);
 
   const closeAllPanels = useCallback(() => { setGalleryOpen(false); setConnectOpen(false); setPricingOpen(false); setEventsOpen(false); setStoryOpen(false); setArtistBioOpen(false); setSocialOpen(false); }, []);
@@ -57,6 +59,14 @@ export default function Home() {
 
   const handleTailgateArtClick = useCallback(() => {
     setNewsletterOpen((prev) => !prev);
+  }, []);
+
+  const prevArt = useCallback(() => {
+    setHeroArtIndex((i) => (i - 1 + artworks.length) % artworks.length);
+  }, []);
+
+  const nextArt = useCallback(() => {
+    setHeroArtIndex((i) => (i + 1) % artworks.length);
   }, []);
 
   return (
@@ -101,8 +111,16 @@ export default function Home() {
 
         {/* CONTENT ZONE — image + sidebar, fills remaining space */}
         <div style={{ flex: 1, position: "relative", minHeight: 0 }}>
-          <HeroArea artImage={heroArtImage} startReveal={splashDone} />
-          <GalleryCarousel open={galleryOpen} onClose={closeGallery} onArtSelect={handleArtSelect} onArtImageChange={setHeroArtImage} />
+          <HeroArea
+            artImage={heroArtImage}
+            startReveal={splashDone}
+            artworkTitle={artworks[heroArtIndex].title}
+            artworkIndex={heroArtIndex}
+            artworkCount={artworks.length}
+            onPrevArt={prevArt}
+            onNextArt={nextArt}
+          />
+          <GalleryCarousel open={galleryOpen} onClose={closeGallery} onArtSelect={handleArtSelect} onArtIndexChange={setHeroArtIndex} />
           {connectOpen && <ConnectOverlay onClose={closeConnect} />}
           <PricingPanel open={pricingOpen} onClose={closePricing} />
           <EventsPanel open={eventsOpen} onClose={closeEvents} />
