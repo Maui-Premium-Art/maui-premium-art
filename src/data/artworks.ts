@@ -35,10 +35,10 @@ export const artworks: Artwork[] = [
     artist: "Juan Linnon Ellis",
     artistAlias: "Frog One",
     category: "Juan Linnon Ellis Collection",
-    heroImage: "/images/tailgate-art/mahalo-bird_tailgate.jpg",
-    tailgateImage: "/images/tailgate-art/mahalo-bird_tailgate.jpg",
+    heroImage: "/images/tailgate-art/mahalo-bird_tailgate.png",
+    tailgateImage: "/images/tailgate-art/mahalo-bird_tailgate.png",
     galleryImages: [
-      "/images/tailgate-art/mahalo-bird_tailgate.jpg",
+      "/images/tailgate-art/mahalo-bird_tailgate.png",
       "/images/mahalo-bird/electric-prr-hummingbird.jpg",
       "/images/mahalo-bird/wrap-tailgate.jpg",
       "/images/mahalo-bird/wrap-2.jpg",
