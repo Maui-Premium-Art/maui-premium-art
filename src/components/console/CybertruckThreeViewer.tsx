@@ -95,7 +95,7 @@ function CybertruckModel({ artImage, startReveal = false }: CybertruckModelProps
       <mesh
         ref={artPlaneRef}
         position={[-3.15, 0.09, 0]}
-        rotation={[0, Math.PI / 2, 0]}
+        rotation={[0, -Math.PI / 2, 0]}
       >
         <planeGeometry args={[1.8, 0.99]} />
         <meshStandardMaterial
