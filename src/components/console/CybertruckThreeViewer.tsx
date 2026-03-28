@@ -49,20 +49,20 @@ function CybertruckModel({ artImage, startReveal = false }: CybertruckModelProps
     loader.load(artImage, (texture) => {
       texture.colorSpace = THREE.SRGBColorSpace;
       
-      // Contain the art within the plane while preserving aspect ratio
+      // Cover mode — fill the tailgate plane, crop overflow (like background-size: cover)
       const imgAspect = texture.image.width / texture.image.height;
-      const planeAspect = 1.6 / 0.5; // plane width / height = 3.2
+      const planeAspect = 1.90 / 0.50; // plane width / height = 3.8
       
       if (imgAspect > planeAspect) {
-        // Image is wider than plane — fit width, letterbox top/bottom
-        const scale = planeAspect / imgAspect;
-        texture.repeat.set(1, scale);
-        texture.offset.set(0, (1 - scale) / 2);
-      } else {
-        // Image is taller than plane — fit height, pillarbox sides
+        // Image wider than plane — fit height, crop sides
         const scale = imgAspect / planeAspect;
-        texture.repeat.set(scale, 1);
-        texture.offset.set((1 - scale) / 2, 0);
+        texture.repeat.set(1 / scale, 1);
+        texture.offset.set((1 - 1 / scale) / 2, 0);
+      } else {
+        // Image taller than plane — fit width, crop top/bottom
+        const scale = planeAspect / imgAspect;
+        texture.repeat.set(1, 1 / scale);
+        texture.offset.set(0, (1 - 1 / scale) / 2);
       }
       
       if (artPlaneRef.current) {
@@ -111,10 +111,10 @@ function CybertruckModel({ artImage, startReveal = false }: CybertruckModelProps
       {/* Art plane on tailgate — coords scaled 1.8x to match primitive */}
       <mesh
         ref={artPlaneRef}
-        position={[-3.17, 0.12, 0]}
+        position={[-3.17, 0.10, 0]}
         rotation={[0, -Math.PI / 2, 0]}
       >
-        <planeGeometry args={[1.6, 0.5]} />
+        <planeGeometry args={[1.90, 0.50]} />
         <meshStandardMaterial
           color="#ffffff"
           metalness={0.1}

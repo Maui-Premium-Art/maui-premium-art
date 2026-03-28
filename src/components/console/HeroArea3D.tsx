@@ -233,9 +233,9 @@ function StaticHero({
           <CTLineLabel label="Stay in the Loop" lineHeight={55} position="top" onClick={onTailgateArt} />
         </div>
 
-        {/* Bottom-left: "Art Scale" */}
-        <div style={{ position: "absolute", left: "30%", bottom: "18%" }}>
-          <CTLineLabel label="Art Scale" sublabel="Medium" lineHeight={30} position="bottom" />
+        {/* License plate area — centered below tailgate */}
+        <div style={{ position: "absolute", left: "50%", bottom: "5%", transform: "translateX(-50%)" }}>
+          <CTLineLabel label="Art Scale" sublabel="Medium" lineHeight={20} position="bottom" />
         </div>
       </div>
     </div>
