@@ -48,6 +48,8 @@ function CybertruckModel({ artImage, startReveal = false }: CybertruckModelProps
     const loader = new THREE.TextureLoader();
     loader.load(artImage, (texture) => {
       texture.colorSpace = THREE.SRGBColorSpace;
+      texture.repeat.x = -1;
+      texture.offset.x = 1;
       if (artPlaneRef.current) {
         const mat = artPlaneRef.current.material as THREE.MeshStandardMaterial;
         mat.map = texture;
@@ -95,7 +97,7 @@ function CybertruckModel({ artImage, startReveal = false }: CybertruckModelProps
       <mesh
         ref={artPlaneRef}
         position={[-3.15, 0.09, 0]}
-        rotation={[0, -Math.PI / 2, 0]}
+        rotation={[0, Math.PI / 2, 0]}
       >
         <planeGeometry args={[1.8, 0.99]} />
         <meshStandardMaterial
