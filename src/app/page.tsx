@@ -70,8 +70,8 @@ export default function Home() {
         onClick={() => setArtIndex((i) => (i + 1) % artImages.length)}
         style={{
           position: "absolute",
-          left: "19.5%", top: "74.3%",
-          width: "6.5%", height: "9.4%",
+          left: "18.8%", top: "73.2%",
+          width: "7.8%", aspectRatio: "1",
           cursor: "pointer",
           zIndex: 10,
           overflow: "hidden",
@@ -81,18 +81,18 @@ export default function Home() {
         <img
           src={artImages[artIndex]}
           alt="Now playing art"
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
         />
       </div>
 
-      {/* Title text — replaces "Khris's iPhone" source line */}
+      {/* Title text — Song name over CT title area */}
       <div style={{
         position: "absolute",
-        left: "29.3%", top: "74.8%",
-        width: "12%", height: "2.2%",
+        left: "29%", top: "73.8%",
+        width: "14%", height: "3%",
         zIndex: 10,
         display: "flex", alignItems: "center",
-        fontSize: "clamp(10px, 1.1vw, 16px)",
+        fontSize: "clamp(12px, 1.3vw, 20px)",
         fontWeight: 500,
         color: "rgba(255,255,255,0.85)",
         fontFamily: "-apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif",
@@ -105,14 +105,14 @@ export default function Home() {
         {trackTitle}
       </div>
 
-      {/* Source/device line — replaces BT icon + "Khris's iPhone" */}
+      {/* Source/device line — visitor's device */}
       <div style={{
         position: "absolute",
-        left: "29.3%", top: "76.8%",
-        width: "12%", height: "1.8%",
+        left: "29%", top: "76.8%",
+        width: "14%", height: "2.5%",
         zIndex: 10,
-        display: "flex", alignItems: "center", gap: 5,
-        fontSize: "clamp(9px, 0.85vw, 13px)",
+        display: "flex", alignItems: "center", gap: 6,
+        fontSize: "clamp(10px, 0.95vw, 14px)",
         color: "rgba(255,255,255,0.4)",
         fontFamily: "-apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif",
         pointerEvents: "none",
