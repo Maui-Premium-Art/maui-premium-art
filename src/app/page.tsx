@@ -140,21 +140,21 @@ export default function Home() {
         <Label text="media_card" left="17.97%" top="72.22%" />
         <div style={z("Media Card", "17.97%", "72.22%", "23.01%", "17.29%", false)} />
         <Label text="media_hamburger" left="20.08%" top="73.89%" />
-        <div style={z("Menu", "20.08%", "73.89%", "1.5%", "2%")} />
-        <Label text="media_album_art" left="21.09%" top="73.61%" />
-        <div style={z("Album Art", "21.09%", "73.61%", "7.38%", "12.43%")} />
-        <Label text="media_title" left="29.3%" top="74.93%" />
-        <div style={z("Track Title", "29.3%", "74.93%", "8.75%", "1.67%", false)} />
-        <Label text="media_prev" left="30%" top="83%" />
-        <div style={z("Previous", "30%", "83%", "3%", "3.5%")} />
-        <Label text="media_play" left="36%" top="83%" />
-        <div style={z("Play", "36%", "83%", "3%", "3.5%")} />
-        <Label text="media_next" left="42%" top="83%" />
-        <div style={z("Next", "42%", "83%", "3%", "3.5%")} />
-        <Label text="media_eq" left="42.97%" top="84.24%" />
-        <div style={z("Equalizer", "42.97%", "84.24%", "2.5%", "2.5%")} />
-        <Label text="media_search" left="48.71%" top="84.17%" />
-        <div style={z("Search", "48.71%", "84.17%", "2.5%", "2.5%")} />
+        <div style={z("Menu", "19.5%", "73.5%", "1.8%", "2.5%")} />
+        <Label text="media_album_art" left="21.09%" top="74.3%" />
+        <div style={z("Album Art", "21.1%", "74.3%", "7.4%", "11.1%")} />
+        <Label text="media_title" left="29.3%" top="74.9%" />
+        <div style={z("Track Title", "29.3%", "74.5%", "9%", "3.5%", false)} />
+        <Label text="media_prev" left="30%" top="83.5%" />
+        <div style={z("Previous", "30%", "83%", "4%", "4%")} />
+        <Label text="media_play" left="35.8%" top="83.5%" />
+        <div style={z("Play", "35.8%", "83%", "4%", "4%")} />
+        <Label text="media_next" left="41.8%" top="83.5%" />
+        <div style={z("Next", "41.8%", "83%", "4%", "4%")} />
+        <Label text="media_eq" left="47.5%" top="83.5%" />
+        <div style={z("Equalizer", "47.5%", "83%", "4%", "4%")} />
+        <Label text="media_search" left="53.2%" top="83.5%" />
+        <div style={z("Search", "53.2%", "83%", "4%", "4%")} />
 
         {/* — NAVIGATE WIDGET — */}
         <Label text="nav_card" left="56.64%" top="72.22%" />
