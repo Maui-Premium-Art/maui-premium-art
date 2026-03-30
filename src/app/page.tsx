@@ -1,5 +1,7 @@
 "use client";
 
+import { useState, useEffect } from "react";
+
 /**
  * Maui Premium Art — Homepage
  * 
@@ -7,12 +9,51 @@
  * Every element is a real DOM node at the exact pixel position
  * extracted from the 2560x1440 CID screenshot.
  * 
- * Layout: 16:9 container, percentage-based positioning.
- * Background: CT terrain (from screenshot, will be replaced by panorama).
- * All UI elements: real divs, real text, real buttons.
+ * Debug mode: ?debug=true or press D key
+ * Shows red outlines on all action/data zones.
  */
 
 export default function Home() {
+  const [debug, setDebug] = useState(false);
+
+  useEffect(() => {
+    // Check URL param
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("debug") === "true") setDebug(true);
+
+    // D key toggle
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "d" || e.key === "D") setDebug(prev => !prev);
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
+
+  // Debug style for action zones
+  const z = (title: string, left: string, top: string, width: string, height: string, pointer = true) => ({
+    position: "absolute" as const,
+    left, top, width, height,
+    cursor: pointer ? "pointer" : "default",
+    zIndex: 5,
+    title,
+    ...(debug ? {
+      outline: "1px solid rgba(255,0,0,0.7)",
+      backgroundColor: "rgba(255,0,0,0.08)",
+    } : {}),
+  });
+
+  // Debug label (only visible in debug mode)
+  const Label = ({ text, left, top }: { text: string; left: string; top: string }) => (
+    debug ? (
+      <div style={{
+        position: "absolute", left, top, zIndex: 20,
+        fontSize: 9, color: "#ff3333", fontFamily: "monospace",
+        background: "rgba(0,0,0,0.85)", padding: "1px 4px",
+        borderRadius: 2, whiteSpace: "nowrap", pointerEvents: "none",
+        transform: "translateY(-100%)",
+      }}>{text}</div>
+    ) : null
+  );
   return (
     <main style={{
       width: "100vw", height: "100dvh",
@@ -55,55 +96,124 @@ export default function Home() {
         {/* Navigate: search text (data zone) */}
         {/* x=63.75% y=75.56% w=4.53% h=1.81% */}
 
-        {/* ═══ LAYER 3: ACTION ZONES ═══
-            Transparent clickable areas over CT controls.
-            CT pixels show through. Cursor changes on hover.
-            Each zone wired to a handler (empty for now). */}
+        {/* ═══ LAYER 3: ACTION ZONES ═══ */}
 
         {/* — STATUS BAR — */}
-        <div title="P R N D" style={{ position:"absolute", left:"1.56%", top:"3.33%", width:"8.16%", height:"0.76%", cursor:"default", zIndex:5 }} />
-        <div title="200 mi" style={{ position:"absolute", left:"6.33%", top:"3.33%", width:"3.4%", height:"0.76%", cursor:"default", zIndex:5 }} />
+        <Label text="prnd" left="1.56%" top="3.33%" />
+        <div style={z("P R N D", "1.56%", "3.33%", "8.16%", "1.5%", false)} />
+        <Label text="miles" left="9.61%" top="3.33%" />
+        <div style={z("200 mi", "9.61%", "3.33%", "3.55%", "1.5%", false)} />
+        <Label text="status_icons" left="47.42%" top="3.26%" />
+        <div style={z("Status Icons", "47.42%", "3.26%", "8.63%", "1.5%", false)} />
+        <Label text="time" left="90.04%" top="3.54%" />
+        <div style={z("21:55", "90.04%", "3.54%", "4.45%", "1.5%", false)} />
+        <Label text="temp" left="94.14%" top="3.4%" />
+        <div style={z("70°F", "94.14%", "3.4%", "3.75%", "1.5%", false)} />
 
         {/* — LEFT CONTROLS — */}
-        <div title="Start Self-Driving" style={{ position:"absolute", left:"2.15%", top:"8.19%", width:"17.03%", height:"6.32%", cursor:"pointer", zIndex:5 }} />
-        <div title="Ride Height" style={{ position:"absolute", left:"5.08%", top:"44.44%", width:"14.41%", height:"4.72%", cursor:"pointer", zIndex:5 }} />
-        <div title="PARK" style={{ position:"absolute", left:"2.81%", top:"31.87%", width:"1.29%", height:"2%", cursor:"default", zIndex:5 }} />
+        <Label text="fsd_button" left="2.15%" top="8.19%" />
+        <div style={z("Start Self-Driving", "2.15%", "8.19%", "17.03%", "6.32%")} />
+        <Label text="direction_text" left="2.81%" top="19.38%" />
+        <div style={z("Choose direction", "2.81%", "19.38%", "12%", "2%", false)} />
+        <Label text="ride_height_dots" left="1.52%" top="8.19%" />
+        <div style={z("Ride Height Dots", "1.52%", "8.19%", "1.56%", "29.38%")} />
+        <Label text="park" left="2.81%" top="31%" />
+        <div style={z("PARK", "2.81%", "31%", "3%", "2.5%", false)} />
+        <Label text="headlights" left="2.77%" top="34.58%" />
+        <div style={z("Headlights", "2.77%", "34.58%", "2%", "2%")} />
+        <Label text="ride_height" left="5.08%" top="44.44%" />
+        <div style={z("Ride Height", "5.08%", "44.44%", "14.41%", "4.72%")} />
 
         {/* — FLOATING LABELS — */}
-        <div title="Open Frunk" style={{ position:"absolute", left:"26.29%", top:"25.21%", width:"2.97%", height:"3.54%", cursor:"pointer", zIndex:5 }} />
-        <div title="Open Tonneau" style={{ position:"absolute", left:"60.04%", top:"18.75%", width:"4.41%", height:"3.54%", cursor:"pointer", zIndex:5 }} />
-        <div title="Open Tailgate" style={{ position:"absolute", left:"74.41%", top:"27.29%", width:"4.1%", height:"3.89%", cursor:"pointer", zIndex:5 }} />
+        <Label text="label_frunk" left="26.29%" top="25.21%" />
+        <div style={z("Open Frunk", "26.29%", "25.21%", "2.97%", "3.54%")} />
+        <Label text="label_tonneau" left="60.04%" top="18.75%" />
+        <div style={z("Open Tonneau", "60.04%", "18.75%", "4.41%", "3.54%")} />
+        <Label text="label_tailgate" left="74.41%" top="27.29%" />
+        <div style={z("Open Tailgate", "74.41%", "27.29%", "4.1%", "3.89%")} />
 
-        {/* — MEDIA PLAYER CONTROLS — */}
-        <div title="Menu" style={{ position:"absolute", left:"20.08%", top:"73.89%", width:"0.98%", height:"1.74%", cursor:"pointer", zIndex:5 }} />
-        <div title="Album Art" style={{ position:"absolute", left:"21.09%", top:"73.61%", width:"7.38%", height:"12.43%", cursor:"pointer", zIndex:5 }} />
-        <div title="Previous" style={{ position:"absolute", left:"30%", top:"83%", width:"3%", height:"3.5%", cursor:"pointer", zIndex:5 }} />
-        <div title="Play" style={{ position:"absolute", left:"36%", top:"83%", width:"3%", height:"3.5%", cursor:"pointer", zIndex:5 }} />
-        <div title="Next" style={{ position:"absolute", left:"42%", top:"83%", width:"3%", height:"3.5%", cursor:"pointer", zIndex:5 }} />
-        <div title="Equalizer" style={{ position:"absolute", left:"42.97%", top:"84.24%", width:"2.5%", height:"2.5%", cursor:"pointer", zIndex:5 }} />
-        <div title="Search" style={{ position:"absolute", left:"48.71%", top:"84.17%", width:"2.5%", height:"2.5%", cursor:"pointer", zIndex:5 }} />
+        {/* — COMPASS — */}
+        <Label text="compass" left="88%" top="19%" />
+        <div style={z("Compass", "87.5%", "19%", "2%", "3%", false)} />
+
+        {/* — MEDIA PLAYER — */}
+        <Label text="media_card" left="17.97%" top="72.22%" />
+        <div style={z("Media Card", "17.97%", "72.22%", "23.01%", "17.29%", false)} />
+        <Label text="media_hamburger" left="20.08%" top="73.89%" />
+        <div style={z("Menu", "20.08%", "73.89%", "1.5%", "2%")} />
+        <Label text="media_album_art" left="21.09%" top="73.61%" />
+        <div style={z("Album Art", "21.09%", "73.61%", "7.38%", "12.43%")} />
+        <Label text="media_title" left="29.3%" top="74.93%" />
+        <div style={z("Track Title", "29.3%", "74.93%", "8.75%", "1.67%", false)} />
+        <Label text="media_prev" left="30%" top="83%" />
+        <div style={z("Previous", "30%", "83%", "3%", "3.5%")} />
+        <Label text="media_play" left="36%" top="83%" />
+        <div style={z("Play", "36%", "83%", "3%", "3.5%")} />
+        <Label text="media_next" left="42%" top="83%" />
+        <div style={z("Next", "42%", "83%", "3%", "3.5%")} />
+        <Label text="media_eq" left="42.97%" top="84.24%" />
+        <div style={z("Equalizer", "42.97%", "84.24%", "2.5%", "2.5%")} />
+        <Label text="media_search" left="48.71%" top="84.17%" />
+        <div style={z("Search", "48.71%", "84.17%", "2.5%", "2.5%")} />
 
         {/* — NAVIGATE WIDGET — */}
-        <div title="Navigate" style={{ position:"absolute", left:"61.52%", top:"75.35%", width:"6%", height:"2.5%", cursor:"pointer", zIndex:5 }} />
-        <div title="Home" style={{ position:"absolute", left:"62.7%", top:"83.75%", width:"4.8%", height:"1.94%", cursor:"pointer", zIndex:5 }} />
-        <div title="Work" style={{ position:"absolute", left:"73.32%", top:"83.75%", width:"4.38%", height:"1.94%", cursor:"pointer", zIndex:5 }} />
+        <Label text="nav_card" left="56.64%" top="72.22%" />
+        <div style={z("Navigate Card", "56.64%", "72.22%", "25.35%", "17.29%", false)} />
+        <Label text="nav_search" left="61.52%" top="75.35%" />
+        <div style={z("Navigate", "61.52%", "75.35%", "6%", "2.5%")} />
+        <Label text="nav_home" left="62.7%" top="83.75%" />
+        <div style={z("Home", "62.7%", "83.75%", "4.8%", "3%")} />
+        <Label text="nav_work" left="73.32%" top="83.75%" />
+        <div style={z("Work", "73.32%", "83.75%", "4.38%", "3%")} />
 
         {/* — DOCK BAR — */}
-        <div title="Vehicle" style={{ position:"absolute", left:"1.6%", top:"94.51%", width:"1.84%", height:"2.57%", cursor:"pointer", zIndex:5 }} />
-        <div title="Temperature Down" style={{ position:"absolute", left:"12.66%", top:"95.07%", width:"1.5%", height:"1.53%", cursor:"pointer", zIndex:5 }} />
-        <div title="71°" style={{ position:"absolute", left:"16.52%", top:"94.72%", width:"2.03%", height:"2.43%", cursor:"default", zIndex:5 }} />
-        <div title="Temperature Up" style={{ position:"absolute", left:"22.07%", top:"95%", width:"1.5%", height:"1.6%", cursor:"pointer", zIndex:5 }} />
-        <div title="Sentry" style={{ position:"absolute", left:"31.95%", top:"94.72%", width:"1.84%", height:"2.5%", cursor:"pointer", zIndex:5 }} />
-        <div title="Phone" style={{ position:"absolute", left:"36.99%", top:"94.44%", width:"2%", height:"2.57%", cursor:"pointer", zIndex:5 }} />
-        <div title="Climate" style={{ position:"absolute", left:"41.52%", top:"94.1%", width:"2.23%", height:"3.4%", cursor:"pointer", zIndex:5 }} />
-        <div title="Toybox" style={{ position:"absolute", left:"46.56%", top:"94.1%", width:"2.11%", height:"3.4%", cursor:"pointer", zIndex:5 }} />
-        <div title="Apps" style={{ position:"absolute", left:"51.56%", top:"94.31%", width:"1.68%", height:"2.99%", cursor:"pointer", zIndex:5 }} />
-        <div title="Events" style={{ position:"absolute", left:"56.33%", top:"94.1%", width:"1.45%", height:"3.4%", cursor:"pointer", zIndex:5 }} />
-        <div title="Map" style={{ position:"absolute", left:"61.21%", top:"94.1%", width:"1.91%", height:"3.4%", cursor:"pointer", zIndex:5 }} />
-        <div title="Energy" style={{ position:"absolute", left:"66.09%", top:"94.1%", width:"1.91%", height:"3.4%", cursor:"pointer", zIndex:5 }} />
-        <div title="Volume Down" style={{ position:"absolute", left:"77.5%", top:"95.07%", width:"1.5%", height:"1.53%", cursor:"pointer", zIndex:5 }} />
-        <div title="Volume" style={{ position:"absolute", left:"81.76%", top:"95.14%", width:"1.25%", height:"1.32%", cursor:"pointer", zIndex:5 }} />
-        <div title="Volume Up" style={{ position:"absolute", left:"86.88%", top:"95%", width:"1.5%", height:"1.6%", cursor:"pointer", zIndex:5 }} />
+        <Label text="dock_vehicle" left="1.6%" top="94.51%" />
+        <div style={z("Vehicle", "1.6%", "94.51%", "2.5%", "3%")} />
+        <Label text="dock_temp_dn" left="12.66%" top="95.07%" />
+        <div style={z("Temp Down", "12.66%", "95.07%", "2%", "2%")} />
+        <Label text="dock_temp" left="16.52%" top="94.72%" />
+        <div style={z("71°", "16.52%", "94.72%", "2.03%", "2.43%", false)} />
+        <Label text="dock_temp_up" left="22.07%" top="95%" />
+        <div style={z("Temp Up", "22.07%", "95%", "2%", "2%")} />
+        <Label text="dock_sentry" left="31.95%" top="94.72%" />
+        <div style={z("Sentry", "31.95%", "94.72%", "2.5%", "3%")} />
+        <Label text="dock_phone" left="36.99%" top="94.44%" />
+        <div style={z("Phone", "36.99%", "94.44%", "2.5%", "3%")} />
+        <Label text="dock_climate" left="41.52%" top="94.1%" />
+        <div style={z("Climate", "41.52%", "94.1%", "2.5%", "3.5%")} />
+        <Label text="dock_toybox" left="46.56%" top="94.1%" />
+        <div style={z("Toybox", "46.56%", "94.1%", "2.5%", "3.5%")} />
+        <Label text="dock_apps" left="51.56%" top="94.31%" />
+        <div style={z("Apps", "51.56%", "94.31%", "2.5%", "3%")} />
+        <Label text="dock_events" left="56.33%" top="94.1%" />
+        <div style={z("Events", "56.33%", "94.1%", "2.5%", "3.5%")} />
+        <Label text="dock_map" left="61.21%" top="94.1%" />
+        <div style={z("Map", "61.21%", "94.1%", "2.5%", "3.5%")} />
+        <Label text="dock_energy" left="66.09%" top="94.1%" />
+        <div style={z("Energy", "66.09%", "94.1%", "2.5%", "3.5%")} />
+        <Label text="dock_vol_dn" left="77.5%" top="95.07%" />
+        <div style={z("Vol Down", "77.5%", "95.07%", "2%", "2%")} />
+        <Label text="dock_vol" left="81.76%" top="95.14%" />
+        <div style={z("Volume", "81.76%", "95.14%", "1.5%", "1.5%", false)} />
+        <Label text="dock_vol_up" left="86.88%" top="95%" />
+        <div style={z("Vol Up", "86.88%", "95%", "2%", "2%")} />
+
+        {/* — AIRBAG INDICATOR — */}
+        <Label text="airbag" left="94%" top="94%" />
+        <div style={z("Passenger Airbag Off", "94%", "94%", "5%", "4%", false)} />
+
+        {/* Debug mode indicator */}
+        {debug && (
+          <div style={{
+            position: "absolute", top: 8, left: "50%", transform: "translateX(-50%)",
+            zIndex: 30, fontSize: 11, fontFamily: "monospace",
+            color: "#ff3333", background: "rgba(0,0,0,0.9)",
+            padding: "4px 12px", borderRadius: 4,
+            border: "1px solid rgba(255,0,0,0.3)",
+          }}>
+            DEBUG MODE — press D to toggle — 48 zones mapped
+          </div>
+        )}
 
       </div>
     </main>
