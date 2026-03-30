@@ -145,16 +145,16 @@ export default function Home() {
         <div style={z("Album Art", "21.1%", "74.3%", "7.4%", "11.1%")} />
         <Label text="media_title" left="29.3%" top="74.9%" />
         <div style={z("Track Title", "29.3%", "74.5%", "9%", "3.5%", false)} />
-        <Label text="media_prev" left="30%" top="83.5%" />
-        <div style={z("Previous", "30%", "83%", "4%", "4%")} />
-        <Label text="media_play" left="35.8%" top="83.5%" />
-        <div style={z("Play", "35.8%", "83%", "4%", "4%")} />
-        <Label text="media_next" left="41.8%" top="83.5%" />
-        <div style={z("Next", "41.8%", "83%", "4%", "4%")} />
-        <Label text="media_eq" left="47.5%" top="83.5%" />
-        <div style={z("Equalizer", "47.5%", "83%", "4%", "4%")} />
-        <Label text="media_search" left="53.2%" top="83.5%" />
-        <div style={z("Search", "53.2%", "83%", "4%", "4%")} />
+        <Label text="media_prev" left="29.5%" top="82.5%" />
+        <div style={z("Previous", "29.5%", "82.5%", "5.5%", "5%")} />
+        <Label text="media_play" left="35.5%" top="82.5%" />
+        <div style={z("Play", "35.5%", "82.5%", "5.5%", "5%")} />
+        <Label text="media_next" left="41.5%" top="82.5%" />
+        <div style={z("Next", "41.5%", "82.5%", "5.5%", "5%")} />
+        <Label text="media_eq" left="47.5%" top="82.5%" />
+        <div style={z("Equalizer", "47.5%", "82.5%", "5.5%", "5%")} />
+        <Label text="media_search" left="53.5%" top="82.5%" />
+        <div style={z("Search", "53.5%", "82.5%", "5.5%", "5%")} />
 
         {/* — NAVIGATE WIDGET — */}
         <Label text="nav_card" left="56.64%" top="72.22%" />
