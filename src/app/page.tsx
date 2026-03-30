@@ -105,14 +105,14 @@ export default function Home() {
         <div style={z("200 mi", "9.61%", "3.33%", "3.55%", "1.5%", false)} />
         <Label text="status_icons" left="47.42%" top="3.26%" />
         <div style={z("Status Icons", "47.42%", "3.26%", "8.63%", "1.5%", false)} />
-        <Label text="time" left="90.04%" top="3.54%" />
-        <div style={z("21:55", "90.04%", "3.54%", "4.45%", "1.5%", false)} />
-        <Label text="temp" left="94.14%" top="3.4%" />
-        <div style={z("70°F", "94.14%", "3.4%", "3.75%", "1.5%", false)} />
+        <Label text="time" left="89.64%" top="3.36%" />
+        <div style={z("21:55", "89.64%", "3.36%", "3.85%", "2.04%", false)} />
+        <Label text="temp" left="93.94%" top="3.22%" />
+        <div style={z("70°F", "93.94%", "3.22%", "4.25%", "2.04%", false)} />
 
         {/* — LEFT CONTROLS — */}
-        <Label text="fsd_button" left="2.15%" top="8.19%" />
-        <div style={z("Start Self-Driving", "2.15%", "8.19%", "17.03%", "6.32%")} />
+        <Label text="fsd_button" left="6.55%" top="8.19%" />
+        <div style={z("Start Self-Driving", "6.55%", "8.19%", "12.63%", "7.74%")} />
         <Label text="direction_text" left="2.81%" top="19.38%" />
         <div style={z("Choose direction", "2.81%", "19.38%", "12%", "2%", false)} />
         <Label text="ride_height_dots" left="1.52%" top="8.19%" />
@@ -125,26 +125,26 @@ export default function Home() {
         <div style={z("Ride Height", "5.08%", "44.44%", "14.41%", "4.72%")} />
 
         {/* — FLOATING LABELS — */}
-        <Label text="label_frunk" left="26.29%" top="25.21%" />
-        <div style={z("Open Frunk", "26.29%", "25.21%", "2.97%", "3.54%")} />
-        <Label text="label_tonneau" left="60.04%" top="18.75%" />
-        <div style={z("Open Tonneau", "60.04%", "18.75%", "4.41%", "3.54%")} />
-        <Label text="label_tailgate" left="74.41%" top="27.29%" />
-        <div style={z("Open Tailgate", "74.41%", "27.29%", "4.1%", "3.89%")} />
+        <Label text="label_frunk" left="26.19%" top="24.68%" />
+        <div style={z("Open Frunk", "26.19%", "24.68%", "3.77%", "4.78%")} />
+        <Label text="label_tonneau" left="59.74%" top="18.39%" />
+        <div style={z("Open Tonneau", "59.74%", "18.39%", "5.01%", "4.43%")} />
+        <Label text="label_tailgate" left="74.21%" top="26.93%" />
+        <div style={z("Open Tailgate", "74.21%", "26.93%", "4.8%", "4.43%")} />
 
         {/* — COMPASS — */}
-        <Label text="compass" left="88%" top="19%" />
-        <div style={z("Compass", "87.5%", "19%", "2%", "3%", false)} />
+        <Label text="compass" left="87.4%" top="19.89%" />
+        <div style={z("Compass", "87.4%", "19.89%", "2.1%", "4.25%", false)} />
 
         {/* — MEDIA PLAYER — */}
-        <Label text="media_card" left="17.97%" top="72.22%" />
-        <div style={z("Media Card", "17.97%", "72.22%", "23.01%", "17.29%", false)} />
-        <Label text="media_hamburger" left="20.08%" top="73.89%" />
+        <Label text="media_card" left="19.07%" top="72.22%" />
+        <div style={z("Media Card", "19.07%", "72.22%", "39.11%", "16.58%", false)} />
+        <Label text="media_hamburger" left="19.5%" top="73.5%" />
         <div style={z("Menu", "19.5%", "73.5%", "1.8%", "2.5%")} />
-        <Label text="media_album_art" left="21.09%" top="74.3%" />
-        <div style={z("Album Art", "21.1%", "74.3%", "7.4%", "11.1%")} />
-        <Label text="media_title" left="29.3%" top="74.9%" />
-        <div style={z("Track Title", "29.3%", "74.5%", "9%", "3.5%", false)} />
+        <Label text="media_album_art" left="19.2%" top="72.34%" />
+        <div style={z("Album Art", "19.2%", "72.34%", "9.3%", "16.26%")} />
+        <Label text="media_title" left="29.6%" top="74.5%" />
+        <div style={z("Track Title", "29.6%", "74.5%", "28%", "3.5%", false)} />
         <Label text="media_prev" left="29.5%" top="82.5%" />
         <div style={z("Previous", "29.5%", "82.5%", "5.5%", "5%")} />
         <Label text="media_play" left="35.5%" top="82.5%" />
@@ -154,17 +154,17 @@ export default function Home() {
         <Label text="media_eq" left="47.5%" top="82.5%" />
         <div style={z("Equalizer", "47.5%", "82.5%", "5.5%", "5%")} />
         <Label text="media_search" left="53.5%" top="82.5%" />
-        <div style={z("Search", "53.5%", "82.5%", "5.5%", "5%")} />
+        <div style={z("Search", "53.5%", "82.5%", "4%", "5%")} />
 
         {/* — NAVIGATE WIDGET — */}
-        <Label text="nav_card" left="56.64%" top="72.22%" />
-        <div style={z("Navigate Card", "56.64%", "72.22%", "25.35%", "17.29%", false)} />
-        <Label text="nav_search" left="61.52%" top="75.35%" />
-        <div style={z("Navigate", "61.52%", "75.35%", "6%", "2.5%")} />
-        <Label text="nav_home" left="62.7%" top="83.75%" />
-        <div style={z("Home", "62.7%", "83.75%", "4.8%", "3%")} />
-        <Label text="nav_work" left="73.32%" top="83.75%" />
-        <div style={z("Work", "73.32%", "83.75%", "4.38%", "3%")} />
+        <Label text="nav_card" left="60.14%" top="72.04%" />
+        <div style={z("Navigate Card", "60.14%", "72.04%", "25.35%", "16.76%", false)} />
+        <Label text="nav_search" left="60.82%" top="74.46%" />
+        <div style={z("Navigate", "60.82%", "74.46%", "18.3%", "3.57%")} />
+        <Label text="nav_home" left="62.4%" top="82.33%" />
+        <div style={z("Home", "62.4%", "82.33%", "6%", "4.6%")} />
+        <Label text="nav_work" left="72.52%" top="82.15%" />
+        <div style={z("Work", "72.52%", "82.15%", "6.08%", "4.6%")} />
 
         {/* — DOCK BAR — */}
         <Label text="dock_vehicle" left="1.6%" top="94.51%" />
