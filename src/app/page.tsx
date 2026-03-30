@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import CTDisplayViewer from "@/components/CTDisplayViewer";
 
 /**
  * Maui Premium Art — Homepage
@@ -80,6 +81,9 @@ export default function Home() {
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
         }} />
+
+        {/* ═══ LAYER 1.5: 360° VIEWER (over background, under zones) ═══ */}
+        <CTDisplayViewer />
 
         {/* ═══ LAYER 2: DATA ZONES ═══
             These are the areas where content changes.
