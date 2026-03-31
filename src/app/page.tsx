@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useHawaiianRadio } from "@/hooks/useHawaiianRadio";
 // import CTDisplayViewer from "@/components/CTDisplayViewer"; // REMOVED — Boss: clear 3D model for template editing
 
 /**
@@ -18,6 +19,7 @@ import { useState, useEffect } from "react";
 
 export default function Home() {
   const [debug, setDebug] = useState(false);
+  const radio = useHawaiianRadio();
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -128,21 +130,38 @@ export default function Home() {
         <Label text="compass" left="87.5%" top="19.64%" />
         <div style={z("Compass", "87.5%", "19.64%", "2.1%", "4.25%", false)} />
 
-        {/* — MEDIA PLAYER — */}
+        {/* — MEDIA PLAYER (wired to Hawaiian Radio) — */}
         <Label text="media_card" left="19.07%" top="72.22%" />
         <div style={z("Media Card", "19.07%", "72.22%", "39.11%", "16.58%", false)} />
         <Label text="media_hamburger" left="19.5%" top="73.5%" />
         <div style={z("Menu", "19.5%", "73.5%", "1.8%", "2.5%")} />
+
+        {/* Album Art — real image over screenshot */}
         <Label text="media_album_art" left="19.2%" top="72.34%" />
-        <div style={z("Album Art", "19.2%", "72.34%", "9.3%", "16.26%")} />
+        <div style={z("Album Art", "19.2%", "72.34%", "9.3%", "16.26%")} onClick={radio.togglePlay}>
+          <img
+            src={radio.currentTrack.artworkImage}
+            alt={radio.currentTrack.title}
+            style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 2, display: "block" }}
+          />
+        </div>
+
+        {/* Track title — real text over screenshot */}
         <Label text="media_title" left="29.6%" top="74.5%" />
-        <div style={z("Track Title", "29.6%", "74.5%", "28%", "3.5%", false)} />
+        <div style={{...z("Track Title", "29.6%", "74.5%", "28%", "3.5%", false), display: "flex", alignItems: "center", gap: 6, overflow: "hidden"}}>
+          <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#3b82f6", flexShrink: 0 }} />
+          <span style={{ color: "#fff", fontSize: "clamp(9px, 1.1vw, 14px)", fontFamily: "'Blender-TSL Medium', system-ui, sans-serif", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+            {radio.currentTrack.title}
+          </span>
+        </div>
+
+        {/* Playback controls — wired */}
         <Label text="media_prev" left="29.5%" top="82.5%" />
-        <div style={z("Previous", "29.5%", "82.5%", "5.5%", "5%")} />
+        <div style={z("Previous", "29.5%", "82.5%", "5.5%", "5%")} onClick={radio.prevTrack} />
         <Label text="media_play" left="35.5%" top="82.5%" />
-        <div style={z("Play", "35.5%", "82.5%", "5.5%", "5%")} />
+        <div style={z(radio.isPlaying ? "Pause" : "Play", "35.5%", "82.5%", "5.5%", "5%")} onClick={radio.togglePlay} />
         <Label text="media_next" left="41.5%" top="82.5%" />
-        <div style={z("Next", "41.5%", "82.5%", "5.5%", "5%")} />
+        <div style={z("Next", "41.5%", "82.5%", "5.5%", "5%")} onClick={radio.nextTrack} />
         <Label text="media_eq" left="47.5%" top="82.5%" />
         <div style={z("Equalizer", "47.5%", "82.5%", "5.5%", "5%")} />
         <Label text="media_search" left="53.5%" top="82.5%" />
@@ -184,11 +203,11 @@ export default function Home() {
         <Label text="dock_energy" left="66.09%" top="94.1%" />
         <div style={z("Energy", "66.09%", "94.1%", "2.5%", "3.5%")} />
         <Label text="dock_vol_dn" left="77.5%" top="95.07%" />
-        <div style={z("Vol Down", "77.5%", "95.07%", "2%", "2%")} />
+        <div style={z("Vol Down", "77.5%", "95.07%", "2%", "2%")} onClick={radio.volumeDown} />
         <Label text="dock_vol" left="81.76%" top="95.07%" />
         <div style={z("Volume", "81.76%", "95.07%", "1.5%", "2%", false)} />
         <Label text="dock_vol_up" left="86.88%" top="95.07%" />
-        <div style={z("Vol Up", "86.88%", "95.07%", "2%", "2%")} />
+        <div style={z("Vol Up", "86.88%", "95.07%", "2%", "2%")} onClick={radio.volumeUp} />
 
         {/* — AIRBAG INDICATOR — */}
         <Label text="airbag" left="94%" top="94%" />
