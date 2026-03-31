@@ -146,20 +146,34 @@ export default function Home() {
           />
         </div>
 
-        {/* Track title — real text over screenshot */}
+        {/* Track title — real text over screenshot, solid bg to cover "Khris's iPhone" */}
         <Label text="media_title" left="29.6%" top="74.5%" />
-        <div style={{...z("Track Title", "29.6%", "74.5%", "28%", "3.5%", false), display: "flex", alignItems: "center", gap: 6, overflow: "hidden"}}>
+        <div style={{...z("Track Title", "29.6%", "74.5%", "28%", "3.5%", false), display: "flex", alignItems: "center", gap: 6, overflow: "hidden", background: "#16181e", paddingLeft: 6, paddingRight: 6}}>
           <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#3b82f6", flexShrink: 0 }} />
           <span style={{ color: "#fff", fontSize: "clamp(9px, 1.1vw, 14px)", fontFamily: "'Blender-TSL Medium', system-ui, sans-serif", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
             {radio.currentTrack.title}
           </span>
         </div>
 
-        {/* Playback controls — wired */}
+        {/* Artist name — second line under title */}
+        <div style={{...z("Artist", "29.6%", "78%", "28%", "2.5%", false), display: "flex", alignItems: "center", gap: 5, overflow: "hidden", background: "#16181e", paddingLeft: 6}}>
+          <span style={{ color: "rgba(255,255,255,0.45)", fontSize: "clamp(7px, 0.85vw, 11px)", fontFamily: "'Blender-TSL Medium', system-ui, sans-serif", whiteSpace: "nowrap" }}>
+            {radio.currentTrack.artist}
+          </span>
+        </div>
+
+        {/* Playback controls — wired with icon overlays */}
         <Label text="media_prev" left="29.5%" top="82.5%" />
         <div style={z("Previous", "29.5%", "82.5%", "5.5%", "5%")} onClick={radio.prevTrack} />
         <Label text="media_play" left="35.5%" top="82.5%" />
-        <div style={z(radio.isPlaying ? "Pause" : "Play", "35.5%", "82.5%", "5.5%", "5%")} onClick={radio.togglePlay} />
+        <div style={{...z(radio.isPlaying ? "Pause" : "Play", "35.5%", "82.5%", "5.5%", "5%"), display: "flex", alignItems: "center", justifyContent: "center"}} onClick={radio.togglePlay}>
+          {radio.isPlaying && (
+            <svg width="16" height="18" viewBox="0 0 12 14" fill="rgba(255,255,255,0.85)" style={{ position: "relative", zIndex: 6 }}>
+              <rect x="1" y="1" width="3.5" height="12" rx="0.8" />
+              <rect x="7.5" y="1" width="3.5" height="12" rx="0.8" />
+            </svg>
+          )}
+        </div>
         <Label text="media_next" left="41.5%" top="82.5%" />
         <div style={z("Next", "41.5%", "82.5%", "5.5%", "5%")} onClick={radio.nextTrack} />
         <Label text="media_eq" left="47.5%" top="82.5%" />
