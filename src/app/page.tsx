@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import CTDisplayViewer from "@/components/CTDisplayViewer";
+// import CTDisplayViewer from "@/components/CTDisplayViewer"; // REMOVED — Boss: clear 3D model for template editing
 
 /**
  * Maui Premium Art — Homepage
@@ -82,8 +82,8 @@ export default function Home() {
           backgroundRepeat: "no-repeat",
         }} />
 
-        {/* ═══ LAYER 1.5: 360° VIEWER (over background, under zones) ═══ */}
-        <CTDisplayViewer />
+        {/* ═══ LAYER 1.5: 360° VIEWER — TEMPORARILY REMOVED for template editing ═══ */}
+        {/* <CTDisplayViewer /> */}
 
         {/* ═══ LAYER 2: DATA ZONES ═══
             These are the areas where content changes.
