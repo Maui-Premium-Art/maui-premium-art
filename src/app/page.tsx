@@ -131,9 +131,9 @@ export default function Home() {
         <div style={z("Compass", "87.5%", "19.64%", "2.1%", "4.25%", false)} />
 
         {/* — MEDIA PLAYER (wired to Hawaiian Radio) — */}
-        {/* media_card = outer container cutout — solid bg covers all screenshot media UI */}
+        {/* media_card = Type 3 invisible container — screenshot media chrome shows through */}
         <Label text="media_card" left="19.07%" top="72.22%" />
-        <div style={{...z("Media Card", "19.07%", "72.22%", "39.11%", "16.58%", false), background: "#16181e"}} />
+        <div style={z("Media Card", "19.07%", "72.22%", "39.11%", "16.58%", false)} />
 
         {/* Album Art cutout — real image replaces screenshot music note */}
         <Label text="media_album_art" left="19.2%" top="72.34%" />
@@ -145,72 +145,45 @@ export default function Home() {
           />
         </div>
 
-        {/* Hamburger menu cutout */}
+        {/* Hamburger menu — Type 3: invisible control, screenshot icon shows */}
         <Label text="media_hamburger" left="19.5%" top="73.5%" />
-        <div style={{...z("Menu", "19.5%", "73.5%", "1.8%", "2.5%"), display: "flex", alignItems: "center", justifyContent: "center"}}>
-          <svg width="14" height="12" viewBox="0 0 14 12" fill="rgba(255,255,255,0.5)">
-            <rect y="0" width="14" height="1.5" rx="0.5" />
-            <rect y="5" width="14" height="1.5" rx="0.5" />
-            <rect y="10" width="14" height="1.5" rx="0.5" />
-          </svg>
-        </div>
+        <div style={z("Menu", "19.5%", "73.5%", "1.8%", "2.5%")} />
 
-        {/* Track title cutout — replaces "Khris's iPhone" */}
+        {/* Track title — Type 1 cutout: solid bg covers "Khris's iPhone", renders our title */}
         <Label text="media_title" left="29.6%" top="74.5%" />
-        <div style={{...z("Track Title", "29.6%", "74.5%", "28%", "3.5%", false), display: "flex", alignItems: "center", gap: 6, overflow: "hidden", paddingLeft: 6, paddingRight: 6}}>
+        <div style={{...z("Track Title", "29.6%", "74.5%", "28%", "3.5%", false), display: "flex", alignItems: "center", gap: 6, overflow: "hidden", background: "#16181e", paddingLeft: 6, paddingRight: 6}}>
           <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#3b82f6", flexShrink: 0 }} />
           <span style={{ color: "#fff", fontSize: "clamp(9px, 1.1vw, 14px)", fontFamily: "'Blender-TSL Medium', system-ui, sans-serif", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
             {radio.currentTrack.title}
           </span>
         </div>
 
-        {/* Artist name — second line */}
-        <div style={{...z("Artist", "29.6%", "78%", "28%", "2.5%", false), display: "flex", alignItems: "center", gap: 5, overflow: "hidden", paddingLeft: 6}}>
+        {/* Artist name — Type 1 cutout: solid bg, renders our artist */}
+        <div style={{...z("Artist", "29.6%", "78%", "28%", "2.5%", false), display: "flex", alignItems: "center", gap: 5, overflow: "hidden", background: "#16181e", paddingLeft: 6}}>
           <span style={{ color: "rgba(255,255,255,0.45)", fontSize: "clamp(7px, 0.85vw, 11px)", fontFamily: "'Blender-TSL Medium', system-ui, sans-serif", whiteSpace: "nowrap" }}>
             {radio.currentTrack.artist}
           </span>
         </div>
 
-        {/* Playback controls — each is a cutout with its own icon */}
+        {/* Playback controls — Type 3: invisible control layers over screenshot icons */}
         <Label text="media_prev" left="29.5%" top="82.5%" />
-        <div style={{...z("Previous", "29.5%", "82.5%", "5.5%", "5%"), display: "flex", alignItems: "center", justifyContent: "center"}} onClick={radio.prevTrack}>
-          <svg width="14" height="12" viewBox="0 0 16 14" fill="rgba(255,255,255,0.6)">
-            <rect x="1" y="2" width="2" height="10" rx="0.8" />
-            <path d="M14 2L5 7L14 12V2Z" />
-          </svg>
-        </div>
+        <div style={z("Previous", "29.5%", "82.5%", "5.5%", "5%")} onClick={radio.prevTrack} />
         <Label text="media_play" left="35.5%" top="82.5%" />
         <div style={{...z(radio.isPlaying ? "Pause" : "Play", "35.5%", "82.5%", "5.5%", "5%"), display: "flex", alignItems: "center", justifyContent: "center"}} onClick={radio.togglePlay}>
-          {radio.isPlaying ? (
-            <svg width="14" height="16" viewBox="0 0 12 14" fill="rgba(255,255,255,0.6)">
+          {/* Only overlay pause icon when playing — screenshot already shows ▶ */}
+          {radio.isPlaying && (
+            <svg width="14" height="16" viewBox="0 0 12 14" fill="rgba(255,255,255,0.7)" style={{ position: "relative", zIndex: 6 }}>
               <rect x="1" y="1" width="3.5" height="12" rx="0.8" />
               <rect x="7.5" y="1" width="3.5" height="12" rx="0.8" />
-            </svg>
-          ) : (
-            <svg width="14" height="16" viewBox="0 0 14 16" fill="rgba(255,255,255,0.6)">
-              <path d="M2 1L13 8L2 15V1Z" />
             </svg>
           )}
         </div>
         <Label text="media_next" left="41.5%" top="82.5%" />
-        <div style={{...z("Next", "41.5%", "82.5%", "5.5%", "5%"), display: "flex", alignItems: "center", justifyContent: "center"}} onClick={radio.nextTrack}>
-          <svg width="14" height="12" viewBox="0 0 16 14" fill="rgba(255,255,255,0.6)">
-            <rect x="13" y="2" width="2" height="10" rx="0.8" />
-            <path d="M2 2L11 7L2 12V2Z" />
-          </svg>
-        </div>
+        <div style={z("Next", "41.5%", "82.5%", "5.5%", "5%")} onClick={radio.nextTrack} />
         <Label text="media_eq" left="47.5%" top="82.5%" />
-        <div style={{...z("Equalizer", "47.5%", "82.5%", "5.5%", "5%"), display: "flex", alignItems: "center", justifyContent: "center"}}>
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="2" strokeLinecap="round">
-            <line x1="3" y1="3" x2="3" y2="13" /><line x1="8" y1="5" x2="8" y2="11" /><line x1="13" y1="2" x2="13" y2="14" />
-          </svg>
-        </div>
+        <div style={z("Equalizer", "47.5%", "82.5%", "5.5%", "5%")} />
         <Label text="media_search" left="53.5%" top="82.5%" />
-        <div style={{...z("Search", "53.5%", "82.5%", "4%", "5%"), display: "flex", alignItems: "center", justifyContent: "center"}}>
-          <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5">
-            <circle cx="6" cy="6" r="4" /><line x1="9.5" y1="9.5" x2="13" y2="13" strokeLinecap="round" />
-          </svg>
-        </div>
+        <div style={z("Search", "53.5%", "82.5%", "4%", "5%")} />
 
         {/* — NAVIGATE WIDGET — */}
         <Label text="nav_card" left="60.14%" top="72.22%" />
