@@ -8,14 +8,18 @@ interface AudioVisualizerSidebarProps {
   open: boolean;
   onClose: () => void;
   analyserNode: AnalyserNode | null;
+  isPlaying?: boolean;
+  onTogglePlay?: () => void;
 }
 
 export default function AudioVisualizerSidebar({
   open,
   onClose,
   analyserNode,
+  isPlaying = false,
+  onTogglePlay,
 }: AudioVisualizerSidebarProps) {
-  const [activePreset, setActivePreset] = useState(0);
+  const [activePreset, setActivePreset] = useState(0); // Default: Circular Radial (first in list)
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafRef = useRef<number>(0);
   const dataRef = useRef<Uint8Array<ArrayBuffer> | null>(null);
@@ -79,7 +83,7 @@ export default function AudioVisualizerSidebar({
       const h = canvas.height / dpr;
 
       if (analyserNode && dataRef.current) {
-        if (activePreset === 1) {
+        if (activePreset === 2) {
           analyserNode.getByteTimeDomainData(dataRef.current);
         } else {
           analyserNode.getByteFrequencyData(dataRef.current);
@@ -186,6 +190,14 @@ export default function AudioVisualizerSidebar({
               height: "100%",
             }}
           />
+          {/* Play button overlay when not playing */}
+          {!isPlaying && (
+            <div onClick={onTogglePlay} style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", zIndex: 5 }}>
+              <div style={{ width: 72, height: 72, borderRadius: "50%", background: "rgba(255,255,255,0.06)", border: "2px solid rgba(255,255,255,0.15)", display: "flex", alignItems: "center", justifyContent: "center", transition: "all 0.2s ease" }}>
+                <svg width="28" height="32" viewBox="0 0 14 16" fill="rgba(255,255,255,0.6)"><path d="M2 1L13 8L2 15V1Z" /></svg>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

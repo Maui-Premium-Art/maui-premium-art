@@ -222,9 +222,9 @@ function renderParticleBurst(
 
 // ── Export all presets ─────────────────────────────────────────────────────
 export const VISUALIZER_PRESETS: VisualizerPreset[] = [
+  { name: "Circular Radial", description: "Radial frequency ring", render: renderCircularRadial },
   { name: "Frequency Bars", description: "CT-style vertical frequency display", render: renderFrequencyBars },
   { name: "Waveform", description: "Oscilloscope waveform trace", render: renderWaveform },
-  { name: "Circular Radial", description: "Radial frequency ring", render: renderCircularRadial },
   { name: "Spectrogram", description: "Scrolling frequency waterfall", render: renderSpectrogram },
   { name: "Particle Burst", description: "Beat-reactive particle system", render: renderParticleBurst },
 ];

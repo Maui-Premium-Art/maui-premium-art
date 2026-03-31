@@ -21,6 +21,7 @@ import AudioVisualizerSidebar from "@/components/console/AudioVisualizerSidebar"
 export default function Home() {
   const [debug, setDebug] = useState(false);
   const [eqOpen, setEqOpen] = useState(false);
+  const [trackListOpen, setTrackListOpen] = useState(false);
   const radio = useHawaiianRadio();
 
   useEffect(() => {
@@ -151,18 +152,16 @@ export default function Home() {
         <Label text="media_hamburger" left="19.5%" top="73.5%" />
         <div style={z("Menu", "19.5%", "73.5%", "1.8%", "2.5%")} />
 
-        {/* Track title — Type 1 cutout: solid bg covers "Khris's iPhone", renders our title */}
-        <Label text="media_title" left="29.6%" top="74.5%" />
-        <div style={{...z("Track Title", "29.6%", "74.5%", "28%", "3.5%", false), display: "flex", alignItems: "center", gap: 6, overflow: "hidden", background: "#16181e", paddingLeft: 6, paddingRight: 6}}>
-          <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#3b82f6", flexShrink: 0 }} />
-          <span style={{ color: "#fff", fontSize: "clamp(9px, 1.1vw, 14px)", fontFamily: "'Blender-TSL Medium', system-ui, sans-serif", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-            {radio.currentTrack.title}
-          </span>
-        </div>
-
-        {/* Artist name — Type 1 cutout: solid bg, renders our artist */}
-        <div style={{...z("Artist", "29.6%", "78%", "28%", "2.5%", false), display: "flex", alignItems: "center", gap: 5, overflow: "hidden", background: "#16181e", paddingLeft: 6}}>
-          <span style={{ color: "rgba(255,255,255,0.45)", fontSize: "clamp(7px, 0.85vw, 11px)", fontFamily: "'Blender-TSL Medium', system-ui, sans-serif", whiteSpace: "nowrap" }}>
+        {/* Track title + source — Type 1 cutout: solid bg covers "Khris's iPhone" + source line */}
+        <Label text="media_title" left="28.5%" top="73.5%" />
+        <div style={{...z("Track Info", "28.5%", "73.5%", "29.5%", "8%", false), background: "#16181e", display: "flex", flexDirection: "column", justifyContent: "center", gap: "0.3%", overflow: "hidden", paddingLeft: 8, paddingRight: 6}}>
+          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+            <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#3b82f6", flexShrink: 0 }} />
+            <span style={{ color: "#fff", fontSize: "clamp(9px, 1.1vw, 14px)", fontFamily: "'Blender-TSL Medium', system-ui, sans-serif", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+              {radio.currentTrack.title}
+            </span>
+          </div>
+          <span style={{ color: "rgba(255,255,255,0.45)", fontSize: "clamp(7px, 0.85vw, 11px)", fontFamily: "'Blender-TSL Medium', system-ui, sans-serif", whiteSpace: "nowrap", paddingLeft: 13 }}>
             {radio.currentTrack.artist}
           </span>
         </div>
@@ -171,10 +170,10 @@ export default function Home() {
         <Label text="media_prev" left="29.5%" top="82.5%" />
         <div style={z("Previous", "29.5%", "82.5%", "5.5%", "5%")} onClick={radio.prevTrack} />
         <Label text="media_play" left="35.5%" top="82.5%" />
-        <div style={{...z(radio.isPlaying ? "Pause" : "Play", "35.5%", "82.5%", "5.5%", "5%"), display: "flex", alignItems: "center", justifyContent: "center"}} onClick={radio.togglePlay}>
-          {/* Only overlay pause icon when playing — screenshot already shows ▶ */}
+        <div style={{...z(radio.isPlaying ? "Pause" : "Play", "35.5%", "82.5%", "5.5%", "5%"), display: "flex", alignItems: "center", justifyContent: "center", background: radio.isPlaying ? "#16181e" : "transparent"}} onClick={radio.togglePlay}>
+          {/* Solid bg + pause icon when playing covers screenshot ▶ completely */}
           {radio.isPlaying && (
-            <svg width="14" height="16" viewBox="0 0 12 14" fill="rgba(255,255,255,0.7)" style={{ position: "relative", zIndex: 6 }}>
+            <svg width="14" height="16" viewBox="0 0 12 14" fill="rgba(255,255,255,0.6)">
               <rect x="1" y="1" width="3.5" height="12" rx="0.8" />
               <rect x="7.5" y="1" width="3.5" height="12" rx="0.8" />
             </svg>
@@ -185,7 +184,7 @@ export default function Home() {
         <Label text="media_eq" left="47.5%" top="82.5%" />
         <div style={z("Equalizer", "47.5%", "82.5%", "5.5%", "5%")} onClick={() => setEqOpen(true)} />
         <Label text="media_search" left="53.5%" top="82.5%" />
-        <div style={z("Search", "53.5%", "82.5%", "4%", "5%")} />
+        <div style={z("Search", "53.5%", "82.5%", "4%", "5%")} onClick={() => setTrackListOpen(true)} />
 
         {/* — NAVIGATE WIDGET — */}
         <Label text="nav_card" left="60.14%" top="72.22%" />
@@ -251,6 +250,8 @@ export default function Home() {
           open={eqOpen}
           onClose={() => setEqOpen(false)}
           analyserNode={radio.analyserNode}
+          isPlaying={radio.isPlaying}
+          onTogglePlay={radio.togglePlay}
         />
 
       </div>
