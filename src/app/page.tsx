@@ -12,17 +12,16 @@ import { useState, useEffect } from "react";
  * 
  * Debug mode: ?debug=true or press D key
  * Shows red outlines on all action/data zones.
+ * 
+ * Zone positions: CT Zone Editor v3 export (Mar 31, 2026)
  */
 
 export default function Home() {
   const [debug, setDebug] = useState(false);
 
   useEffect(() => {
-    // Check URL param
     const params = new URLSearchParams(window.location.search);
     if (params.get("debug") === "true") setDebug(true);
-
-    // D key toggle
     const handler = (e: KeyboardEvent) => {
       if (e.key === "d" || e.key === "D") setDebug(prev => !prev);
     };
@@ -30,7 +29,6 @@ export default function Home() {
     return () => window.removeEventListener("keydown", handler);
   }, []);
 
-  // Debug style for action zones
   const z = (title: string, left: string, top: string, width: string, height: string, pointer = true) => ({
     position: "absolute" as const,
     left, top, width, height,
@@ -43,7 +41,6 @@ export default function Home() {
     } : {}),
   });
 
-  // Debug label (only visible in debug mode)
   const Label = ({ text, left, top }: { text: string; left: string; top: string }) => (
     debug ? (
       <div style={{
@@ -55,6 +52,7 @@ export default function Home() {
       }}>{text}</div>
     ) : null
   );
+
   return (
     <main style={{
       width: "100vw", height: "100dvh",
@@ -62,7 +60,6 @@ export default function Home() {
       display: "flex", alignItems: "center", justifyContent: "center",
       overflow: "hidden",
     }}>
-      {/* 16:9 container — the CT display */}
       <div id="ct-display" style={{
         position: "relative",
         width: "100%",
@@ -71,9 +68,7 @@ export default function Home() {
         background: "#0a0c10",
         overflow: "hidden",
       }}>
-        {/* ═══ LAYER 1: CT BACKGROUND (terrain) ═══
-            For now: the full screenshot. 
-            Future: extracted terrain panorama from capture sessions. */}
+        {/* ═══ LAYER 1: CT BACKGROUND ═══ */}
         <div style={{
           position: "absolute", inset: 0,
           backgroundImage: "url('/images/ct-display-real.png')",
@@ -82,51 +77,44 @@ export default function Home() {
           backgroundRepeat: "no-repeat",
         }} />
 
-        {/* ═══ LAYER 1.5: 360° VIEWER — TEMPORARILY REMOVED for template editing ═══ */}
+        {/* ═══ LAYER 1.5: 360° VIEWER — TEMPORARILY REMOVED ═══ */}
         {/* <CTDisplayViewer /> */}
 
-        {/* ═══ LAYER 2: DATA ZONES ═══
-            These are the areas where content changes.
-            For now: empty/transparent (screenshot shows through).
-            When wired: text, images, dynamic data render here.
-            Each zone matches exact CT element positions from manifest. */}
-
-        {/* Media player: album art (data zone — will show our art) */}
-        {/* x=21.09% y=73.61% w=7.38% h=12.43% */}
-
-        {/* Media player: title text (data zone — will show track name) */}
-        {/* x=29.30% y=74.93% w=8.75% h=1.67% */}
-
-        {/* Navigate: search text (data zone) */}
-        {/* x=63.75% y=75.56% w=4.53% h=1.81% */}
-
-        {/* ═══ LAYER 3: ACTION ZONES ═══ */}
+        {/* ═══ LAYER 3: ACTION ZONES (CT Zone Editor v3) ═══ */}
 
         {/* — STATUS BAR — */}
-        <Label text="prnd" left="1.56%" top="3.33%" />
-        <div style={z("P R N D", "1.56%", "3.33%", "8.16%", "1.5%", false)} />
-        <Label text="miles" left="9.61%" top="3.33%" />
-        <div style={z("200 mi", "9.61%", "3.33%", "3.55%", "1.5%", false)} />
-        <Label text="status_icons" left="47.42%" top="3.26%" />
-        <div style={z("Status Icons", "47.42%", "3.26%", "8.63%", "1.5%", false)} />
-        <Label text="time" left="89.64%" top="3.36%" />
-        <div style={z("21:55", "89.64%", "3.36%", "3.85%", "2.04%", false)} />
-        <Label text="temp" left="93.94%" top="3.22%" />
-        <div style={z("70°F", "93.94%", "3.22%", "4.25%", "2.04%", false)} />
+        <Label text="prnd" left="1.16%" top="2.97%" />
+        <div style={z("P R N D", "1.16%", "2.97%", "8.25%", "2.04%", false)} />
+        <Label text="miles" left="9.2%" top="2.97%" />
+        <div style={z("200 mi", "9.2%", "2.97%", "3.96%", "2.04%", false)} />
+        <Label text="status_icons" left="46.71%" top="2.97%" />
+        <div style={z("Status Icons", "46.71%", "2.97%", "10.26%", "2.04%", false)} />
+        <Label text="time" left="89.64%" top="2.97%" />
+        <div style={z("21:55", "89.64%", "2.97%", "3.85%", "2.04%", false)} />
+        <Label text="temp" left="93.94%" top="2.97%" />
+        <div style={z("70°F", "93.94%", "2.97%", "4.25%", "2.04%", false)} />
 
         {/* — LEFT CONTROLS — */}
         <Label text="fsd_button" left="6.55%" top="8.19%" />
         <div style={z("Start Self-Driving", "6.55%", "8.19%", "12.63%", "7.74%")} />
         <Label text="direction_text" left="2.81%" top="19.38%" />
         <div style={z("Choose direction", "2.81%", "19.38%", "12%", "2%", false)} />
-        <Label text="ride_height_dots" left="1.52%" top="8.19%" />
-        <div style={z("Ride Height Dots", "1.52%", "8.19%", "1.56%", "29.38%")} />
-        <Label text="park" left="2.81%" top="31%" />
-        <div style={z("PARK", "2.81%", "31%", "3%", "2.5%", false)} />
-        <Label text="headlights" left="2.77%" top="34.58%" />
-        <div style={z("Headlights", "2.77%", "34.58%", "2%", "2%")} />
-        <Label text="ride_height" left="5.08%" top="44.44%" />
-        <div style={z("Ride Height", "5.08%", "44.44%", "14.41%", "4.72%")} />
+        <Label text="ride_height_dots" left="1.11%" top="7.46%" />
+        <div style={z("Ride Height Dots", "1.11%", "7.46%", "3.4%", "35.39%")} />
+        <Label text="park" left="6.08%" top="38.26%" />
+        <div style={z("PARK", "6.08%", "38.26%", "3%", "2.5%", false)} />
+        <Label text="headlights" left="6.24%" top="38.26%" />
+        <div style={z("Headlights", "6.24%", "38.26%", "2.61%", "2.5%")} />
+        <Label text="ride_height" left="11.53%" top="49.08%" />
+        <div style={z("Ride Height", "11.53%", "49.08%", "7.35%", "4.72%")} />
+
+        {/* — CUSTOM ZONES — */}
+        <Label text="custom_1" left="6.84%" top="24.92%" />
+        <div style={z("New Zone", "6.84%", "24.92%", "15.31%", "2.9%")} />
+        <Label text="custom_2" left="6.12%" top="38.26%" />
+        <div style={z("New Zone", "6.12%", "38.26%", "3.27%", "2.5%")} />
+        <Label text="custom_3" left="6.22%" top="38.26%" />
+        <div style={z("New Zone", "6.22%", "38.26%", "3.06%", "2.5%")} />
 
         {/* — FLOATING LABELS — */}
         <Label text="label_frunk" left="26.19%" top="24.68%" />
@@ -137,8 +125,8 @@ export default function Home() {
         <div style={z("Open Tailgate", "74.21%", "26.93%", "4.8%", "4.43%")} />
 
         {/* — COMPASS — */}
-        <Label text="compass" left="87.4%" top="19.89%" />
-        <div style={z("Compass", "87.4%", "19.89%", "2.1%", "4.25%", false)} />
+        <Label text="compass" left="87.5%" top="19.64%" />
+        <div style={z("Compass", "87.5%", "19.64%", "2.1%", "4.25%", false)} />
 
         {/* — MEDIA PLAYER — */}
         <Label text="media_card" left="19.07%" top="72.22%" />
@@ -161,46 +149,46 @@ export default function Home() {
         <div style={z("Search", "53.5%", "82.5%", "4%", "5%")} />
 
         {/* — NAVIGATE WIDGET — */}
-        <Label text="nav_card" left="60.14%" top="72.04%" />
-        <div style={z("Navigate Card", "60.14%", "72.04%", "25.35%", "16.76%", false)} />
-        <Label text="nav_search" left="60.82%" top="74.46%" />
-        <div style={z("Navigate", "60.82%", "74.46%", "18.3%", "3.57%")} />
+        <Label text="nav_card" left="60.14%" top="72.22%" />
+        <div style={z("Navigate Card", "60.14%", "72.22%", "25.35%", "16.58%", false)} />
+        <Label text="nav_search" left="60.82%" top="74.5%" />
+        <div style={z("Navigate", "60.82%", "74.5%", "18.3%", "3.5%")} />
         <Label text="nav_home" left="62.4%" top="82.33%" />
         <div style={z("Home", "62.4%", "82.33%", "6%", "4.6%")} />
-        <Label text="nav_work" left="72.52%" top="82.15%" />
-        <div style={z("Work", "72.52%", "82.15%", "6.08%", "4.6%")} />
+        <Label text="nav_work" left="72.52%" top="82.33%" />
+        <div style={z("Work", "72.52%", "82.33%", "6.08%", "4.6%")} />
 
         {/* — DOCK BAR — */}
         <Label text="dock_vehicle" left="1.6%" top="94.51%" />
         <div style={z("Vehicle", "1.6%", "94.51%", "2.5%", "3%")} />
         <Label text="dock_temp_dn" left="12.66%" top="95.07%" />
         <div style={z("Temp Down", "12.66%", "95.07%", "2%", "2%")} />
-        <Label text="dock_temp" left="16.52%" top="94.72%" />
-        <div style={z("71°", "16.52%", "94.72%", "2.03%", "2.43%", false)} />
-        <Label text="dock_temp_up" left="22.07%" top="95%" />
-        <div style={z("Temp Up", "22.07%", "95%", "2%", "2%")} />
+        <Label text="dock_temp" left="16.52%" top="95.07%" />
+        <div style={z("71°", "16.52%", "95.07%", "2.03%", "2%", false)} />
+        <Label text="dock_temp_up" left="22.07%" top="95.07%" />
+        <div style={z("Temp Up", "22.07%", "95.07%", "2%", "2%")} />
         <Label text="dock_sentry" left="31.95%" top="94.72%" />
         <div style={z("Sentry", "31.95%", "94.72%", "2.5%", "3%")} />
         <Label text="dock_phone" left="36.99%" top="94.44%" />
         <div style={z("Phone", "36.99%", "94.44%", "2.5%", "3%")} />
-        <Label text="dock_climate" left="41.52%" top="94.1%" />
-        <div style={z("Climate", "41.52%", "94.1%", "2.5%", "3.5%")} />
-        <Label text="dock_toybox" left="46.56%" top="94.1%" />
-        <div style={z("Toybox", "46.56%", "94.1%", "2.5%", "3.5%")} />
-        <Label text="dock_apps" left="51.56%" top="94.31%" />
-        <div style={z("Apps", "51.56%", "94.31%", "2.5%", "3%")} />
-        <Label text="dock_events" left="56.33%" top="94.1%" />
-        <div style={z("Events", "56.33%", "94.1%", "2.5%", "3.5%")} />
-        <Label text="dock_map" left="61.21%" top="94.1%" />
-        <div style={z("Map", "61.21%", "94.1%", "2.5%", "3.5%")} />
+        <Label text="dock_climate" left="41.52%" top="94.44%" />
+        <div style={z("Climate", "41.52%", "94.44%", "2.5%", "3%")} />
+        <Label text="dock_toybox" left="46.56%" top="94.44%" />
+        <div style={z("Toybox", "46.56%", "94.44%", "2.5%", "3%")} />
+        <Label text="dock_apps" left="51.56%" top="94.44%" />
+        <div style={z("Apps", "51.56%", "94.44%", "2.5%", "3%")} />
+        <Label text="dock_events" left="56.33%" top="94.44%" />
+        <div style={z("Events", "56.33%", "94.44%", "2.5%", "3%")} />
+        <Label text="dock_map" left="61.21%" top="94.44%" />
+        <div style={z("Map", "61.21%", "94.44%", "2.5%", "3%")} />
         <Label text="dock_energy" left="66.09%" top="94.1%" />
         <div style={z("Energy", "66.09%", "94.1%", "2.5%", "3.5%")} />
         <Label text="dock_vol_dn" left="77.5%" top="95.07%" />
         <div style={z("Vol Down", "77.5%", "95.07%", "2%", "2%")} />
-        <Label text="dock_vol" left="81.76%" top="95.14%" />
-        <div style={z("Volume", "81.76%", "95.14%", "1.5%", "1.5%", false)} />
-        <Label text="dock_vol_up" left="86.88%" top="95%" />
-        <div style={z("Vol Up", "86.88%", "95%", "2%", "2%")} />
+        <Label text="dock_vol" left="81.76%" top="95.07%" />
+        <div style={z("Volume", "81.76%", "95.07%", "1.5%", "2%", false)} />
+        <Label text="dock_vol_up" left="86.88%" top="95.07%" />
+        <div style={z("Vol Up", "86.88%", "95.07%", "2%", "2%")} />
 
         {/* — AIRBAG INDICATOR — */}
         <Label text="airbag" left="94%" top="94%" />
@@ -215,7 +203,7 @@ export default function Home() {
             padding: "4px 12px", borderRadius: 4,
             border: "1px solid rgba(255,0,0,0.3)",
           }}>
-            DEBUG MODE — press D to toggle — 48 zones mapped
+            DEBUG MODE — press D to toggle — 47 zones mapped
           </div>
         )}
 
