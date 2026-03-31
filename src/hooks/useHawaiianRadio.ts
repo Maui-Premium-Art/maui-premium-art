@@ -57,6 +57,7 @@ export interface UseHawaiianRadioReturn {
   volume: number;
   volumeUp: () => void;
   volumeDown: () => void;
+  analyserNode: AnalyserNode | null;
 }
 
 export function useHawaiianRadio(): UseHawaiianRadioReturn {
@@ -68,6 +69,7 @@ export function useHawaiianRadio(): UseHawaiianRadioReturn {
   const audioCtxRef = useRef<AudioContext | null>(null);
   const gainRef = useRef<GainNode | null>(null);
   const sourceRef = useRef<MediaElementAudioSourceNode | null>(null);
+  const analyserRef = useRef<AnalyserNode | null>(null);
 
   // Shuffle on client only (avoid hydration mismatch)
   useEffect(() => {
@@ -81,17 +83,23 @@ export function useHawaiianRadio(): UseHawaiianRadioReturn {
     const gain = ctx.createGain();
     gain.gain.value = 1.0;
     gainRef.current = gain;
+    const analyser = ctx.createAnalyser();
+    analyser.fftSize = 256;
+    analyser.smoothingTimeConstant = 0.8;
+    analyserRef.current = analyser;
   }, []);
 
   const connectSource = useCallback((audio: HTMLAudioElement) => {
     const ctx = audioCtxRef.current;
     const gain = gainRef.current;
-    if (!ctx || !gain) return;
+    const analyser = analyserRef.current;
+    if (!ctx || !gain || !analyser) return;
     if (sourceRef.current) {
       try { sourceRef.current.disconnect(); } catch { /* ignore */ }
     }
     const source = ctx.createMediaElementSource(audio);
-    source.connect(gain);
+    source.connect(analyser);
+    analyser.connect(gain);
     gain.connect(ctx.destination);
     sourceRef.current = source;
   }, []);
@@ -177,5 +185,6 @@ export function useHawaiianRadio(): UseHawaiianRadioReturn {
     volume,
     volumeUp,
     volumeDown,
+    analyserNode: analyserRef.current,
   };
 }

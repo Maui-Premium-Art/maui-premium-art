@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useHawaiianRadio } from "@/hooks/useHawaiianRadio";
+import AudioVisualizerSidebar from "@/components/console/AudioVisualizerSidebar";
 // import CTDisplayViewer from "@/components/CTDisplayViewer"; // REMOVED — Boss: clear 3D model for template editing
 
 /**
@@ -19,6 +20,7 @@ import { useHawaiianRadio } from "@/hooks/useHawaiianRadio";
 
 export default function Home() {
   const [debug, setDebug] = useState(false);
+  const [eqOpen, setEqOpen] = useState(false);
   const radio = useHawaiianRadio();
 
   useEffect(() => {
@@ -181,7 +183,7 @@ export default function Home() {
         <Label text="media_next" left="41.5%" top="82.5%" />
         <div style={z("Next", "41.5%", "82.5%", "5.5%", "5%")} onClick={radio.nextTrack} />
         <Label text="media_eq" left="47.5%" top="82.5%" />
-        <div style={z("Equalizer", "47.5%", "82.5%", "5.5%", "5%")} />
+        <div style={z("Equalizer", "47.5%", "82.5%", "5.5%", "5%")} onClick={() => setEqOpen(true)} />
         <Label text="media_search" left="53.5%" top="82.5%" />
         <div style={z("Search", "53.5%", "82.5%", "4%", "5%")} />
 
@@ -243,6 +245,13 @@ export default function Home() {
             DEBUG MODE — press D to toggle — 47 zones mapped
           </div>
         )}
+
+        {/* Audio Visualizer Sidebar */}
+        <AudioVisualizerSidebar
+          open={eqOpen}
+          onClose={() => setEqOpen(false)}
+          analyserNode={radio.analyserNode}
+        />
 
       </div>
     </main>
