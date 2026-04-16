@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "[ -f /Users/Shared/MauiOps/ct-display-manifest-v2.json ] && cp /Users/Shared/MauiOps/ct-display-manifest-v2.json src/data/ct-display-manifest-v2.json || true",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"

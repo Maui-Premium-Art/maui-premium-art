@@ -14,6 +14,19 @@
   --grid-dark: #080810;
   --dock-bg: #08080e;
 
+  /* CT Display — cutout zones */
+  --ct-cutout-bg: #16181e;
+
+  /* CT Display — debug mode */
+  --debug-font: 'SF Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
+  --debug-interactive: #ef4444;
+  --debug-decorative: #3b82f6;
+  --debug-typed: #22c55e;
+  --debug-label-bg: rgba(0,0,0,0.9);
+  --debug-label-text: rgba(255,255,255,0.7);
+  --debug-banner-bg: rgba(0,0,0,0.85);
+  --debug-banner-text: #ef4444;
+
   /* CT glass panel */
   --ct-glass: rgba(10,10,18,0.85);
   --ct-glass-border: rgba(255,255,255,0.08);
@@ -200,6 +213,13 @@ canvas {
     transform: none;
   }
 }
+
+/* CT Zone focus ring */
+#ct-display div[tabindex="0"]:focus-visible {
+  outline: 2px solid rgba(255,255,255,0.6);
+  outline-offset: -2px;
+}
+
 
 /* Mobile responsive overrides */
 @media (max-width: 768px) {
