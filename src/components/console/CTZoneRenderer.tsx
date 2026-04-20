@@ -58,7 +58,7 @@ export function CTZoneRenderer({ zones, debug, handlers }: CTZoneRendererProps) 
 
   return (
     <>
-      {zoneEntries.map(([name, zone]) => {
+      {zoneEntries.map(([name, zone], index) => {
         const handler = handlers[name];
         const hasHandler = !!handler?.onClick;
         const isTabStop = HANDLER_ZONE_NAMES.has(name);
@@ -120,7 +120,7 @@ export function CTZoneRenderer({ zones, debug, handlers }: CTZoneRendererProps) 
                   lineHeight: 1.3,
                 }}
               >
-                {name}
+                <span style={{ fontWeight: 700, color: "rgba(255,255,255,0.9)" }}>{index + 1}.</span> {name}
               </div>
             )}
 

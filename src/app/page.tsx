@@ -45,7 +45,7 @@ export default function Home() {
     <main style={{
       width: "100vw", height: "100dvh",
       background: "#0a0c10",
-      display: "flex", alignItems: "center", justifyContent: "center",
+      display: "flex", alignItems: "center", justifyContent: "flex-start",
       overflow: "hidden",
     }}>
       <div
@@ -59,6 +59,7 @@ export default function Home() {
           aspectRatio: "16/9",
           background: "#0a0c10",
           overflow: "hidden",
+          margin: "0 auto",
         }}
       >
         {/* ═══ LAYER 1: CT BACKGROUND ═══ */}

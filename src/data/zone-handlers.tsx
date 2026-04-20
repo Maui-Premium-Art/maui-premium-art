@@ -1,5 +1,6 @@
 import type { ZoneHandlerMap, Zone } from "@/types/ct-display";
 import type { UseHawaiianRadioReturn } from "@/hooks/useHawaiianRadio";
+import MilesToMaui from "@/components/console/MilesToMaui";
 
 const CT_CUTOUT_BG = "var(--ct-cutout-bg)";
 
@@ -60,16 +61,19 @@ export function createZoneHandlers(deps: HandlerDeps): ZoneHandlerMap {
         </div>
       ),
     },
+    miles: {
+      render: (_zone: Zone, _debug: boolean) => <MilesToMaui />,
+    },
     media_prev: { onClick: radio.prevTrack },
     media_play: {
       onClick: radio.togglePlay,
       render: (zone: Zone) => (
-        radio.isPlaying ? (
-          <div style={{
-            width: "100%", height: "100%",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            background: CT_CUTOUT_BG,
-          }}>
+        <div style={{
+          width: "100%", height: "100%",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          background: radio.isPlaying ? CT_CUTOUT_BG : "transparent",
+        }}>
+          {radio.isPlaying && (
             <svg
               width={`${Math.min(zone.w_pct * 0.4, 1.8)}vw`}
               height={`${Math.min(zone.h_pct * 0.5, 2.2)}vh`}
@@ -79,8 +83,8 @@ export function createZoneHandlers(deps: HandlerDeps): ZoneHandlerMap {
               <rect x="1" y="1" width="3.5" height="12" rx="0.8" />
               <rect x="7.5" y="1" width="3.5" height="12" rx="0.8" />
             </svg>
-          </div>
-        ) : null
+          )}
+        </div>
       ),
     },
     media_next: { onClick: radio.nextTrack },
